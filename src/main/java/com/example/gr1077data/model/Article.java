@@ -17,6 +17,9 @@ public class Article {
     @Setter(AccessLevel.NONE)
     private Long id;
 
+    @Column(nullable = false, length = 255)
+    private String title;
+
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 }
