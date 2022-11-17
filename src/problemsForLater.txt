@@ -1,0 +1,7 @@
+1. @Data does not include @NoArgsConstructor
+
+2. unified service classes with inheritance
+
+3. publications text including links
+
+4.
