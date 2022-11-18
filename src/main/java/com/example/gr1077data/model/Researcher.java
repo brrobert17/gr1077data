@@ -43,7 +43,7 @@ public class Researcher {
     @Column(columnDefinition = "TEXT")
     private String publications;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     //@Column(nullable = false)
     private Image profileImage;

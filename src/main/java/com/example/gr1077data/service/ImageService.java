@@ -36,8 +36,7 @@ public class ImageService {
     }
 
     public Image saveImage(Image image) {
-        imageRepo.save(image);
-        return image;
+        return imageRepo.save(image);
     }
 
     public Image deleteImageById(Long id) throws ImageNotFoundException {
@@ -52,6 +51,7 @@ public class ImageService {
     public Image updateImage(Image image) throws ImageNotFoundException {
         Image old = findImageById(image.getId());
         old.setCaption(image.getCaption());
+        old.setUrl(image.getUrl());
         imageRepo.save(old);
         return image;
     }
