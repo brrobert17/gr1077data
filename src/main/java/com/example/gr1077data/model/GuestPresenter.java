@@ -30,7 +30,7 @@ public class GuestPresenter {
     private String email;
 
     @Column(nullable = false, unique = true, length = 20)
-    private int telephone;
+    private String telephone;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
