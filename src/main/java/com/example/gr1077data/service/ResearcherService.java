@@ -13,7 +13,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class ResearcherService {
 
     final ResearcherRepo researcherRepo;
