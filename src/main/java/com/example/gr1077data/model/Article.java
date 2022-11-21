@@ -22,4 +22,5 @@ public class Article {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
+
 }

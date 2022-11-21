@@ -1,8 +1,10 @@
 package com.example.gr1077data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+
 
 @Getter
 @Setter
@@ -20,7 +22,8 @@ public class Room {
     @Column(nullable = false, length = 255)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "location_id", referencedColumnName = "id")
+    @JsonIgnore
     private Location location;
 }

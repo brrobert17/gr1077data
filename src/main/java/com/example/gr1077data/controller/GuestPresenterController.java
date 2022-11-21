@@ -4,6 +4,7 @@ import com.example.gr1077data.model.GuestPresenter;
 import com.example.gr1077data.model.Participant;
 import com.example.gr1077data.service.GuestPresenterService;
 import com.example.gr1077data.service.ParticipantService;
+import com.example.gr1077data.service.exception.GuestPresenterNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class GuestPresenterController {
     }
     //return all customers
     @GetMapping("/guestPresenters")
-    public ResponseEntity<List<GuestPresenter>> getAllGuestPresenters() {
+    public ResponseEntity<List<GuestPresenter>> getAllGuestPresenters() throws GuestPresenterNotFoundException {
         List<GuestPresenter> guestPresenters = guestPresenterService.getAllGuestPresenter();
         return new ResponseEntity<>(guestPresenters, HttpStatus.OK);
     }
@@ -30,20 +31,20 @@ public class GuestPresenterController {
 
     //return customer by id
     @GetMapping("/guestPresenters/{id}")
-    public ResponseEntity<GuestPresenter> getGuestPresenterById(@PathVariable("id") Long id){
+    public ResponseEntity<GuestPresenter> getGuestPresenterById(@PathVariable("id") Long id) throws GuestPresenterNotFoundException {
         GuestPresenter guestparticipant = guestPresenterService.getGuestPresenterById(id);
         return new ResponseEntity<>(guestparticipant, HttpStatus.OK);
     }
 
     //Create guestPresenter
     @PostMapping("/guestPresenters")
-    public ResponseEntity<GuestPresenter> createGuestPresenter(@RequestBody GuestPresenter newGuestPresenter){
+    public ResponseEntity<GuestPresenter> createGuestPresenter(@RequestBody GuestPresenter newGuestPresenter) throws GuestPresenterNotFoundException {
         GuestPresenter guestPresenter = guestPresenterService.createGuestPresenter(newGuestPresenter);
         return new ResponseEntity<>(guestPresenter, HttpStatus.CREATED);
     }
 
     @PutMapping("/guestPresenters/{id}")
-    public ResponseEntity<GuestPresenter> updateGuestPresenter(@RequestBody GuestPresenter newGuestPresenter, @PathVariable("id")Long id){
+    public ResponseEntity<GuestPresenter> updateGuestPresenter(@RequestBody GuestPresenter newGuestPresenter, @PathVariable("id")Long id) throws GuestPresenterNotFoundException {
         if(id==null || id<=0 || newGuestPresenter==null || newGuestPresenter.getId()==null ){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -54,13 +55,13 @@ public class GuestPresenterController {
     }
 
     @DeleteMapping("/guestPresenters/{id}")
-    public ResponseEntity<?> deleteGuestPresenter(@PathVariable("id") Long id){
+    public ResponseEntity<?> deleteGuestPresenter(@PathVariable("id") Long id) throws GuestPresenterNotFoundException {
         guestPresenterService.deleteGuestPresenter(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     //find by keyword and put it in list of customers
     @GetMapping(value = "/guestPresenters",params = "keyword")
-    public List<GuestPresenter> findByKeyword(@RequestParam(name="keyword") String keyword){
+    public List<GuestPresenter> findByKeyword(@RequestParam(name="keyword") String keyword) throws GuestPresenterNotFoundException {
         return guestPresenterService.findByKeyword(keyword);
     }
 

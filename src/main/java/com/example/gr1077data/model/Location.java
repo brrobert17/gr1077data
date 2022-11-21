@@ -22,7 +22,7 @@ public class Location {
     @Column(nullable = false, length = 255)
     private String address;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "location")
+    @OneToMany( mappedBy = "location")
     private Set<Room> roomSet = new HashSet<>();
 
 
