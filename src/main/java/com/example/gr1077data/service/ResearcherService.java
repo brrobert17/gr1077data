@@ -50,19 +50,8 @@ public class ResearcherService {
     }
 
     public Researcher updateResearcher(Researcher researcher) throws ResearcherNotFoundException {
-        Researcher old = findResearcherById(researcher.getId());
         Researcher checkedResearcher = checkImageAndArticle(researcher);
-        old.setFirstName(checkedResearcher.getFirstName());
-        old.setLastName(checkedResearcher.getLastName());
-        old.setTitle(checkedResearcher.getTitle());
-        old.setCv(checkedResearcher.getCv());
-        old.setEmail(checkedResearcher.getEmail());
-        old.setProfile(checkedResearcher.getProfile());
-        old.setPublications(checkedResearcher.getPublications());
-        old.setTelephone(checkedResearcher.getTelephone());
-        old.setArticleSet(checkedResearcher.getArticleSet());
-        old.setProfileImage(checkedResearcher.getProfileImage());
-        researcherRepo.save(old);
+        researcherRepo.save(checkedResearcher);
         return researcher;
     }
 

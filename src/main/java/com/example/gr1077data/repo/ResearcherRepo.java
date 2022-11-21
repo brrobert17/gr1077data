@@ -18,7 +18,7 @@ public interface ResearcherRepo extends JpaRepository<Researcher, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE gr1077_db.researcher_article_join, gr1077_db.researcher " +
+    @Query(value = "DELETE researcher_article_join, researcher " +
             "FROM gr1077_db.researcher_article_join " +
             "INNER JOIN gr1077_db.researcher on researcher.id = researcher_article_join.researcher_id " +
             "where id=?1", nativeQuery = true)
