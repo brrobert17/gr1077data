@@ -1,21 +1,23 @@
 package com.example.gr1077data.service;
 
+import com.example.gr1077data.model.Article;
 import com.example.gr1077data.model.Researcher;
+import com.example.gr1077data.repo.ArticleRepo;
+import com.example.gr1077data.repo.ImageRepo;
 import com.example.gr1077data.repo.ResearcherRepo;
 import com.example.gr1077data.service.exception.ResearcherNotFoundException;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class ResearcherService {
 
     final ResearcherRepo researcherRepo;
+    final ImageRepo imageRepo;
+    final ArticleRepo articleRepo;
 
     public List<Researcher> findAllResearchers() {
         return researcherRepo.findAll();
@@ -34,7 +36,8 @@ public class ResearcherService {
     }
 
     public Researcher saveResearcher(Researcher researcher) {
-        return researcherRepo.save(researcher);
+        Researcher checkedResearcher = checkImageAndArticle(researcher);
+        return researcherRepo.save(checkedResearcher);
     }
 
     public Researcher deleteResearcherById(Long id) throws ResearcherNotFoundException {
@@ -42,23 +45,48 @@ public class ResearcherService {
         if (optionalResearcher.isEmpty()) {
             throw new ResearcherNotFoundException("Researcher not found by: " + id);
         }
-        researcherRepo.deleteById(id);
+        researcherRepo.deleteResearcherByIdCustom(id);
         return optionalResearcher.get();
     }
 
     public Researcher updateResearcher(Researcher researcher) throws ResearcherNotFoundException {
         Researcher old = findResearcherById(researcher.getId());
-        old.setFirstName(researcher.getFirstName());
-        old.setLastName(researcher.getLastName());
-        old.setTitle(researcher.getTitle());
-        old.setCv(researcher.getCv());
-        old.setEmail(researcher.getEmail());
-        old.setProfile(researcher.getProfile());
-        old.setPublications(researcher.getPublications());
-        old.setTelephone(researcher.getTelephone());
-        old.setArticleSet(researcher.getArticleSet());
-        old.setProfileImage(researcher.getProfileImage());
+        Researcher checkedResearcher = checkImageAndArticle(researcher);
+        old.setFirstName(checkedResearcher.getFirstName());
+        old.setLastName(checkedResearcher.getLastName());
+        old.setTitle(checkedResearcher.getTitle());
+        old.setCv(checkedResearcher.getCv());
+        old.setEmail(checkedResearcher.getEmail());
+        old.setProfile(checkedResearcher.getProfile());
+        old.setPublications(checkedResearcher.getPublications());
+        old.setTelephone(checkedResearcher.getTelephone());
+        old.setArticleSet(checkedResearcher.getArticleSet());
+        old.setProfileImage(checkedResearcher.getProfileImage());
         researcherRepo.save(old);
+        return researcher;
+    }
+
+    public Researcher checkImageAndArticle(Researcher researcher) {
+        Long imageId = researcher.getProfileImage().getId();
+        ArrayList<Long> articleIds = new ArrayList<>();
+        researcher.getArticleSet().forEach(
+                article -> {
+                    articleIds.add(article.getId());
+                }
+        );
+        if (imageId != null && imageRepo.findById(imageId).isPresent()) {
+            researcher.setProfileImage(imageRepo.findById(imageId).get());
+        }
+        if (!articleIds.isEmpty()) {
+            Set<Article> articleSet = new HashSet<>();
+            articleIds.forEach(
+                    articleId -> {
+                        if (articleRepo.findById(articleId).isPresent()) {
+                            articleSet.add(articleRepo.findById(articleId).get());
+                        }
+                    });
+            researcher.setArticleSet(articleSet);
+        }
         return researcher;
     }
 }

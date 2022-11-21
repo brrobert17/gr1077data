@@ -1,6 +1,5 @@
 package com.example.gr1077data.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -44,17 +43,15 @@ public class Researcher {
     @Column(columnDefinition = "TEXT")
     private String publications;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     //@Column(nullable = false)
     private Image profileImage;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "researcher_article_join",
             joinColumns = @JoinColumn(name = "researcher_id"),
             inverseJoinColumns = @JoinColumn(name = "article_id"))
     private Set<Article> articleSet = new HashSet<>();
-
 
 }
