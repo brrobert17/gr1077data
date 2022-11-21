@@ -21,8 +21,9 @@ public class GuestPresenterController {
     }
     //return all customers
     @GetMapping("/guestPresenters")
-    public List<GuestPresenter> getAllGuestPresenter(){
-        return guestPresenterService.getAllGuestPresenter();
+    public ResponseEntity<List<GuestPresenter>> getAllGuestPresenters() {
+        List<GuestPresenter> guestPresenters = guestPresenterService.getAllGuestPresenter();
+        return new ResponseEntity<>(guestPresenters, HttpStatus.OK);
     }
 
 
@@ -36,8 +37,9 @@ public class GuestPresenterController {
 
     //Create guestPresenter
     @PostMapping("/guestPresenters")
-    public GuestPresenter createGuestPresenter(@RequestBody GuestPresenter newGuestPresenter){
-        return guestPresenterService.createGuestPresenter(newGuestPresenter);
+    public ResponseEntity<GuestPresenter> createGuestPresenter(@RequestBody GuestPresenter newGuestPresenter){
+        GuestPresenter guestPresenter = guestPresenterService.createGuestPresenter(newGuestPresenter);
+        return new ResponseEntity<>(guestPresenter, HttpStatus.CREATED);
     }
 
     @PutMapping("/guestPresenters/{id}")
@@ -57,8 +59,8 @@ public class GuestPresenterController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     //find by keyword and put it in list of customers
-    @GetMapping("/guestPresenters/search/{keyword}")
-    public List<GuestPresenter> findByKeyword(@PathVariable("keyword") String keyword){
+    @GetMapping(value = "/guestPresenters",params = "keyword")
+    public List<GuestPresenter> findByKeyword(@RequestParam(name="keyword") String keyword){
         return guestPresenterService.findByKeyword(keyword);
     }
 
