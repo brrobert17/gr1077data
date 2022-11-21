@@ -10,7 +10,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/articles")
 @RequiredArgsConstructor
 public class ArticleController {
 
@@ -21,12 +21,12 @@ public class ArticleController {
         return articleService.findAllArticles();
     }
 
-    @GetMapping("/findById")
-    public Article findArticleById(@RequestParam Long id) throws ArticleNotFoundException {
+    @GetMapping("{id}")
+    public Article findArticleById(@PathVariable Long id) throws ArticleNotFoundException {
         return articleService.findArticleById(id);
     }
 
-    @GetMapping("/findByTitle")
+    @GetMapping(params = "keyword")
     public Article findArticleByTitle(@RequestParam String title) throws ArticleNotFoundException {
         return articleService.findArticleByTitle(title);
     }
@@ -36,8 +36,8 @@ public class ArticleController {
         return articleService.saveArticle(article);
     }
 
-    @DeleteMapping
-    public Article deleteArticleById(@RequestParam Long id) throws ArticleNotFoundException {
+    @DeleteMapping("{id}")
+    public Article deleteArticleById(@PathVariable Long id) throws ArticleNotFoundException {
         return articleService.deleteArticleById(id);
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/image")
+@RequestMapping("/images")
 @RequiredArgsConstructor
 public class ImageController {
 
@@ -21,12 +21,12 @@ public class ImageController {
         return imageService.findAllImages();
     }
 
-    @GetMapping("/findById")
-    public Image findImageById(@RequestParam Long id) throws ImageNotFoundException {
+    @GetMapping("{id}")
+    public Image findImageById(@PathVariable Long id) throws ImageNotFoundException {
         return imageService.findImageById(id);
     }
 
-    @GetMapping("/findByCaption")
+    @GetMapping(params = "caption")
     public Image findImageByCaption(@RequestParam String caption) throws ImageNotFoundException {
         return imageService.findImageByCaption(caption);
     }
@@ -36,8 +36,8 @@ public class ImageController {
         return imageService.saveImage(image);
     }
 
-    @DeleteMapping
-    public Image deleteImageById(@RequestParam Long id) throws ImageNotFoundException {
+    @DeleteMapping("{id}")
+    public Image deleteImageById(@PathVariable Long id) throws ImageNotFoundException {
         return imageService.deleteImageById(id);
     }
 

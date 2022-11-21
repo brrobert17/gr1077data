@@ -10,7 +10,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/researcher")
+@RequestMapping("/researchers")
 @RequiredArgsConstructor
 public class ResearcherController {
 
@@ -21,12 +21,12 @@ public class ResearcherController {
         return researcherService.findAllResearchers();
     }
 
-    @GetMapping("/findById")
-    public Researcher findResearcherById(@RequestParam Long id) throws ResearcherNotFoundException {
+    @GetMapping("/{id}")
+    public Researcher findResearcherById(@PathVariable Long id) throws ResearcherNotFoundException {
         return researcherService.findResearcherById(id);
     }
 
-    @GetMapping("/findByName")
+    @GetMapping(params = "name")
     public List<Researcher> findResearcherByTitle(@RequestParam String name) {
         return researcherService.findResearchersByName(name);
     }
@@ -37,8 +37,8 @@ public class ResearcherController {
         return researcherService.findResearcherById(savedResearcher.getId());
     }
 
-    @DeleteMapping
-    public Researcher deleteResearcherById(@RequestParam Long id) throws ResearcherNotFoundException {
+    @DeleteMapping("/{id}")
+    public Researcher deleteResearcherById(@PathVariable Long id) throws ResearcherNotFoundException {
         return researcherService.deleteResearcherById(id);
     }
 
