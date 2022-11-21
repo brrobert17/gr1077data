@@ -4,6 +4,7 @@ import com.example.gr1077data.model.GuestPresenter;
 import com.example.gr1077data.model.Participant;
 import com.example.gr1077data.repo.GuestPresenterRepo;
 import com.example.gr1077data.repo.ParticipantRepo;
+import com.example.gr1077data.service.exception.GuestPresenterNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,28 +15,28 @@ public class GuestPresenterService {
     private final GuestPresenterRepo guestPresenterRepo;
 
     @Autowired
-    public GuestPresenterService(GuestPresenterRepo guestPresenterRepo) {
+    public GuestPresenterService(GuestPresenterRepo guestPresenterRepo)  {
         this.guestPresenterRepo = guestPresenterRepo;
     }
 
 
     //get all customers
-    public List<GuestPresenter> getAllGuestPresenter() {
+    public List<GuestPresenter> getAllGuestPresenter() throws GuestPresenterNotFoundException{
         List<GuestPresenter> guestPresenterList = guestPresenterRepo.findAll();
         return guestPresenterList;
     }
 
 
     //get customer by id
-    public GuestPresenter getGuestPresenterById(Long id) {
+    public GuestPresenter getGuestPresenterById(Long id) throws GuestPresenterNotFoundException{
         return guestPresenterRepo.findById(id).orElse(null);
     }
 
-    public GuestPresenter createGuestPresenter(GuestPresenter guestPresenter) {
+    public GuestPresenter createGuestPresenter(GuestPresenter guestPresenter) throws GuestPresenterNotFoundException {
         return guestPresenterRepo.save(guestPresenter);
     }
 
-    public GuestPresenter updateGuestPresenter(Long id, GuestPresenter newguestPresenter){
+    public GuestPresenter updateGuestPresenter(Long id, GuestPresenter newguestPresenter) throws GuestPresenterNotFoundException{
         if(guestPresenterRepo.findById(id).isEmpty()){
             return null;
         }
@@ -43,11 +44,11 @@ public class GuestPresenterService {
     }
 
 
-    public void deleteGuestPresenter(Long id)  {
+    public void deleteGuestPresenter(Long id) throws GuestPresenterNotFoundException  {
         guestPresenterRepo.deleteById(id);
     }
     //find customer by keyword
-    public List <GuestPresenter> findByKeyword(String keyword) {
+    public List <GuestPresenter> findByKeyword(String keyword) throws GuestPresenterNotFoundException {
         if (keyword != null) {
             return guestPresenterRepo.findByKeyword(keyword);
         }
