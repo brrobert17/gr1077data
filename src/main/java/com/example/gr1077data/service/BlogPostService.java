@@ -1,7 +1,7 @@
 package com.example.gr1077data.service;
 
-import com.example.gr1077data.model.Article;
-import com.example.gr1077data.repo.ArticleRepo;
+import com.example.gr1077data.model.BlogPost;
+import com.example.gr1077data.repo.BlogPostRepo;
 import com.example.gr1077data.service.exception.ArticleNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,37 +11,37 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ArticleService {
+public class BlogPostService {
 
-    final ArticleRepo articleRepo;
+    final BlogPostRepo articleRepo;
 
-    public List<Article> findAllArticles() {
+    public List<BlogPost> findAllArticles() {
         return articleRepo.findAll();
     }
 
-    public Article findArticleById(Long id) throws ArticleNotFoundException {
-        Optional<Article> optionalArticle = articleRepo.findById(id);
+    public BlogPost findArticleById(Long id) throws ArticleNotFoundException {
+        Optional<BlogPost> optionalArticle = articleRepo.findById(id);
         if (optionalArticle.isEmpty()) {
             throw new ArticleNotFoundException("Article not found by: " + id);
         }
         return optionalArticle.get();
     }
 
-    public Article findArticleByTitle(String title) throws ArticleNotFoundException {
-        Optional<Article> optionalArticle = articleRepo.findByTitle(title);
+    public BlogPost findArticleByTitle(String title) throws ArticleNotFoundException {
+        Optional<BlogPost> optionalArticle = articleRepo.findByTitle(title);
         if (optionalArticle.isEmpty()) {
             throw new ArticleNotFoundException("Article not found by: " + title);
         }
         return optionalArticle.get();
     }
 
-    public Article saveArticle(Article article) {
+    public BlogPost saveArticle(BlogPost article) {
         articleRepo.save(article);
         return article;
     }
 
-    public Article deleteArticleById(Long id) throws ArticleNotFoundException {
-        Optional<Article> optionalArticle = articleRepo.findById(id);
+    public BlogPost deleteArticleById(Long id) throws ArticleNotFoundException {
+        Optional<BlogPost> optionalArticle = articleRepo.findById(id);
         if (optionalArticle.isEmpty()) {
             throw new ArticleNotFoundException("Article not found by: " + id);
         }
@@ -49,8 +49,8 @@ public class ArticleService {
         return optionalArticle.get();
     }
 
-    public Article updateArticle(Article article) throws ArticleNotFoundException {
-        Article old = findArticleById(article.getId());
+    public BlogPost updateArticle(BlogPost article) throws ArticleNotFoundException {
+        BlogPost old = findArticleById(article.getId());
         old.setDescription(article.getDescription());
         old.setTitle(article.getTitle());
         articleRepo.save(old);

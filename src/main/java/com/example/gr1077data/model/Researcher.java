@@ -32,7 +32,7 @@ public class Researcher {
     private String email;
 
     @Column(nullable = false, unique = true, length = 20)
-    private int telephone;
+    private String telephone;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String profile;
@@ -52,6 +52,6 @@ public class Researcher {
     @JoinTable(name = "researcher_article_join",
             joinColumns = @JoinColumn(name = "researcher_id"),
             inverseJoinColumns = @JoinColumn(name = "article_id"))
-    private Set<Article> articleSet = new HashSet<>();
+    private Set<BlogPost> articleSet = new HashSet<>();
 
 }
