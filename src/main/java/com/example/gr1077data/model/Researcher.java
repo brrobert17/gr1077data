@@ -32,7 +32,7 @@ public class Researcher {
     private String email;
 
     @Column(nullable = false, unique = true, length = 20)
-    private int telephone;
+    private String telephone;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String profile;
