@@ -32,8 +32,8 @@ public class GuestPresenterController {
     //return customer by id
     @GetMapping("/guestPresenters/{id}")
     public ResponseEntity<GuestPresenter> getGuestPresenterById(@PathVariable("id") Long id) throws GuestPresenterNotFoundException {
-        GuestPresenter guestparticipant = guestPresenterService.getGuestPresenterById(id);
-        return new ResponseEntity<>(guestparticipant, HttpStatus.OK);
+        GuestPresenter guestPresenter = guestPresenterService.getGuestPresenterById(id);
+        return new ResponseEntity<>(guestPresenter, HttpStatus.OK);
     }
 
     //Create guestPresenter

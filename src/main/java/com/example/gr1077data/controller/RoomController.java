@@ -3,6 +3,7 @@ package com.example.gr1077data.controller;
 import com.example.gr1077data.model.Room;
 import com.example.gr1077data.service.RoomService;
 import com.example.gr1077data.service.exception.RoomNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +13,11 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+@AllArgsConstructor
 public class RoomController {
+
     private final RoomService roomService;
-    @Autowired
-    public RoomController(RoomService roomService) {
-        this.roomService = roomService;
-    }
+
     //get all rooms
     @GetMapping("/rooms")
     public ResponseEntity<List<Room>> getAllRooms() throws RoomNotFoundException {
@@ -46,12 +46,12 @@ public class RoomController {
     }
     @DeleteMapping("/rooms/{id}")
     public ResponseEntity<?> deleteRoom(@PathVariable("id") Long id) throws RoomNotFoundException {
-        //only delet room not location
+        //only delete room not location
         roomService.deleteRoom(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping(value="/rooms", params = "roomNumber")
-    public ResponseEntity<List<Room>> getRoomBykeyword(@RequestParam(name="keyword") String keyword)throws RoomNotFoundException{
+    public ResponseEntity<List<Room>> getRoomByKeyword(@RequestParam(name="keyword") String keyword)throws RoomNotFoundException{
         List<Room> rooms = roomService.getRoomBykeyword(keyword);
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
