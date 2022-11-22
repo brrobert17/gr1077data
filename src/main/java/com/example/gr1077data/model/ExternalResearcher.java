@@ -35,6 +35,6 @@ public class ExternalResearcher {
     @JoinTable(name = "externalResearcher_article_join",
             joinColumns = @JoinColumn(name = "researcher_id"),
             inverseJoinColumns = @JoinColumn(name = "article_id"))
-    private Set<Article> articleSet = new HashSet<>();
+    private Set<BlogPost> articleSet = new HashSet<>();
 
 }

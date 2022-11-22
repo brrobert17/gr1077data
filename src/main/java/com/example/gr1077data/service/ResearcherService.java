@@ -1,8 +1,8 @@
 package com.example.gr1077data.service;
 
-import com.example.gr1077data.model.Article;
+import com.example.gr1077data.model.BlogPost;
 import com.example.gr1077data.model.Researcher;
-import com.example.gr1077data.repo.ArticleRepo;
+import com.example.gr1077data.repo.BlogPostRepo;
 import com.example.gr1077data.repo.ImageRepo;
 import com.example.gr1077data.repo.ResearcherRepo;
 import com.example.gr1077data.service.exception.ResearcherNotFoundException;
@@ -17,7 +17,7 @@ public class ResearcherService {
 
     final ResearcherRepo researcherRepo;
     final ImageRepo imageRepo;
-    final ArticleRepo articleRepo;
+    final BlogPostRepo articleRepo;
 
     public List<Researcher> findAllResearchers() {
         return researcherRepo.findAll();
@@ -78,7 +78,7 @@ public class ResearcherService {
             researcher.setProfileImage(imageRepo.findById(imageId).get());
         }
         if (!articleIds.isEmpty()) {
-            Set<Article> articleSet = new HashSet<>();
+            Set<BlogPost> articleSet = new HashSet<>();
             articleIds.forEach(
                     articleId -> {
                         if (articleRepo.findById(articleId).isPresent()) {

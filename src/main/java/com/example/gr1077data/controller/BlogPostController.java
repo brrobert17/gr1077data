@@ -1,7 +1,7 @@
 package com.example.gr1077data.controller;
 
-import com.example.gr1077data.model.Article;
-import com.example.gr1077data.service.ArticleService;
+import com.example.gr1077data.model.BlogPost;
+import com.example.gr1077data.service.BlogPostService;
 import com.example.gr1077data.service.exception.ArticleNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -10,39 +10,39 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/articles")
+@RequestMapping("/blogposts")
 @RequiredArgsConstructor
-public class ArticleController {
+public class BlogPostController {
 
-    final ArticleService articleService;
+    final BlogPostService articleService;
 
     @GetMapping
-    public List<Article> findAllArticles() {
+    public List<BlogPost> findAllArticles() {
         return articleService.findAllArticles();
     }
 
     @GetMapping("{id}")
-    public Article findArticleById(@PathVariable Long id) throws ArticleNotFoundException {
+    public BlogPost findArticleById(@PathVariable Long id) throws ArticleNotFoundException {
         return articleService.findArticleById(id);
     }
 
     @GetMapping(params = "keyword")
-    public Article findArticleByTitle(@RequestParam String title) throws ArticleNotFoundException {
+    public BlogPost findArticleByTitle(@RequestParam String title) throws ArticleNotFoundException {
         return articleService.findArticleByTitle(title);
     }
 
     @PostMapping
-    public Article saveArticle(@RequestBody Article article) {
+    public BlogPost saveArticle(@RequestBody BlogPost article) {
         return articleService.saveArticle(article);
     }
 
     @DeleteMapping("{id}")
-    public Article deleteArticleById(@PathVariable Long id) throws ArticleNotFoundException {
+    public BlogPost deleteArticleById(@PathVariable Long id) throws ArticleNotFoundException {
         return articleService.deleteArticleById(id);
     }
 
     @PutMapping
-    public Article updateArticle(@RequestBody Article article) throws ArticleNotFoundException {
+    public BlogPost updateArticle(@RequestBody BlogPost article) throws ArticleNotFoundException {
         return articleService.updateArticle(article);
     }
 }
