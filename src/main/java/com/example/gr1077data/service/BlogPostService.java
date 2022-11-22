@@ -2,7 +2,7 @@ package com.example.gr1077data.service;
 
 import com.example.gr1077data.model.BlogPost;
 import com.example.gr1077data.repo.BlogPostRepo;
-import com.example.gr1077data.service.exception.ArticleNotFoundException;
+import com.example.gr1077data.service.exception.BlogPostNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,47 +13,43 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BlogPostService {
 
-    final BlogPostRepo articleRepo;
+    final BlogPostRepo blogPostRepo;
 
-    public List<BlogPost> findAllArticles() {
-        return articleRepo.findAll();
+    public List<BlogPost> findAllBlogPosts() {
+        return blogPostRepo.findAll();
     }
 
-    public BlogPost findArticleById(Long id) throws ArticleNotFoundException {
-        Optional<BlogPost> optionalArticle = articleRepo.findById(id);
-        if (optionalArticle.isEmpty()) {
-            throw new ArticleNotFoundException("Article not found by: " + id);
+    public BlogPost findBlogPostById(Long id) throws BlogPostNotFoundException {
+        Optional<BlogPost> optionalBlogPost = blogPostRepo.findById(id);
+        if (optionalBlogPost.isEmpty()) {
+            throw new BlogPostNotFoundException("BlogPost not found by: " + id);
         }
-        return optionalArticle.get();
+        return optionalBlogPost.get();
     }
 
-    public BlogPost findArticleByTitle(String title) throws ArticleNotFoundException {
-        Optional<BlogPost> optionalArticle = articleRepo.findByTitle(title);
-        if (optionalArticle.isEmpty()) {
-            throw new ArticleNotFoundException("Article not found by: " + title);
+    public BlogPost findBlogPostByTitle(String title) throws BlogPostNotFoundException {
+        Optional<BlogPost> optionalBlogPost = blogPostRepo.findByTitle(title);
+        if (optionalBlogPost.isEmpty()) {
+            throw new BlogPostNotFoundException("BlogPost not found by: " + title);
         }
-        return optionalArticle.get();
+        return optionalBlogPost.get();
     }
 
-    public BlogPost saveArticle(BlogPost article) {
-        articleRepo.save(article);
-        return article;
+    public BlogPost saveBlogPost(BlogPost blogPost) {
+        blogPostRepo.save(blogPost);
+        return blogPost;
     }
 
-    public BlogPost deleteArticleById(Long id) throws ArticleNotFoundException {
-        Optional<BlogPost> optionalArticle = articleRepo.findById(id);
-        if (optionalArticle.isEmpty()) {
-            throw new ArticleNotFoundException("Article not found by: " + id);
+    public BlogPost deleteBlogPostById(Long id) throws BlogPostNotFoundException {
+        Optional<BlogPost> optionalBlogPost = blogPostRepo.findById(id);
+        if (optionalBlogPost.isEmpty()) {
+            throw new BlogPostNotFoundException("BlogPost not found by: " + id);
         }
-        articleRepo.deleteById(id);
-        return optionalArticle.get();
+        blogPostRepo.deleteById(id);
+        return optionalBlogPost.get();
     }
 
-    public BlogPost updateArticle(BlogPost article) throws ArticleNotFoundException {
-        BlogPost old = findArticleById(article.getId());
-        old.setDescription(article.getDescription());
-        old.setTitle(article.getTitle());
-        articleRepo.save(old);
-        return article;
+    public BlogPost updateBlogPost(BlogPost blogPost) {
+        return blogPostRepo.save(blogPost);
     }
 }

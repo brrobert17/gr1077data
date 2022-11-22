@@ -17,7 +17,7 @@ public class ResearcherService {
 
     final ResearcherRepo researcherRepo;
     final ImageRepo imageRepo;
-    final BlogPostRepo articleRepo;
+    final BlogPostRepo blogPostRepo;
 
     public List<Researcher> findAllResearchers() {
         return researcherRepo.findAll();
@@ -50,6 +50,7 @@ public class ResearcherService {
     }
 
     public Researcher updateResearcher(Researcher researcher) throws ResearcherNotFoundException {
+        researcherRepo.findById(researcher.getId());
         Researcher checkedResearcher = checkImageAndArticle(researcher);
         researcherRepo.save(checkedResearcher);
         return researcher;
@@ -57,24 +58,24 @@ public class ResearcherService {
 
     public Researcher checkImageAndArticle(Researcher researcher) {
         Long imageId = researcher.getProfileImage().getId();
-        ArrayList<Long> articleIds = new ArrayList<>();
-        researcher.getArticleSet().forEach(
-                article -> {
-                    articleIds.add(article.getId());
+        ArrayList<Long> blogPostIds = new ArrayList<>();
+        researcher.getBlogPostSet().forEach(
+                blogPost -> {
+                    blogPostIds.add(blogPost.getId());
                 }
         );
         if (imageId != null && imageRepo.findById(imageId).isPresent()) {
             researcher.setProfileImage(imageRepo.findById(imageId).get());
         }
-        if (!articleIds.isEmpty()) {
-            Set<BlogPost> articleSet = new HashSet<>();
-            articleIds.forEach(
-                    articleId -> {
-                        if (articleRepo.findById(articleId).isPresent()) {
-                            articleSet.add(articleRepo.findById(articleId).get());
+        if (!blogPostIds.isEmpty()) {
+            Set<BlogPost> blogPostSet = new HashSet<>();
+            blogPostIds.forEach(
+                    blogPostId -> {
+                        if (blogPostRepo.findById(blogPostId).isPresent()) {
+                            blogPostSet.add(blogPostRepo.findById(blogPostId).get());
                         }
                     });
-            researcher.setArticleSet(articleSet);
+            researcher.setBlogPostSet(blogPostSet);
         }
         return researcher;
     }

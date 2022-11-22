@@ -25,14 +25,17 @@ public class BlogPost {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
-    @ManyToMany(mappedBy = "articleSet")
+
+    @ManyToMany(mappedBy = "blogPostSet")
     @JsonIgnore
     private Set<ExternalResearcher> externalResearcherSet = new HashSet<>();
-    @ManyToMany(mappedBy = "articleSet")
+
+    @ManyToMany(mappedBy = "blogPostSet")
     @JsonIgnore
     private Set<Researcher> researcherSet = new HashSet<>();
 
-
-
+    @ManyToMany(mappedBy = "blogPostSet")
+    @JsonIgnore
+    private Set<GuestPresenter> guestPresenterSet = new HashSet<>();
 
 }

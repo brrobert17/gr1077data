@@ -2,7 +2,7 @@ package com.example.gr1077data.controller;
 
 import com.example.gr1077data.model.BlogPost;
 import com.example.gr1077data.service.BlogPostService;
-import com.example.gr1077data.service.exception.ArticleNotFoundException;
+import com.example.gr1077data.service.exception.BlogPostNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,35 +14,35 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BlogPostController {
 
-    final BlogPostService articleService;
+    final BlogPostService blogPostService;
 
     @GetMapping
-    public List<BlogPost> findAllArticles() {
-        return articleService.findAllArticles();
+    public List<BlogPost> findAllBlogPosts() {
+        return blogPostService.findAllBlogPosts();
     }
 
     @GetMapping("{id}")
-    public BlogPost findArticleById(@PathVariable Long id) throws ArticleNotFoundException {
-        return articleService.findArticleById(id);
+    public BlogPost findBlogPostById(@PathVariable Long id) throws BlogPostNotFoundException {
+        return blogPostService.findBlogPostById(id);
     }
 
     @GetMapping(params = "keyword")
-    public BlogPost findArticleByTitle(@RequestParam String title) throws ArticleNotFoundException {
-        return articleService.findArticleByTitle(title);
+    public BlogPost findBlogPostByTitle(@RequestParam String title) throws BlogPostNotFoundException {
+        return blogPostService.findBlogPostByTitle(title);
     }
 
     @PostMapping
-    public BlogPost saveArticle(@RequestBody BlogPost article) {
-        return articleService.saveArticle(article);
+    public BlogPost saveBlogPost(@RequestBody BlogPost blogPost) {
+        return blogPostService.saveBlogPost(blogPost);
     }
 
     @DeleteMapping("{id}")
-    public BlogPost deleteArticleById(@PathVariable Long id) throws ArticleNotFoundException {
-        return articleService.deleteArticleById(id);
+    public BlogPost deleteBlogPostById(@PathVariable Long id) throws BlogPostNotFoundException {
+        return blogPostService.deleteBlogPostById(id);
     }
 
     @PutMapping
-    public BlogPost updateArticle(@RequestBody BlogPost article) throws ArticleNotFoundException {
-        return articleService.updateArticle(article);
+    public BlogPost updateBlogPost(@RequestBody BlogPost blogPost) {
+        return blogPostService.updateBlogPost(blogPost);
     }
 }

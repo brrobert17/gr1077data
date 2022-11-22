@@ -31,10 +31,11 @@ public class ExternalResearcher {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image Image;
+
     @ManyToMany
-    @JoinTable(name = "externalResearcher_article_join",
+    @JoinTable(name = "externalResearcher_blog_post_join",
             joinColumns = @JoinColumn(name = "researcher_id"),
-            inverseJoinColumns = @JoinColumn(name = "article_id"))
-    private Set<BlogPost> articleSet = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "blog_post_id"))
+    private Set<BlogPost> blogPostSet = new HashSet<>();
 
 }

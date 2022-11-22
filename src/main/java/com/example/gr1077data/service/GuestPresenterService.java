@@ -9,26 +9,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 
 public class GuestPresenterService {
     private final GuestPresenterRepo guestPresenterRepo;
 
     @Autowired
-    public GuestPresenterService(GuestPresenterRepo guestPresenterRepo)  {
+    public GuestPresenterService(GuestPresenterRepo guestPresenterRepo) {
         this.guestPresenterRepo = guestPresenterRepo;
     }
 
 
     //get all customers
-    public List<GuestPresenter> getAllGuestPresenter() throws GuestPresenterNotFoundException{
-        List<GuestPresenter> guestPresenterList = guestPresenterRepo.findAll();
-        return guestPresenterList;
+    public List<GuestPresenter> getAllGuestPresenter() throws GuestPresenterNotFoundException {
+        return guestPresenterRepo.findAll();
     }
 
-
     //get customer by id
-    public GuestPresenter getGuestPresenterById(Long id) throws GuestPresenterNotFoundException{
+    public GuestPresenter getGuestPresenterById(Long id) throws GuestPresenterNotFoundException {
         return guestPresenterRepo.findById(id).orElse(null);
     }
 
@@ -36,19 +35,20 @@ public class GuestPresenterService {
         return guestPresenterRepo.save(guestPresenter);
     }
 
-    public GuestPresenter updateGuestPresenter(Long id, GuestPresenter newguestPresenter) throws GuestPresenterNotFoundException{
-        if(guestPresenterRepo.findById(id).isEmpty()){
+    public GuestPresenter updateGuestPresenter(Long id, GuestPresenter newGuestPresenter) throws GuestPresenterNotFoundException {
+        if (guestPresenterRepo.findById(id).isEmpty()) {
             return null;
         }
-        return guestPresenterRepo.save(newguestPresenter);
+        return guestPresenterRepo.save(newGuestPresenter);
     }
 
 
-    public void deleteGuestPresenter(Long id) throws GuestPresenterNotFoundException  {
+    public void deleteGuestPresenter(Long id) throws GuestPresenterNotFoundException {
         guestPresenterRepo.deleteById(id);
     }
+
     //find customer by keyword
-    public List <GuestPresenter> findByKeyword(String keyword) throws GuestPresenterNotFoundException {
+    public List<GuestPresenter> findByKeyword(String keyword) throws GuestPresenterNotFoundException {
         if (keyword != null) {
             return guestPresenterRepo.findByKeyword(keyword);
         }

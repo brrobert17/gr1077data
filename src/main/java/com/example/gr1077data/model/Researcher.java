@@ -48,10 +48,11 @@ public class Researcher {
     //@Column(nullable = false)
     private Image profileImage;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "researcher_article_join",
+
+    @ManyToMany
+    @JoinTable(name = "researcher_blog_post_join",
             joinColumns = @JoinColumn(name = "researcher_id"),
-            inverseJoinColumns = @JoinColumn(name = "article_id"))
-    private Set<BlogPost> articleSet = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "blog_post_id"))
+    private Set<BlogPost> blogPostSet = new HashSet<>();
 
 }
