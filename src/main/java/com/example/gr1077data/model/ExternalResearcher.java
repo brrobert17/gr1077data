@@ -33,7 +33,7 @@ public class ExternalResearcher {
     private Image Image;
     @ManyToMany
     @JoinTable(name = "externalResearcher_article_join",
-            joinColumns = @JoinColumn(name = "researcher_id"),
+            joinColumns = @JoinColumn(name = "researcher_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "article_id"))
     private Set<BlogPost> articleSet = new HashSet<>();
 
