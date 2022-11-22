@@ -1,8 +1,11 @@
 package com.example.gr1077data.controller;
 
 import com.example.gr1077data.model.GuestPresenter;
+import com.example.gr1077data.model.Image;
 import com.example.gr1077data.model.Participant;
+import com.example.gr1077data.service.BlogPostService;
 import com.example.gr1077data.service.GuestPresenterService;
+import com.example.gr1077data.service.ImageService;
 import com.example.gr1077data.service.ParticipantService;
 import com.example.gr1077data.service.exception.GuestPresenterNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +19,14 @@ import java.util.List;
 @CrossOrigin
 public class GuestPresenterController {
     private final GuestPresenterService guestPresenterService;
+
+
     @Autowired
     public GuestPresenterController(GuestPresenterService guestPresenterService) {
         this.guestPresenterService = guestPresenterService;
+
     }
+
     //return all customers
     @GetMapping("/guestPresenters")
     public ResponseEntity<List<GuestPresenter>> getAllGuestPresenters() throws GuestPresenterNotFoundException {
@@ -37,10 +44,10 @@ public class GuestPresenterController {
     }
 
     //Create guestPresenter
-    @PostMapping("/guestPresenters")
-    public ResponseEntity<GuestPresenter> createGuestPresenter(@RequestBody GuestPresenter newGuestPresenter) throws GuestPresenterNotFoundException {
-        GuestPresenter guestPresenter = guestPresenterService.createGuestPresenter(newGuestPresenter);
-        return new ResponseEntity<>(guestPresenter, HttpStatus.CREATED);
+    @PostMapping(path="/guestPresenters", consumes = "application/json")
+    public ResponseEntity<GuestPresenter> createGuestPresenter(@RequestBody GuestPresenter guestPresenter) throws GuestPresenterNotFoundException {
+        GuestPresenter newGuestPresenter = guestPresenterService.createGuestPresenter(guestPresenter);
+        return new ResponseEntity<>(newGuestPresenter, HttpStatus.CREATED);
     }
 
     @PutMapping("/guestPresenters/{id}")

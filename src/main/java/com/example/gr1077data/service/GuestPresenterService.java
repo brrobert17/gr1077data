@@ -30,8 +30,13 @@ public class GuestPresenterService {
     public GuestPresenter getGuestPresenterById(Long id) throws GuestPresenterNotFoundException {
         return guestPresenterRepo.findById(id).orElse(null);
     }
+    //if image is not used by any other external researcher, then add it to the new external researcher and save it
 
     public GuestPresenter createGuestPresenter(GuestPresenter guestPresenter) throws GuestPresenterNotFoundException {
+        //assine image to image if it is not used by any other external researcher
+
+
+
         return guestPresenterRepo.save(guestPresenter);
     }
 
@@ -44,6 +49,7 @@ public class GuestPresenterService {
 
 
     public void deleteGuestPresenter(Long id) throws GuestPresenterNotFoundException {
+
         guestPresenterRepo.deleteById(id);
     }
 
@@ -54,4 +60,6 @@ public class GuestPresenterService {
         }
         return guestPresenterRepo.findAll();
     }
+    //cheak image and blogpodt in gusetPresenter
+
 }

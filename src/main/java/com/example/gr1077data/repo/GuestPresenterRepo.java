@@ -13,4 +13,10 @@ import java.util.List;
 public interface GuestPresenterRepo extends JpaRepository<GuestPresenter, Long> {
     @Query("SELECT g FROM GuestPresenter  g WHERE g.firstName LIKE %?1% OR g.lastName LIKE %?1% OR g.email LIKE %?1% OR g.telephone LIKE %?1% OR g.title LIKE %?1% ")
     List<GuestPresenter> findByKeyword(String keyword);
+
+
+
+
+
+
 }

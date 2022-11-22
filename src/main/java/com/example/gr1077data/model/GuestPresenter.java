@@ -44,4 +44,6 @@ public class GuestPresenter {
             joinColumns = @JoinColumn(name = "guest_presenter_id"),
             inverseJoinColumns = @JoinColumn(name = "blog_post_id"))
     private Set<BlogPost> blogPostSet = new HashSet<>();
+
+
 }
