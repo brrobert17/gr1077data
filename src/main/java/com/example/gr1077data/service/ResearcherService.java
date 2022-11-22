@@ -6,18 +6,27 @@ import com.example.gr1077data.repo.BlogPostRepo;
 import com.example.gr1077data.repo.ImageRepo;
 import com.example.gr1077data.repo.ResearcherRepo;
 import com.example.gr1077data.service.exception.ResearcherNotFoundException;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
+
 public class ResearcherService {
 
-    final ResearcherRepo researcherRepo;
-    final ImageRepo imageRepo;
-    final BlogPostRepo blogPostRepo;
+    private final ResearcherRepo researcherRepo;
+
+    private final ImageRepo imageRepo;
+
+    private final BlogPostRepo blogPostRepo;
+
+    @Autowired
+    public ResearcherService(ResearcherRepo researcherRepo, ImageRepo imageRepo, BlogPostRepo blogPostRepo) {
+        this.researcherRepo = researcherRepo;
+        this.imageRepo = imageRepo;
+        this.blogPostRepo = blogPostRepo;
+    }
 
     public List<Researcher> findAllResearchers() {
         return researcherRepo.findAll();
@@ -40,23 +49,23 @@ public class ResearcherService {
         return researcherRepo.save(checkedResearcher);
     }
 
-    public Researcher deleteResearcherById(Long id) throws ResearcherNotFoundException {
-        Optional<Researcher> optionalResearcher = researcherRepo.findById(id);
-        if (optionalResearcher.isEmpty()) {
-            throw new ResearcherNotFoundException("Researcher not found by: " + id);
+    public void deleteResearcherById(Long id) throws ResearcherNotFoundException {
+//        Optional<Researcher> optionalResearcher = researcherRepo.findById(id);
+//        if (optionalResearcher.isEmpty()) {
+//            throw new ResearcherNotFoundException("Researcher not found by: " + id);
+//        }
+        researcherRepo.deleteById(id);
+    }
+
+    public Researcher updateResearcher(Long id, Researcher researcher) throws ResearcherNotFoundException {
+        if (researcherRepo.findById(id).isEmpty()) {
+            return null;
         }
-        researcherRepo.deleteResearcherByIdCustom(id);
-        return optionalResearcher.get();
-    }
-
-    public Researcher updateResearcher(Researcher researcher) throws ResearcherNotFoundException {
-        researcherRepo.findById(researcher.getId());
         Researcher checkedResearcher = checkImageAndArticle(researcher);
-        researcherRepo.save(checkedResearcher);
-        return researcher;
+        return researcherRepo.save(checkedResearcher);
     }
 
-    public Researcher checkImageAndArticle(Researcher researcher) {
+   public Researcher checkImageAndArticle(Researcher researcher) {
         Long imageId = researcher.getProfileImage().getId();
         ArrayList<Long> blogPostIds = new ArrayList<>();
         researcher.getBlogPostSet().forEach(

@@ -4,6 +4,8 @@ import com.example.gr1077data.model.Researcher;
 import com.example.gr1077data.service.ResearcherService;
 import com.example.gr1077data.service.exception.ResearcherNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,13 +40,14 @@ public class ResearcherController {
     }
 
     @DeleteMapping("/{id}")
-    public Researcher deleteResearcherById(@PathVariable Long id) throws ResearcherNotFoundException {
-        return researcherService.deleteResearcherById(id);
+    public ResponseEntity<?> deleteResearcherById(@PathVariable Long id) throws ResearcherNotFoundException {
+        researcherService.deleteResearcherById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping
-    public Researcher updateResearcher(@RequestBody Researcher researcher) throws ResearcherNotFoundException {
-        return researcherService.updateResearcher(researcher);
+    @PutMapping("/{id}")
+    public Researcher updateResearcher(@RequestParam Long id, @RequestBody Researcher researcher) throws ResearcherNotFoundException {
+        return researcherService.updateResearcher(id, researcher);
     }
 
 }

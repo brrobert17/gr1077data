@@ -48,11 +48,9 @@ public class Researcher {
     //@Column(nullable = false)
     private Image profileImage;
 
-
     @ManyToMany
     @JoinTable(name = "researcher_blog_post_join",
             joinColumns = @JoinColumn(name = "researcher_id"),
             inverseJoinColumns = @JoinColumn(name = "blog_post_id"))
     private Set<BlogPost> blogPostSet = new HashSet<>();
-
 }

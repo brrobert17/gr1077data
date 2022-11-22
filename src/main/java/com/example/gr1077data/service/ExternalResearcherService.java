@@ -17,20 +17,20 @@ public class ExternalResearcherService {
     }
     //get all external researchers
 
-    public List <ExternalResearcher> getAllExternalResearches() throws ExternalResearchException {
+    public List <ExternalResearcher> getAllExternalResearches() throws ExternalResearcherException {
         List<ExternalResearcher> externalResearcherList = externalResearcherRepo.findAll();
         return externalResearcherList;
     }
-    public ExternalResearcher getExternalResearchById(Long id) throws ExternalResearchException {
-        ExternalResearcher externalResearcher = externalResearcherRepo.findById(id).orElseThrow(() -> new ExternalResearchException("External researcher not found by: " + id));
+    public ExternalResearcher getExternalResearchById(Long id) throws ExternalResearcherException {
+        ExternalResearcher externalResearcher = externalResearcherRepo.findById(id).orElseThrow(() -> new ExternalResearcherException("External researcher not found by: " + id));
         return externalResearcher;
     }
-    public ExternalResearcher createExternalResearch(ExternalResearcher externalResearcher) throws ExternalResearchException {
+    public ExternalResearcher createExternalResearch(ExternalResearcher externalResearcher) throws ExternalResearcherException {
         ExternalResearcher newExternalResearcher = externalResearcherRepo.save(externalResearcher);
         return newExternalResearcher;
     }
-    public ExternalResearcher deleteExternalResearch(Long id) throws ExternalResearchException {
-        ExternalResearcher externalResearcher = externalResearcherRepo.findById(id).orElseThrow(() -> new ExternalResearchException("External researcher not found by: " + id));
+    public ExternalResearcher deleteExternalResearch(Long id) throws ExternalResearcherException {
+        ExternalResearcher externalResearcher = externalResearcherRepo.findById(id).orElseThrow(() -> new ExternalResearcherException("External researcher not found by: " + id));
         externalResearcherRepo.delete(externalResearcher);
         return externalResearcher;
     }
