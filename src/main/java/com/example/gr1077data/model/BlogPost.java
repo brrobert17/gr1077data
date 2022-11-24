@@ -27,13 +27,13 @@ public class BlogPost {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "researcher_blog_post_join",
             joinColumns = @JoinColumn(name = "blog_post_id"),
             inverseJoinColumns = @JoinColumn(name = "researcher_id"))
     private Set<Researcher> researcherSet = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "external_researcher_blog_post_join",
             joinColumns = @JoinColumn(name = "blog_post_id"),
             inverseJoinColumns = @JoinColumn(name = "external_researcher_id"))

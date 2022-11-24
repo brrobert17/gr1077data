@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ResearcherRepo extends JpaRepository<Researcher, Long> {
@@ -17,4 +18,5 @@ public interface ResearcherRepo extends JpaRepository<Researcher, Long> {
             "LIKE %?1% OR r.lastName like %?1%")
     List<Researcher> findResearcherByName(String name);
 
+    Optional<Researcher> findResearcherByFirstNameAndLastName(String firstName, String lastName);
 }

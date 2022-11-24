@@ -35,7 +35,7 @@ public class ExternalResearcher {
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image profileImage;
 
-    @ManyToMany(mappedBy = "externalResearcherSet", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "externalResearcherSet", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<BlogPost> blogPostSet = new HashSet<>();
 }

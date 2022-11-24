@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.Set;
 
 @SpringBootTest
-public class BlogPostServiceTest {
+public class ResearcherServiceTest {
+
     @Autowired
     BlogPostService blogPostService;
     @Autowired
@@ -38,12 +39,8 @@ public class BlogPostServiceTest {
     ExternalResearcherRepo externalResearcherRepo;
     Image image;
     Image image2;
-    Image image3;
-    Image image4;
     Researcher researcher;
     Researcher researcher2;
-    ExternalResearcher externalResearcher;
-    ExternalResearcher externalResearcher2;
     BlogPost blogPost;
     BlogPost blogPost2;
     BlogPost blogPost3;
@@ -55,8 +52,6 @@ public class BlogPostServiceTest {
     void setUp() {
         image = Image.builder().url("www").caption("ccc").build();
         image2 = Image.builder().url("www2").caption("ccc2").build();
-        image3 = Image.builder().url("www3").caption("ccc3").build();
-        image4 = Image.builder().url("www4").caption("ccc4").build();
 
         researcher = Researcher.builder().
                 firstName("rob").lastName("bar").title("mr").
@@ -66,13 +61,6 @@ public class BlogPostServiceTest {
                 firstName("rob2").lastName("bar2").title("mr2").
                 cv("cv2").email("email2").profile("profile2").telephone("9772").
                 publications("publications2").profileImage(image2).build();
-
-        externalResearcher = ExternalResearcher.builder().
-                firstName("dan").lastName("sza").title("mr").email("email").
-                profileLink("profileLink").profileImage(image3).build();
-        externalResearcher2 = ExternalResearcher.builder().
-                firstName("dan2").lastName("sza2").title("mr2").email("email2").
-                profileLink("profileLink2").profileImage(image4).build();
 
         blogPost = BlogPost.builder().title("mm").
                 description("hhh").build();
@@ -86,59 +74,58 @@ public class BlogPostServiceTest {
         blogPostSet2.add(blogPost3);
 
         researcher.setBlogPostSet(blogPostSet);
-        externalResearcher.setBlogPostSet(blogPostSet2);
+        researcher2.setBlogPostSet(blogPostSet2);
 
         blogPostRepo.deleteAll();
         researcherRepo.deleteAll();
-        externalResearcherRepo.deleteAll();
 
         researcherRepo.save(researcher);
         researcherRepo.save(researcher2);
-        externalResearcherRepo.save(externalResearcher);
-        externalResearcherRepo.save(externalResearcher2);
         blogPostRepo.save(blogPost);
         blogPostRepo.save(blogPost2);
         blogPostRepo.save(blogPost3);
-        System.out.println(blogPostRepo.findAll());
+        //System.out.println(researcherRepo.findAll());
     }
 
     @Test
-    void addBlogPost() throws BlogPostNotFoundException {
-        BlogPost blogPost = BlogPost.builder().title("mmNew").
-                description("hhhNew").build();
-        blogPostService.saveBlogPost(blogPost);
-        BlogPost blogPost1 = blogPostService.findBlogPostByTitle("mmNew");
-        Assertions.assertThat(blogPost1.getTitle()).isEqualTo(blogPost.getTitle());
+    void addResearcher() throws ResearcherNotFoundException {
+        image = Image.builder().url("newww").caption("newwww").build();
+        researcher = Researcher.builder().
+                firstName("robo").lastName("baro").title("mro").
+                cv("cvo").email("emailo").profile("profileo").telephone("9770").
+                publications("publicationso").profileImage(image).build();
+        Long id = researcherService.saveResearcher(researcher).getId();
+        Assertions.assertThat(researcherRepo.findById(id).get().getProfile()).isEqualTo(researcher.getProfile());
     }
 
     @Test
     public void testListAll() {
-        Assertions.assertThat(blogPostService.findAllBlogPosts()).hasSize(3);
+        Assertions.assertThat(researcherService.findAllResearchers()).hasSize(2);
     }
 
     @Test
-    public void testGet() throws BlogPostNotFoundException {
-        Assertions.assertThat(blogPostService.findBlogPostById(5L)).isNotNull();
+    public void testGet() throws ResearcherNotFoundException {
+        Assertions.assertThat(researcherService.findResearcherById(2L)).isNotNull();
     }
 
     @Test
-    public void testDelete() throws BlogPostNotFoundException {
-        List<BlogPost> blogPosts = blogPostRepo.findAll();
-        int blogPostIndex = blogPosts.size() - 1;
-        BlogPost blogPost1 = blogPosts.get(blogPostIndex);
-        Long id = blogPost1.getId();
-        blogPostService.deleteBlogPostById(id);
-        Assertions.assertThat(blogPostRepo.findById(id)).isNotPresent();
+    public void testDelete() throws ResearcherNotFoundException {
+        List<Researcher> researchers = researcherRepo.findAll();
+        int researcherIndex = researchers.size() - 1;
+        Researcher researcher = researchers.get(researcherIndex);
+        Long id = researcher.getId();
+        researcherRepo.deleteById(id);
+        Assertions.assertThat(researcherRepo.findById(id)).isNotPresent();
     }
 
     @Test
     public void testEdit() throws BlogPostNotFoundException {
-        List<BlogPost> blogPosts = blogPostRepo.findAll();
-        int blogPostIndex = blogPosts.size() - 1;
-        BlogPost blogPost1 = blogPosts.get(blogPostIndex);
-        Long id = blogPost1.getId();
-        blogPost1.setTitle("updatedTitle");
-        blogPostRepo.save(blogPost1);
-        Assertions.assertThat(blogPostService.findBlogPostByTitle("updatedTitle")).isNotNull();
-    }
+        List<Researcher> researchers = researcherRepo.findAll();
+        int researcherIndex = researchers.size() - 1;
+        Researcher researcher = researchers.get(researcherIndex);
+        Long id = researcher.getId();
+        researcher.setTitle("updatedTitle");
+        researcherRepo.save(researcher);
+        Assertions.assertThat(researcherRepo.findById(id).get().getTitle()).isEqualTo("updatedTitle");
+        }
 }
