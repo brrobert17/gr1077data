@@ -6,8 +6,7 @@ import com.example.gr1077data.service.exception.BlogPostNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +39,7 @@ public class BlogPostService {
         return blogPost;
     }
 
-    public BlogPost deleteBlogPostById(Long id) throws BlogPostNotFoundException {
+    public BlogPost deleteBlogPostById(Long id) throws BlogPostNotFoundException{
         Optional<BlogPost> optionalBlogPost = blogPostRepo.findById(id);
         if (optionalBlogPost.isEmpty()) {
             throw new BlogPostNotFoundException("BlogPost not found by: " + id);
@@ -49,7 +48,10 @@ public class BlogPostService {
         return optionalBlogPost.get();
     }
 
-    public BlogPost updateBlogPost(BlogPost blogPost) {
+    public BlogPost updateBlogPost(Long id, BlogPost blogPost) {
+        if(blogPostRepo.findById(id).isEmpty()){
+            return null;
+        }
         return blogPostRepo.save(blogPost);
     }
 }

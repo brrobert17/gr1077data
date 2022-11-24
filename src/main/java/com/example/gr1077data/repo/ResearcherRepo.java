@@ -17,18 +17,4 @@ public interface ResearcherRepo extends JpaRepository<Researcher, Long> {
             "LIKE %?1% OR r.lastName like %?1%")
     List<Researcher> findResearcherByName(String name);
 
-    @Modifying
-    @Transactional
-    @Query(value = "DELETE researcher_blog_post_join, researcher " +
-            "FROM gr1077_db.researcher_blog_post_join, gr1077_db.researcher " +
-            "INNER JOIN gr1077_db.researcher on researcher.id = gr1077_db.researcher_blog_post_join.researcher_id " +
-            "where id=?1", nativeQuery = true)
-    void deleteResearcherByIdCustom(Long id);
-
-    @Modifying
-    @Transactional
-    @Query("DELETE from Researcher WHERE id=?1")
-    void deleteResearcherById(Long id);
-
-
 }

@@ -4,6 +4,7 @@ package com.example.gr1077data.controller;
 import com.example.gr1077data.model.Participant;
 import com.example.gr1077data.service.ParticipantService;
 import com.example.gr1077data.service.exception.ParticipantNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,19 +14,16 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+@AllArgsConstructor
 public class ParticipantController {
+
     private final ParticipantService participantService;
-    @Autowired
-    public ParticipantController(ParticipantService participantService) throws ParticipantNotFoundException {
-        this.participantService = participantService;
-    }
+
     //return all customers
     @GetMapping("/participants")
     public List<Participant> getAllParticipant() throws ParticipantNotFoundException {
         return participantService.getAllParticipant();
     }
-
-
 
     //return customer by id
     @GetMapping("/participants/{id}")

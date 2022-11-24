@@ -46,10 +46,12 @@ public class Event {
     private Set<Researcher> researcherSet = new HashSet<>();
 
     @ManyToMany()
-    @JoinTable(name = "guest_presenter_event_join",
+    @JoinTable(name = "external_researcher_event_join",
             joinColumns = @JoinColumn(name = "event_id"),
-            inverseJoinColumns = @JoinColumn(name = "guest_presenter_id"))
-    private Set<GuestPresenter> guestPresenterSet = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "external_researcher_id"))
+    //let's see if the new hashSet makes any difference
+    private Set<ExternalResearcher> externalResearcherSet = new HashSet<>();
+    
 
     //do we need referencedColumnName?
     @OneToMany()

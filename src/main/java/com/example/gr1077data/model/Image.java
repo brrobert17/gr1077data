@@ -3,7 +3,6 @@ package com.example.gr1077data.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
 
 @Entity
 @Getter
@@ -11,11 +10,11 @@ import java.util.HashSet;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Setter(AccessLevel.NONE)
     private Long id;
 
@@ -25,8 +24,9 @@ public class Image {
     @Column(nullable = false, length = 500)
     private String caption;
 
-
-
-
+    public Image(String url, String caption) {
+        this.url = url;
+        this.caption = caption;
+    }
 
 }

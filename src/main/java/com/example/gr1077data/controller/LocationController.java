@@ -48,7 +48,7 @@ public class LocationController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping(value="/locations", params = "locationName")
-    public ResponseEntity<List<Location>> getLocationBykeyword(@RequestParam(name="keyword") String keyword){
+    public ResponseEntity<List<Location>> getLocationByKeyword(@RequestParam(name="keyword") String keyword){
         List<Location> locations = locationService.getLocationBykeyword(keyword);
         return new ResponseEntity<>(locations, HttpStatus.OK);
     }

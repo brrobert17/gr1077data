@@ -1,5 +1,6 @@
 package com.example.gr1077data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.Set;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Researcher {
 
     @Id
@@ -48,11 +50,7 @@ public class Researcher {
     //@Column(nullable = false)
     private Image profileImage;
 
-
-    @ManyToMany
-    @JoinTable(name = "researcher_blog_post_join",
-            joinColumns = @JoinColumn(name = "researcher_id"),
-            inverseJoinColumns = @JoinColumn(name = "blog_post_id"))
+    @ManyToMany(mappedBy = "researcherSet", fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<BlogPost> blogPostSet = new HashSet<>();
-
 }
