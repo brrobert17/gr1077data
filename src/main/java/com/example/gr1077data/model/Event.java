@@ -1,9 +1,12 @@
 package com.example.gr1077data.model;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,10 +32,21 @@ public class Event {
 
     //does JPA know?
     @Column(nullable = false)
-    private LocalDateTime dateTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date;
+
+    @Column(nullable = false)
+    @DateTimeFormat(pattern = "HH:mm:ss")
+
+    private LocalTime startTime;
+
+    @Column(nullable = false)
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    private LocalTime endTime;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
+
 
     @OneToOne()
     @JoinColumn(name = "image_id", referencedColumnName = "id")
