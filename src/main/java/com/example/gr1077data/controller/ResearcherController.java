@@ -40,13 +40,13 @@ public class ResearcherController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteResearcherById(@PathVariable Long id) throws ResearcherNotFoundException {
+    public void deleteResearcherById(@PathVariable Long id) throws ResearcherNotFoundException {
         researcherService.deleteResearcherById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        //return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public Researcher updateResearcher(@RequestParam Long id, @RequestBody Researcher researcher) throws ResearcherNotFoundException {
+    public Researcher updateResearcher(@PathVariable Long id, @RequestBody Researcher researcher) throws ResearcherNotFoundException {
         return researcherService.updateResearcher(id, researcher);
     }
 

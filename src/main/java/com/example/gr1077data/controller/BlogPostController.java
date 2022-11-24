@@ -37,12 +37,12 @@ public class BlogPostController {
     }
 
     @DeleteMapping("{id}")
-    public BlogPost deleteBlogPostById(@PathVariable Long id) throws BlogPostNotFoundException {
-        return blogPostService.deleteBlogPostById(id);
+    public void deleteBlogPostById(@PathVariable Long id) {
+        blogPostService.deleteBlogPostById(id);
     }
 
-    @PutMapping
-    public BlogPost updateBlogPost(@RequestBody BlogPost blogPost) {
-        return blogPostService.updateBlogPost(blogPost);
+    @PutMapping("{id}")
+    public BlogPost updateBlogPost(@PathVariable Long id, @RequestBody BlogPost blogPost) {
+        return blogPostService.updateBlogPost(id, blogPost);
     }
 }

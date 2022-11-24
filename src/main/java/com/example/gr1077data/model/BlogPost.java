@@ -13,6 +13,7 @@ import java.util.Set;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class BlogPost {
 
     @Id
@@ -26,16 +27,16 @@ public class BlogPost {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @ManyToMany(mappedBy = "blogPostSet")
-    @JsonIgnore
-    private Set<ExternalResearcher> externalResearcherSet = new HashSet<>();
-
-    @ManyToMany(mappedBy = "blogPostSet")
-    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "researcher_blog_post_join",
+            joinColumns = @JoinColumn(name = "blog_post_id"),
+            inverseJoinColumns = @JoinColumn(name = "researcher_id"))
     private Set<Researcher> researcherSet = new HashSet<>();
 
-    @ManyToMany(mappedBy = "blogPostSet")
-    @JsonIgnore
-    private Set<GuestPresenter> guestPresenterSet = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "external_researcher_blog_post_join",
+            joinColumns = @JoinColumn(name = "blog_post_id"),
+            inverseJoinColumns = @JoinColumn(name = "external_researcher_id"))
+    private Set<ExternalResearcher> externalResearcherSet = new HashSet<>();
 
 }

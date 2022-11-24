@@ -39,20 +39,14 @@ public class ImageService {
         return imageRepo.save(image);
     }
 
-    public Image deleteImageById(Long id) throws ImageNotFoundException {
-        Optional<Image> optionalImage = imageRepo.findById(id);
-        if (optionalImage.isEmpty()) {
-            throw new ImageNotFoundException("Image not found by: " + id);
-        }
+    public void deleteImageById(Long id) throws ImageNotFoundException {
         imageRepo.deleteById(id);
-        return optionalImage.get();
     }
 
-    public Image updateImage(Image image) throws ImageNotFoundException {
-        Image old = findImageById(image.getId());
-        old.setCaption(image.getCaption());
-        old.setUrl(image.getUrl());
-        imageRepo.save(old);
-        return image;
+    public Image updateImage(Long id, Image image) throws ImageNotFoundException {
+        if(imageRepo.findById(id).isEmpty()) {
+            return null;
+        }
+        return imageRepo.save(image);
     }
 }

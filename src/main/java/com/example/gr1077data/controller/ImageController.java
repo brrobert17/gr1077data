@@ -37,12 +37,12 @@ public class ImageController {
     }
 
     @DeleteMapping("{id}")
-    public Image deleteImageById(@PathVariable Long id) throws ImageNotFoundException {
-        return imageService.deleteImageById(id);
+    public void deleteImageById(@PathVariable Long id) throws ImageNotFoundException {
+        imageService.deleteImageById(id);
     }
 
-    @PutMapping
-    public Image updateImage(@RequestBody Image image) throws ImageNotFoundException {
-        return imageService.updateImage(image);
+    @PutMapping("{id}")
+    public Image updateImage(@PathVariable Long id,@RequestBody Image image) throws ImageNotFoundException {
+        return imageService.updateImage(id, image);
     }
 }

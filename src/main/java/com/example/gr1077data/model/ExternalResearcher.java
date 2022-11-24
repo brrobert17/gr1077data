@@ -1,5 +1,6 @@
 package com.example.gr1077data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +13,9 @@ import java.util.Set;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ExternalResearcher {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
@@ -30,12 +33,9 @@ public class ExternalResearcher {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
-    private Image Image;
+    private Image profileImage;
 
-    @ManyToMany
-    @JoinTable(name = "externalResearcher_blog_post_join",
-            joinColumns = @JoinColumn(name = "researcher_id"),
-            inverseJoinColumns = @JoinColumn(name = "blog_post_id"))
+    @ManyToMany(mappedBy = "externalResearcherSet", fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<BlogPost> blogPostSet = new HashSet<>();
-
 }

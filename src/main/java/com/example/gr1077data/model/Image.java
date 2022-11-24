@@ -10,6 +10,7 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Image {
 
     @Id
@@ -22,5 +23,10 @@ public class Image {
 
     @Column(nullable = false, length = 500)
     private String caption;
+
+    public Image(String url, String caption) {
+        this.url = url;
+        this.caption = caption;
+    }
 
 }

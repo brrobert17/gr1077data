@@ -45,24 +45,22 @@ public class ResearcherService {
     }
 
     public Researcher saveResearcher(Researcher researcher) {
-        Researcher checkedResearcher = checkImageAndArticle(researcher);
-        return researcherRepo.save(checkedResearcher);
+        //Researcher checkedResearcher = checkImageAndArticle(researcher);
+        return researcherRepo.save(researcher);
     }
 
     public void deleteResearcherById(Long id) throws ResearcherNotFoundException {
-//        Optional<Researcher> optionalResearcher = researcherRepo.findById(id);
-//        if (optionalResearcher.isEmpty()) {
-//            throw new ResearcherNotFoundException("Researcher not found by: " + id);
-//        }
-        researcherRepo.deleteById(id);
+        if(researcherRepo.findById(id).isPresent()) {
+            researcherRepo.deleteById(id);
+        }
     }
 
     public Researcher updateResearcher(Long id, Researcher researcher) throws ResearcherNotFoundException {
         if (researcherRepo.findById(id).isEmpty()) {
             return null;
         }
-        Researcher checkedResearcher = checkImageAndArticle(researcher);
-        return researcherRepo.save(checkedResearcher);
+        //Researcher checkedResearcher = checkImageAndArticle(researcher);
+        return researcherRepo.save(researcher);
     }
 
    public Researcher checkImageAndArticle(Researcher researcher) {
