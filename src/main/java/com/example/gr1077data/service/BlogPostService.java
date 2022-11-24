@@ -39,8 +39,13 @@ public class BlogPostService {
         return blogPost;
     }
 
-    public void deleteBlogPostById(Long id) {
+    public BlogPost deleteBlogPostById(Long id) throws BlogPostNotFoundException{
+        Optional<BlogPost> optionalBlogPost = blogPostRepo.findById(id);
+        if (optionalBlogPost.isEmpty()) {
+            throw new BlogPostNotFoundException("BlogPost not found by: " + id);
+        }
         blogPostRepo.deleteById(id);
+        return optionalBlogPost.get();
     }
 
     public BlogPost updateBlogPost(Long id, BlogPost blogPost) {

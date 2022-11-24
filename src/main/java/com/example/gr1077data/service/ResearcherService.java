@@ -49,10 +49,13 @@ public class ResearcherService {
         return researcherRepo.save(researcher);
     }
 
-    public void deleteResearcherById(Long id) throws ResearcherNotFoundException {
-        if(researcherRepo.findById(id).isPresent()) {
+    public Researcher deleteResearcherById(Long id) throws ResearcherNotFoundException {
+        Optional<Researcher> optionalResearcher = researcherRepo.findById(id);
+        if(optionalResearcher.isPresent()) {
             researcherRepo.deleteById(id);
+            return optionalResearcher.get();
         }
+        return null;
     }
 
     public Researcher updateResearcher(Long id, Researcher researcher) throws ResearcherNotFoundException {

@@ -19,35 +19,37 @@ public class ResearcherController {
     final ResearcherService researcherService;
 
     @GetMapping
-    public List<Researcher> findAllResearchers() {
-        return researcherService.findAllResearchers();
+    public ResponseEntity<List<Researcher>> findAllResearchers() {
+        return new ResponseEntity<>(researcherService.findAllResearchers(),HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Researcher findResearcherById(@PathVariable Long id) throws ResearcherNotFoundException {
-        return researcherService.findResearcherById(id);
+    public ResponseEntity<Researcher> findResearcherById(@PathVariable Long id) throws ResearcherNotFoundException {
+        return new ResponseEntity<>(researcherService.findResearcherById(id), HttpStatus.OK);
     }
 
     @GetMapping(params = "name")
-    public List<Researcher> findResearcherByTitle(@RequestParam String name) {
-        return researcherService.findResearchersByName(name);
+    public ResponseEntity<List<Researcher>> findResearcherByTitle(@RequestParam String name) {
+        return new ResponseEntity<>(researcherService.findResearchersByName(name),HttpStatus.OK);
     }
 
     @PostMapping
-    public Researcher saveResearcher(@RequestBody Researcher researcher) throws ResearcherNotFoundException {
+    public ResponseEntity<Researcher> saveResearcher(@RequestBody Researcher researcher) throws ResearcherNotFoundException {
         Researcher savedResearcher = researcherService.saveResearcher(researcher);
-        return researcherService.findResearcherById(savedResearcher.getId());
+        return new ResponseEntity<>(researcherService.findResearcherById(savedResearcher.getId()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteResearcherById(@PathVariable Long id) throws ResearcherNotFoundException {
-        researcherService.deleteResearcherById(id);
-        //return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Researcher> deleteResearcherById(@PathVariable Long id) throws ResearcherNotFoundException {
+        return new ResponseEntity<>(researcherService.deleteResearcherById(id),HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public Researcher updateResearcher(@PathVariable Long id, @RequestBody Researcher researcher) throws ResearcherNotFoundException {
-        return researcherService.updateResearcher(id, researcher);
+    public ResponseEntity<Researcher> updateResearcher(@PathVariable Long id, @RequestBody Researcher researcher) throws ResearcherNotFoundException {
+        if(id ==null || id <=0){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(researcherService.updateResearcher(id, researcher),HttpStatus.OK);
     }
 
 }
