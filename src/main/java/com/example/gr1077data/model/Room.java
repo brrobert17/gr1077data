@@ -12,6 +12,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+//builder is used for testing
+@Builder
 public class Room {
 
     @Id
@@ -21,6 +23,9 @@ public class Room {
 
     @Column(nullable = false, length = 255)
     private String name;
+
+    @Column(nullable = false)
+    private String capacity;
 
     @ManyToOne
     @JoinColumn(name = "location_id", referencedColumnName = "id")
