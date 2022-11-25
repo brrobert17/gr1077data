@@ -16,4 +16,5 @@ public interface EventRepo extends JpaRepository<Event, Long> {
     //find all event by room  id
     @Query("SELECT b FROM Event AS b WHERE b.room.id=?1")
         List<Event> findAllByRoomId (Long roomId);
+
 }

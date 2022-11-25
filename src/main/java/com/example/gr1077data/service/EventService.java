@@ -4,7 +4,6 @@ import com.example.gr1077data.model.Event;
 import com.example.gr1077data.model.Room;
 import com.example.gr1077data.repo.EventRepo;
 import com.example.gr1077data.service.exception.EventNotFoundException;
-import com.example.gr1077data.service.exception.RoomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -97,7 +96,7 @@ public class EventService {
     }
 
 
-    public boolean checkActivityIsAvailablePost(Long roomId, LocalDate date, LocalTime startTime, LocalTime endTime) {
+    public boolean checkRoomIsAvailablePost(Long roomId, LocalDate date, LocalTime startTime, LocalTime endTime) {
         List<Event> events = eventRepo.findAllByRoomId( roomId);
         List<Event> availableEvents = new ArrayList<>();
         for (Event booking : events) {
@@ -121,22 +120,22 @@ public class EventService {
     }
 
 
-    public boolean checkActivityIsAvailablePut(Long roomId, Long id, LocalDate date, LocalTime startTime, LocalTime endTime) {
-        List<Event> bookings = eventRepo.findAllByRoomId(roomId);
-        bookings = bookings.stream().filter(item -> item.getId() != id).collect(Collectors.toList());
-        List<Event> availableBookings = new ArrayList<>();
-        for (Event booking : bookings) {
+    public boolean checkRoomIsAvailablePut(Long roomId, Long eventId, LocalDate date, LocalTime startTime, LocalTime endTime) {
+        List<Event> events = eventRepo.findAllByRoomId(roomId);
+        events = events.stream().filter(event -> !event.getId().equals(eventId)).collect(Collectors.toList());
+        List<Event> availableBookings = new ArrayList<Event>();
+        for (Event booking : events) {
             if (booking.getDate().equals(date)) {
                 if (booking.getStartTime().equals(startTime) || booking.getEndTime().equals(endTime)) {
                     availableBookings.add(booking);
-                    throw new IllegalStateException("Activity is not available");
+                    throw new IllegalStateException("Room is not available!");
 
                 } else if (booking.getStartTime().isBefore(startTime) && booking.getEndTime().isAfter(startTime)) {
                     availableBookings.add(booking);
-                    throw new IllegalStateException("Activity is not available");
+                    throw new IllegalStateException("Room is not available!");
                 } else if (booking.getStartTime().isBefore(endTime) && booking.getEndTime().isAfter(endTime)) {
                     availableBookings.add(booking);
-                    throw new IllegalStateException("Activity is not available");
+                    throw new IllegalStateException("Room is not available!");
                 }
 
             }

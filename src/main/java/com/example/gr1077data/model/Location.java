@@ -1,5 +1,6 @@
 package com.example.gr1077data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class Location {
     private String address;
 
     @OneToMany( mappedBy = "location")
+    @JsonIgnore
     private Set<Room> roomSet = new HashSet<>();
 
 
