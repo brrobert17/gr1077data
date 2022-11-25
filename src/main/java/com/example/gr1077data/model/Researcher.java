@@ -50,6 +50,18 @@ public class Researcher {
     //@Column(nullable = false)
     private Image profileImage;
 
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "researcher_id", referencedColumnName = "id")
+    private Set<ParagraphSection> paragraphSectionSet;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "researcher_id", referencedColumnName = "id")
+    private Set<LinkSection> linkSectionSet;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "researcher_id", referencedColumnName = "id")
+    private Set<ImageSection> imageSectionSet;
+
     @ManyToMany(mappedBy = "researcherSet", fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<BlogPost> blogPostSet = new HashSet<>();

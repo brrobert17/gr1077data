@@ -31,8 +31,18 @@ public class Event {
     @Column(nullable = false)
     private LocalDateTime dateTime;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String description;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    private Set<ParagraphSection> paragraphSectionSet;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    private Set<LinkSection> linkSectionSet;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    private Set<ImageSection> imageSectionSet;
+
 
     @OneToOne()
     @JoinColumn(name = "image_id", referencedColumnName = "id")

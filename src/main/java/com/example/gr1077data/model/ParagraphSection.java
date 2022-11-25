@@ -11,16 +11,18 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ParagraphSection {
+@Table(name = "paragraph_section")
+public class ParagraphSection extends Section {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @Column(nullable = false)
-    private Long order;
+    @Column
+    private int seq;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column
     private String text;
+
 }

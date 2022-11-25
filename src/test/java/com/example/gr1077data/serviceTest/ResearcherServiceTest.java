@@ -62,11 +62,11 @@ public class ResearcherServiceTest {
                 cv("cv2").email("email2").profile("profile2").telephone("9772").
                 publications("publications2").profileImage(image2).build();
 
-        blogPost = BlogPost.builder().title("mm").
+        /*blogPost = BlogPost.builder().title("mm").
                 description("hhh").build();
         blogPost2 = BlogPost.builder().title("kk").
                 description("jjj").build();
-        blogPost3 = BlogPost.builder().title("ee").description("rrr").build();
+        blogPost3 = BlogPost.builder().title("ee").description("rrr").build();*/
 
         blogPostSet.add(blogPost);
         blogPostSet.add(blogPost2);

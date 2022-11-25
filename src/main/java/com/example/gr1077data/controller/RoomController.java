@@ -56,4 +56,8 @@ public class RoomController {
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 
+    // Endpoint to implement
+    // GET /rooms ? availableDate=11-12-2022 & availableStart=11:00 & availableEnd=12:00
+    // Get all room that are available on the specified date, start and end time
+
 }

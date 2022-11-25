@@ -11,17 +11,21 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ImageSection {
+@Table(name = "image_section")
+public class ImageSection extends Section {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @Column(nullable = false)
-    private Long order;
+    @Column
+    private int seq;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @Column
+    private String altText;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 }

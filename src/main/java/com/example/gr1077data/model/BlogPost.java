@@ -24,8 +24,17 @@ public class BlogPost {
     @Column(nullable = false, length = 255)
     private String title;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String description;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "blog_id", referencedColumnName = "id")
+    private Set<ParagraphSection> paragraphSectionSet;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "blog_id", referencedColumnName = "id")
+    private Set<LinkSection> linkSectionSet;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "blog_id", referencedColumnName = "id")
+    private Set<ImageSection> imageSectionSet;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "researcher_blog_post_join",

@@ -74,11 +74,11 @@ public class BlogPostServiceTest {
                 firstName("dan2").lastName("sza2").title("mr2").email("email2").
                 profileLink("profileLink2").profileImage(image4).build();
 
-        blogPost = BlogPost.builder().title("mm").
+        /*blogPost = BlogPost.builder().title("mm").
                 description("hhh").build();
         blogPost2 = BlogPost.builder().title("kk").
                 description("jjj").build();
-        blogPost3 = BlogPost.builder().title("ee").description("rrr").build();
+        blogPost3 = BlogPost.builder().title("ee").description("rrr").build();*/
 
         blogPostSet.add(blogPost);
         blogPostSet.add(blogPost2);
@@ -105,7 +105,7 @@ public class BlogPostServiceTest {
     @Test
     void addBlogPost() throws BlogPostNotFoundException {
         BlogPost blogPost = BlogPost.builder().title("mmNew").
-                description("hhhNew").build();
+                /*description("hhhNew").*/build();
         blogPostService.saveBlogPost(blogPost);
         BlogPost blogPost1 = blogPostService.findBlogPostByTitle("mmNew");
         Assertions.assertThat(blogPost1.getTitle()).isEqualTo(blogPost.getTitle());
