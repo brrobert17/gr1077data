@@ -1,6 +1,8 @@
 package com.example.gr1077data.controller;
 
+import com.example.gr1077data.model.Event;
 import com.example.gr1077data.model.Room;
+import com.example.gr1077data.service.EventService;
 import com.example.gr1077data.service.RoomService;
 import com.example.gr1077data.service.exception.RoomNotFoundException;
 import lombok.AllArgsConstructor;
@@ -13,10 +15,16 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@AllArgsConstructor
+
 public class RoomController {
 
     private final RoomService roomService;
+    private final EventService eventService;
+    @Autowired
+    public RoomController(RoomService roomService, EventService eventService) {
+        this.roomService = roomService;
+        this.eventService = eventService;
+    }
 
     //get all rooms
     @GetMapping("/rooms")
@@ -28,6 +36,19 @@ public class RoomController {
     public ResponseEntity<Room> getRoomById(@PathVariable("id") Long id) throws RoomNotFoundException {
         Room room = roomService.getRoomById(id);
         return new ResponseEntity<>(room, HttpStatus.OK);
+    }
+    //list of event in room by id
+    @GetMapping("/rooms/{id}/events")
+    public List<Event> getRoomByEventId(@PathVariable("id") Long id, @RequestParam(name="date") List date) throws RoomNotFoundException {
+        return eventService.searchEvents(
+                roomService.getRoomById(id)
+                        .getEvents()
+                        .stream()
+                        .toList(),
+                date.toString()
+        );
+
+
     }
     @PostMapping("/rooms")
     public ResponseEntity<Room> createRoom(@RequestBody Room newRoom) throws RoomNotFoundException {

@@ -29,7 +29,7 @@ public class ImageServiceTest {
     @Test
     void addImage() throws ImageNotFoundException {
         Image newImage = new Image( "url", "caption");
-        imageService.saveImage(newImage);
+        imageService.createImage(newImage);
         Image image1 = imageService.findImageByCaption("caption");
         Assertions.assertThat(image1.getUrl()).isEqualTo(newImage.getUrl());
     }

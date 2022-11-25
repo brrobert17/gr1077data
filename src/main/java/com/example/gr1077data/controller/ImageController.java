@@ -33,7 +33,7 @@ public class ImageController {
 
     @PostMapping
     public Image saveImage(@RequestBody Image image) {
-        return imageService.saveImage(image);
+        return imageService.createImage(image);
     }
 
     @DeleteMapping("{id}")

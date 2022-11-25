@@ -21,7 +21,7 @@ public class RoomService {
         return roomList;
     }
     //get room by id
-    public Room getRoomById(Long id) throws RoomNotFoundException {
+    public Room getRoomById(Long id)  {
         return roomRepo.findById(id).orElse(null);
 
     }
