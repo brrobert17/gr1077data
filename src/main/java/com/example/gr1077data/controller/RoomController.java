@@ -38,6 +38,16 @@ public class RoomController {
         return new ResponseEntity<>(room, HttpStatus.OK);
     }
     //list of event in room by id
+    // Endpoint to implement
+    // GET /rooms ? availableDate=11-12-2022 & availableStart=11:00 & availableEnd=12:00
+    // Get all room that are available on the specified date, start and end time
+    @GetMapping("/rooms")
+    public List<Room> getAvailableRooms(@RequestParam("availableDate") String date,
+                                        @RequestParam("availableStart") String start,
+                                        @RequestParam("availableEnd") String end) {
+        return roomService.getAvailableRooms(availableDate, availableStart, availableEnd);
+    }
+
     @GetMapping("/rooms/{id}/events")
     public List<Event> getRoomByEventId(@PathVariable("id") Long id, @RequestParam(name="date") List date) throws RoomNotFoundException {
         return eventService.searchEvents(

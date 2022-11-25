@@ -63,13 +63,16 @@ public class EventController {
     public ResponseEntity<Event> updateEvent(@PathVariable ("id") Long eventId, @RequestBody Event event) throws EventNotFoundException
 
     {
+
         System.out.println("Here comes the  " + event.getRoom().getId());
         System.out.println("Here comes the  " + event.getDate());
         System.out.println("Here comes the  " + event.getStartTime());
         System.out.println("Here comes the  " + event.getEndTime());
+
        if (eventService.checkRoomIsAvailablePut(event.getRoom().getId(),eventId, event.getDate(), event.getStartTime(), event.getEndTime())&&
                eventService.checkTime(event)) {
            Event updatedEvent = eventService.updateEvent(eventId, event);
+           System.out.println(updatedEvent.getRoom().getLocation().getAddress());
            return new ResponseEntity<>(updatedEvent, HttpStatus.OK);
        }
          else {
