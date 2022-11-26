@@ -6,6 +6,8 @@ import com.example.gr1077data.service.exception.RoomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -51,4 +53,8 @@ public class RoomService {
         }
         return roomRepo.findAll();
     }
+
+    public List<Room> findRoomByAvailability(LocalDate date, LocalTime start, LocalTime end) {
+        return roomRepo.findRoomByAvailability(date,start,end);
+    };
 }

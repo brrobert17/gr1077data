@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
@@ -18,4 +20,16 @@ public interface RoomRepo extends JpaRepository<Room, Long> {
     //find the room with the same location
     @Query("SELECT r FROM Room r WHERE r.location.id = :locationId")
     List<Room> findByLocationId(@Param("locationId") Long locationId);
+
+
+    //room availability
+    @Query(nativeQuery = true, value = "SELECT * FROM gr1077_db.room where id not in " +
+            "(select distinct room_id from (select * from gr1077_db.event where date =:date) as `e*` where " +
+            "start_time  between :start and :end or" +
+            " end_time  between :start and :end or" +
+            ":start  between start_time and end_time or" +
+            ":end  between start_time and end_time);")
+    List<Room> findRoomByAvailability(@Param("date") LocalDate date,
+                                      @Param("start") LocalTime start,
+                                      @Param("end") LocalTime end);
 }
