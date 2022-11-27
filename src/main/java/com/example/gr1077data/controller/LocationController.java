@@ -2,6 +2,7 @@ package com.example.gr1077data.controller;
 
 import com.example.gr1077data.model.Location;
 import com.example.gr1077data.service.LocationService;
+import com.example.gr1077data.service.exception.LocationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class LocationController {
         return new ResponseEntity<>(locations, HttpStatus.OK);
     }
     @GetMapping("/locations/{id}")
-    public ResponseEntity<Location> getLocationById(@PathVariable("id") Long id){
+    public ResponseEntity<Location> getLocationById(@PathVariable("id") Long id) throws LocationNotFoundException {
         Location location = locationService.getLocationById(id);
         return new ResponseEntity<>(location, HttpStatus.OK);
     }

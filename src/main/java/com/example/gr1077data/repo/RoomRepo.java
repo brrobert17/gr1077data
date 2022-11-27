@@ -21,6 +21,10 @@ public interface RoomRepo extends JpaRepository<Room, Long> {
     @Query("SELECT r FROM Room r WHERE r.location.id = :locationId")
     List<Room> findByLocationId(@Param("locationId") Long locationId);
 
+    @Query("SELECT r from Room r WHERE r.location.id = :locationId AND r.name = :roomName")
+    List<Room> findByRoomNameAndLocationId(@Param("locationId") Long locationId,
+                                            @Param("roomName") String roomName);
+
 
     //room availability
     @Query(nativeQuery = true, value = "SELECT * FROM gr1077_db.room where id not in " +

@@ -23,7 +23,7 @@ public class RoomController {
 
     //get all rooms
     @GetMapping("/rooms")
-    public ResponseEntity<List<Room>> getAllRooms() throws RoomNotFoundException {
+    public ResponseEntity<List<Room>> getAllRooms() {
         List<Room> rooms = roomService.getAllRooms();
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }

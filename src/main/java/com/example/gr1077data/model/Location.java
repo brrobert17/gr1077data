@@ -12,6 +12,7 @@ import java.util.Set;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Location {
 
     @Id
@@ -22,7 +23,7 @@ public class Location {
     @Column(nullable = false, length = 255)
     private String address;
 
-    @OneToMany( mappedBy = "location")
+    @OneToMany( mappedBy = "location",cascade = CascadeType.ALL)
     private Set<Room> roomSet = new HashSet<>();
 
 

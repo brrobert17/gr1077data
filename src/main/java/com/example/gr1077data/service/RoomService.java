@@ -18,9 +18,8 @@ public class RoomService {
         this.roomRepo = roomRepo;
     }
     //get all rooms
-    public List<Room> getAllRooms() throws RoomNotFoundException {
-        List<Room> roomList = roomRepo.findAll() ;
-        return roomList;
+    public List<Room> getAllRooms() {
+        return roomRepo.findAll();
     }
     //get room by id
     public Room getRoomById(Long id) throws RoomNotFoundException {
@@ -47,11 +46,15 @@ public class RoomService {
         return roomRepo.findAll();
     }
     //find the same location room
-    public List <Room> getRoomByLocationId(Long locationId) throws RoomNotFoundException {
+    public List <Room> getRoomByLocationId(Long locationId){
         if (locationId != null) {
             return roomRepo.findByLocationId(locationId);
         }
         return roomRepo.findAll();
+    }
+
+    public List<Room> getRoomByRoomNameAndLocationId(Long id, String name) {
+        return roomRepo.findByRoomNameAndLocationId(id,name);
     }
 
     public List<Room> findRoomByAvailability(LocalDate date, LocalTime start, LocalTime end) {
