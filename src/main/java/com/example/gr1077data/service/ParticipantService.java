@@ -20,9 +20,8 @@ public class ParticipantService {
 
 
     //get all customers
-    public List<Participant> getAllParticipant() throws ParticipantNotFoundException{
-        List<Participant> participantsList = participantRepo.findAll();
-        return participantsList;
+    public List<Participant> getAllParticipants() {
+        return participantRepo.findAll();
     }
 
 

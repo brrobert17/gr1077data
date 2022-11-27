@@ -22,7 +22,7 @@ public class ParticipantController {
     //return all customers
     @GetMapping("/participants")
     public List<Participant> getAllParticipant() throws ParticipantNotFoundException {
-        return participantService.getAllParticipant();
+        return participantService.getAllParticipants();
     }
 
     //return customer by id
