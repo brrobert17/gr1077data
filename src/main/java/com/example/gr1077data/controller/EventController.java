@@ -4,6 +4,7 @@ import com.example.gr1077data.model.Event;
 import com.example.gr1077data.repo.EventRepo;
 import com.example.gr1077data.service.*;
 import com.example.gr1077data.service.exception.EventNotFoundException;
+import com.example.gr1077data.service.exception.SectionsSequenceException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class EventController {
     }
     //creat events
     @PostMapping("/events")
-    public ResponseEntity<Event> createEvent(@RequestBody Event newEvent) throws EventNotFoundException {
+    public ResponseEntity<Event> createEvent(@RequestBody Event newEvent) throws EventNotFoundException, SectionsSequenceException {
         return new ResponseEntity<>(eventService.createEvent(newEvent), HttpStatus.CREATED);
     }
     @DeleteMapping("/events/{id}")
@@ -43,7 +44,7 @@ public class EventController {
         return new ResponseEntity<>(eventService.deleteEvent(id), HttpStatus.OK);
     }
     @PutMapping("/events/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event event) throws EventNotFoundException {
+    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event event) throws EventNotFoundException, SectionsSequenceException {
         return new ResponseEntity<>(eventService.updateEvent(id, event), HttpStatus.OK);
     }
     //search events

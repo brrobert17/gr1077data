@@ -3,6 +3,7 @@ package com.example.gr1077data.service;
 import com.example.gr1077data.model.Event;
 import com.example.gr1077data.repo.EventRepo;
 import com.example.gr1077data.service.exception.EventNotFoundException;
+import com.example.gr1077data.service.exception.SectionsSequenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,14 @@ import java.util.Optional;
 
 @Service
 public class EventService {
+
     private final EventRepo eventRepo;
+    private final SectionService<Event> sectionService;
 
     @Autowired
-    public EventService(EventRepo eventRepo) {
+    public EventService(EventRepo eventRepo, SectionService<Event> sectionService) {
         this.eventRepo = eventRepo;
+        this.sectionService = sectionService;
     }
 
     //get all events
@@ -32,9 +36,9 @@ public class EventService {
         return event;
     }
     //create event
-    public Event createEvent(Event event) throws EventNotFoundException {
-        Event newEvent = eventRepo.save(event);
-        return newEvent;
+    public Event createEvent(Event event) throws SectionsSequenceException {
+        if (!(sectionService.isSequenceValid(event))) throw new SectionsSequenceException("Invalid sections sequence");
+        return eventRepo.save(event);
     }
     //delete event
     public Event deleteEvent(Long id) throws EventNotFoundException {
@@ -43,7 +47,8 @@ public class EventService {
         return event;
     }
     //update event
-    public Event updateEvent(Long id,Event event){
+    public Event updateEvent(Long id,Event event) throws SectionsSequenceException {
+        if (!(sectionService.isSequenceValid(event))) throw new SectionsSequenceException("Invalid sections sequence");
         if(eventRepo.findById(id).isEmpty()){
             return null;
         }

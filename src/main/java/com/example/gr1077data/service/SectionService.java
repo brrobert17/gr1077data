@@ -15,29 +15,28 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class SectionService {
+public class SectionService <T extends Page> {
 
-    public boolean isSequenceValid(BlogPost post) {
+    public boolean isSequenceValid(T page) {
         List<Integer> sequence = new ArrayList<Integer>();
 
         sequence.addAll(
-                post.getLinkSectionSet().stream()
+                page.getLinkSectionSet().stream()
                         .map(LinkSection::getSeq)
                         .collect(Collectors.toList())
         );
         sequence.addAll(
-                post.getImageSectionSet().stream()
+                page.getImageSectionSet().stream()
                         .map(ImageSection::getSeq)
                         .collect(Collectors.toList())
         );
         sequence.addAll(
-                post.getParagraphSectionSet().stream()
+                page.getParagraphSectionSet().stream()
                         .map(ParagraphSection::getSeq)
                         .collect(Collectors.toList())
         );
 
         Set<Integer> sequenceSet = new HashSet<>(sequence);
-
         return sequenceSet.size() == sequence.size();
 
     }

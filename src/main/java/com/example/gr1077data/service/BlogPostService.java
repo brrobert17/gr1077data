@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 public class BlogPostService {
 
     final BlogPostRepo blogPostRepo;
-    final SectionService sectionService;
+    final SectionService<BlogPost> sectionService;
 
     public List<BlogPost> findAllBlogPosts() {
         return blogPostRepo.findAll();
@@ -39,9 +39,8 @@ public class BlogPostService {
     }
 
     public BlogPost saveBlogPost(BlogPost blogPost) throws SectionsSequenceException {
-        if (sectionService.isSequenceValid(blogPost)) throw new SectionsSequenceException("Invalid sections sequence");
-        blogPostRepo.save(blogPost);
-        return blogPost;
+        if (!(sectionService.isSequenceValid(blogPost))) throw new SectionsSequenceException("Invalid sections sequence");
+        return blogPostRepo.save(blogPost);
     }
 
     public BlogPost deleteBlogPostById(Long id) throws BlogPostNotFoundException{
@@ -54,7 +53,7 @@ public class BlogPostService {
     }
 
     public BlogPost updateBlogPost(Long id, BlogPost blogPost) throws SectionsSequenceException {
-        if (sectionService.isSequenceValid(blogPost)) throw new SectionsSequenceException("Invalid sections sequence");
+        if (!(sectionService.isSequenceValid(blogPost))) throw new SectionsSequenceException("Invalid sections sequence");
         if(blogPostRepo.findById(id).isEmpty()){
             return null;
         }

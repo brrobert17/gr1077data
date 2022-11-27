@@ -16,7 +16,7 @@ import java.util.Set;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Event {
+public class Event extends Page {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

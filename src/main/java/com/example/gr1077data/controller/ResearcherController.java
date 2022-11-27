@@ -3,6 +3,7 @@ package com.example.gr1077data.controller;
 import com.example.gr1077data.model.Researcher;
 import com.example.gr1077data.service.ResearcherService;
 import com.example.gr1077data.service.exception.ResearcherNotFoundException;
+import com.example.gr1077data.service.exception.SectionsSequenceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class ResearcherController {
     }
 
     @PostMapping
-    public ResponseEntity<Researcher> saveResearcher(@RequestBody Researcher researcher) throws ResearcherNotFoundException {
+    public ResponseEntity<Researcher> saveResearcher(@RequestBody Researcher researcher) throws ResearcherNotFoundException, SectionsSequenceException {
         Researcher savedResearcher = researcherService.saveResearcher(researcher);
         return new ResponseEntity<>(researcherService.findResearcherById(savedResearcher.getId()), HttpStatus.OK);
     }

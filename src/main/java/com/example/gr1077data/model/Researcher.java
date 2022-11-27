@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Researcher {
+public class Researcher extends Page {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -12,7 +12,7 @@ import java.util.Set;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class OtherPage {
+public class OtherPage extends Page {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

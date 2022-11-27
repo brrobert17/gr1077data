@@ -23,6 +23,9 @@ public class ParagraphSection extends Section {
     private int seq;
 
     @Column
+    private String heading;
+
+    @Column
     private String text;
 
 }

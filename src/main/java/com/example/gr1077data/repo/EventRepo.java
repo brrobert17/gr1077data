@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface EventRepo extends JpaRepository<Event, Long> {
     //SEARCH BY KEYWORD
-    @Query("SELECT e FROM Event e WHERE e.name LIKE %?1% OR e.description LIKE %?1%")
+    @Query("SELECT e FROM Event e WHERE e.name LIKE %?1%")
 
     List<Event> searchEvent(String keyword);
 }

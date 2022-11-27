@@ -12,6 +12,7 @@ import com.example.gr1077data.service.BlogPostService;
 import com.example.gr1077data.service.ResearcherService;
 import com.example.gr1077data.service.exception.BlogPostNotFoundException;
 import com.example.gr1077data.service.exception.ResearcherNotFoundException;
+import com.example.gr1077data.service.exception.SectionsSequenceException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -88,7 +89,7 @@ public class ResearcherServiceTest {
     }
 
     @Test
-    void addResearcher() throws ResearcherNotFoundException {
+    void addResearcher() throws ResearcherNotFoundException, SectionsSequenceException {
         image = Image.builder().url("newww").caption("newwww").build();
         researcher = Researcher.builder().
                 firstName("robo").lastName("baro").title("mro").
