@@ -1,22 +1,21 @@
 package com.example.gr1077data.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Setter
+@Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Event extends Page {
 
     @Id
@@ -33,7 +32,7 @@ public class Event extends Page {
 
     //does JPA know?
     @Column(nullable = false)
-    @DateTimeFormat( pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     @Column(nullable = false)
@@ -59,7 +58,6 @@ public class Event extends Page {
     private Set<ImageSection> imageSectionSet;
 
 
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
@@ -68,18 +66,14 @@ public class Event extends Page {
     @JoinTable(name = "researcher_event_join",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "researcher_id"))
-    //let's see if the new hashSet makes any difference
     private Set<Researcher> researcherSet = new HashSet<>();
 
     @ManyToMany()
     @JoinTable(name = "external_researcher_event_join",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "external_researcher_id"))
-    //let's see if the new hashSet makes any difference
     private Set<ExternalResearcher> externalResearcherSet = new HashSet<>();
-    
 
-    //do we need referencedColumnName?
     @OneToMany()
     @JoinColumn(name = "participant_id", referencedColumnName = "id")
     private Set<Participant> participantSet = new HashSet<>();

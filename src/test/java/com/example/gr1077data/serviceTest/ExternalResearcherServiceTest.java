@@ -57,11 +57,9 @@ public class ExternalResearcherServiceTest {
                 firstName("rob2").lastName("bar2").title("mr2").
                 email("email2").profileImage(image2).profileLink("link2").build();
 
-        blogPost = BlogPost.builder().title("mm").
-                description("hhh").build();
-        blogPost2 = BlogPost.builder().title("kk").
-                description("jjj").build();
-        blogPost3 = BlogPost.builder().title("ee").description("rrr").build();
+        blogPost = BlogPost.builder().title("mm").build();
+        blogPost2 = BlogPost.builder().title("kk").build();
+        blogPost3 = BlogPost.builder().title("ee").build();
 
         blogPostSet.add(blogPost);
         blogPostSet.add(blogPost2);

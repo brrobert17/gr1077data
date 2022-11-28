@@ -1,6 +1,5 @@
 package com.example.gr1077data.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,7 +24,7 @@ public class BlogPost extends Page {
     @Column(nullable = false, length = 255)
     private String title;
 
-    @Column(name="timestamp", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "timestamp", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDate timestamp;
 
     @OneToMany(cascade = CascadeType.PERSIST)

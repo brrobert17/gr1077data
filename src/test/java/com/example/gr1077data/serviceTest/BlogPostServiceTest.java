@@ -11,7 +11,6 @@ import com.example.gr1077data.repo.ResearcherRepo;
 import com.example.gr1077data.service.BlogPostService;
 import com.example.gr1077data.service.ResearcherService;
 import com.example.gr1077data.service.exception.BlogPostNotFoundException;
-import com.example.gr1077data.service.exception.ResearcherNotFoundException;
 import com.example.gr1077data.service.exception.SectionsSequenceException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -107,19 +106,19 @@ public class BlogPostServiceTest {
     void addBlogPost() throws BlogPostNotFoundException, SectionsSequenceException {
         BlogPost blogPost = BlogPost.builder().title("mmNew").
                 /*description("hhhNew").*/build();
-        blogPostService.saveBlogPost(blogPost);
-        BlogPost blogPost1 = blogPostService.findBlogPostByTitle("mmNew");
+        blogPostService.create(blogPost);
+        BlogPost blogPost1 = blogPostService.findByTitle("mmNew");
         Assertions.assertThat(blogPost1.getTitle()).isEqualTo(blogPost.getTitle());
     }
 
     @Test
     public void testListAll() {
-        Assertions.assertThat(blogPostService.findAllBlogPosts()).hasSize(3);
+        Assertions.assertThat(blogPostService.getAll()).hasSize(3);
     }
 
     @Test
     public void testGet() throws BlogPostNotFoundException {
-        Assertions.assertThat(blogPostService.findBlogPostById(5L)).isNotNull();
+        Assertions.assertThat(blogPostService.findById(5L)).isNotNull();
     }
 
     @Test
@@ -128,7 +127,7 @@ public class BlogPostServiceTest {
         int blogPostIndex = blogPosts.size() - 1;
         BlogPost blogPost1 = blogPosts.get(blogPostIndex);
         Long id = blogPost1.getId();
-        blogPostService.deleteBlogPostById(id);
+        blogPostService.del(id);
         Assertions.assertThat(blogPostRepo.findById(id)).isNotPresent();
     }
 
@@ -140,6 +139,6 @@ public class BlogPostServiceTest {
         Long id = blogPost1.getId();
         blogPost1.setTitle("updatedTitle");
         blogPostRepo.save(blogPost1);
-        Assertions.assertThat(blogPostService.findBlogPostByTitle("updatedTitle")).isNotNull();
+        Assertions.assertThat(blogPostService.findByTitle("updatedTitle")).isNotNull();
     }
 }

@@ -31,7 +31,7 @@ public class ImageServiceTest {
     void addImage() throws ImageNotFoundException {
         Image newImage = new Image();
         newImage = Image.builder().url("www2").caption("ccc2").build();
-        imageService.saveImage(newImage);
+        imageService.createImage(newImage);
         Image image1 = imageService.findImageByCaption("caption");
         Assertions.assertThat(image1.getUrl()).isEqualTo(newImage.getUrl());
     }
