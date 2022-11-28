@@ -24,24 +24,37 @@ public class EventController {
         return new ResponseEntity<>(eventService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Event> getById(@PathVariable Long id) throws EventNotFoundException {
         return new ResponseEntity<>(eventService.getById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Event> create(@RequestBody Event newEvent) throws SectionsSequenceException {
-        return new ResponseEntity<>(eventService.create(newEvent), HttpStatus.CREATED);
+    public ResponseEntity<Event> create(@RequestBody Event event) throws SectionsSequenceException {
+        if (eventService.checkRoomIsAvailablePost(event.getRoom().getId(), event.getDate(), event.getStartTime(), event.getEndTime())
+                && eventService.checkTime(event)){
+            return new ResponseEntity<> (eventService.create(event),HttpStatus.CREATED);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Event> del(@PathVariable Long id) throws EventNotFoundException {
-        return new ResponseEntity<>(eventService.del(id), HttpStatus.OK);
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> del(@PathVariable Long id) throws EventNotFoundException {
+        eventService.del(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Event> update(@PathVariable Long id, @RequestBody Event event) throws EventNotFoundException, SectionsSequenceException {
-        return new ResponseEntity<>(eventService.update(id, event), HttpStatus.OK);
+        if (eventService.checkRoomIsAvailablePut(event.getRoom().getId(), id, event.getDate(), event.getStartTime(), event.getEndTime())
+                && eventService.checkTime(event)) {
+            return new ResponseEntity<>(eventService.update(id, event), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping(params = "keyword")

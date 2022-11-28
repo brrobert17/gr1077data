@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BlogPostController {
 
-    final BlogPostService blogPostService;
+    private final BlogPostService blogPostService;
 
     @GetMapping
     public ResponseEntity<List<BlogPost>> getAll() {
@@ -43,11 +43,12 @@ public class BlogPostController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<BlogPost> del(@PathVariable Long id) throws BlogPostNotFoundException{
+    public ResponseEntity<?> del(@PathVariable Long id) throws BlogPostNotFoundException{
         if(id==null || id <=0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(blogPostService.del(id), HttpStatus.OK);
+        blogPostService.del(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("{id}")

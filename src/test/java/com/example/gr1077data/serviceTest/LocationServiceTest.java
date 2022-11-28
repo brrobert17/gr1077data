@@ -61,17 +61,17 @@ public class LocationServiceTest {
         roomSet.add(Room.builder().location(location).name("r6").build());
         location = Location.builder().address("street3").roomSet(roomSet).build();
         locationRepo.save(location);
-        Assertions.assertThat(locationService.getLocationByAddress("street3")).isNotNull();
+        Assertions.assertThat(locationService.getByAddress("street3")).isNotNull();
     }
 
     @Test
     public void testListAll() {
-        Assertions.assertThat(locationService.getAllLocations()).hasSize(2);
+        Assertions.assertThat(locationService.getAll()).hasSize(2);
     }
 
     @Test
     public void testGet() throws LocationNotFoundException {
-        Assertions.assertThat(locationService.getLocationById(2L)).isNotNull();
+        Assertions.assertThat(locationService.getById(2L)).isNotNull();
     }
 
     @Test
@@ -80,7 +80,7 @@ public class LocationServiceTest {
         int locationIndex = locations.size() - 1;
         Location location = locations.get(locationIndex);
         Long id = location.getId();
-        locationService.deleteLocation(id);
+        locationService.del(id);
         Assertions.assertThat(locationRepo.findById(id)).isNotPresent();
     }
 

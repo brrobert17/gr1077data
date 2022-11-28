@@ -40,18 +40,18 @@ public class ParticipantServiceTest {
         participant = Participant.builder().firstName("fName3")
                 .lastName("lName3").email("email3").title("title3").affiliation("expert3")
                 .build();
-        Long id = participantService.createParticipant(participant).getId();
+        Long id = participantService.create(participant).getId();
         Assertions.assertThat(participantRepo.findById(id).get().getAffiliation()).isEqualTo(participant.getAffiliation());
     }
 
     @Test
     public void testListAll() {
-        Assertions.assertThat(participantService.getAllParticipants()).hasSize(2);
+        Assertions.assertThat(participantService.getAll()).hasSize(2);
     }
 
     @Test
     public void testGet() throws ParticipantNotFoundException {
-        Assertions.assertThat(participantService.getParticipantById(2L)).isNotNull();
+        Assertions.assertThat(participantService.getById(2L)).isNotNull();
     }
 
     @Test

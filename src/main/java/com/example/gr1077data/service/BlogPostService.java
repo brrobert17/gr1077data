@@ -3,14 +3,11 @@ package com.example.gr1077data.service;
 import com.example.gr1077data.model.*;
 import com.example.gr1077data.repo.BlogPostRepo;
 import com.example.gr1077data.service.exception.BlogPostNotFoundException;
-import com.example.gr1077data.service.exception.EventNotFoundException;
 import com.example.gr1077data.service.exception.SectionsSequenceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -45,13 +42,9 @@ public class BlogPostService {
         return blogPostRepo.save(blogPost);
     }
 
-    public BlogPost del(Long id) throws BlogPostNotFoundException {
-        Optional<BlogPost> optionalBlogPost = blogPostRepo.findById(id);
-        if (optionalBlogPost.isEmpty()) {
-            throw new BlogPostNotFoundException("BlogPost not found by: " + id);
-        }
+    public void del(Long id) throws BlogPostNotFoundException {
+        blogPostRepo.findById(id).orElseThrow(() -> new BlogPostNotFoundException("BlogPost not found by: " + id));
         blogPostRepo.deleteById(id);
-        return optionalBlogPost.get();
     }
 
     public BlogPost update(Long id, BlogPost blogPost) throws SectionsSequenceException, BlogPostNotFoundException {

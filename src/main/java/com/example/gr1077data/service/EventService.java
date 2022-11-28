@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -32,10 +34,9 @@ public class EventService {
         return eventRepo.save(event);
     }
 
-    public Event del(Long id) throws EventNotFoundException {
-        Event event = eventRepo.findById(id).orElseThrow(() -> new EventNotFoundException("Event not found by: " + id));
-        eventRepo.delete(event);
-        return event;
+    public void del(Long id) throws EventNotFoundException {
+        eventRepo.findById(id).orElseThrow(() -> new EventNotFoundException("Event not found by: " + id));
+        eventRepo.deleteById(id);
     }
 
     public Event update(Long id, Event event) throws SectionsSequenceException, EventNotFoundException {
@@ -44,7 +45,7 @@ public class EventService {
         return eventRepo.save(event);
     }
 
-    public List<Event> search(String keyword){
+    public List<Event> search(String keyword) {
         return eventRepo.findByName(keyword);
     }
 
@@ -58,6 +59,39 @@ public class EventService {
         if (event.getDate().equals(today)) {
             if (event.getStartTime().isBefore(now)) {
                 throw new IllegalStateException("We are in the past");
+            }
+        }
+        return true;
+    }
+
+    public boolean checkRoomIsAvailablePost(Long roomId, LocalDate date, LocalTime startTime, LocalTime endTime) {
+        List<Event> events = eventRepo.findAllByRoomId(roomId);
+        for (Event booking : events) {
+            if (booking.getDate().equals(date)) {
+                if (booking.getStartTime().equals(startTime) || booking.getEndTime().equals(endTime)) {
+                    throw new IllegalStateException("Room is not available");
+                } else if (booking.getStartTime().isBefore(startTime) && booking.getEndTime().isAfter(startTime)) {
+                    throw new IllegalStateException("Room is not available");
+                } else if (booking.getStartTime().isBefore(endTime) && booking.getEndTime().isAfter(endTime)) {
+                    throw new IllegalStateException("Room is not available");
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean checkRoomIsAvailablePut(Long roomId, Long eventId, LocalDate date, LocalTime startTime, LocalTime endTime) {
+        List<Event> events = eventRepo.findAllByRoomId(roomId)
+                .stream().filter(event -> !event.getId().equals(eventId)).collect(Collectors.toList());
+        for (Event booking : events) {
+            if (booking.getDate().equals(date)) {
+                if (booking.getStartTime().equals(startTime) || booking.getEndTime().equals(endTime)) {
+                    throw new IllegalStateException("Room is not available!");
+                } else if (booking.getStartTime().isBefore(startTime) && booking.getEndTime().isAfter(startTime)) {
+                    throw new IllegalStateException("Room is not available!");
+                } else if (booking.getStartTime().isBefore(endTime) && booking.getEndTime().isAfter(endTime)) {
+                    throw new IllegalStateException("Room is not available!");
+                }
             }
         }
         return true;

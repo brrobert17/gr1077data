@@ -17,16 +17,12 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping("/other-pages")
+@AllArgsConstructor
 public class OtherPageController {
 
     private final OtherPageService otherPageService;
 
-    @Autowired
-    public OtherPageController(OtherPageService otherPageService) {
-        this.otherPageService = otherPageService;
-    }
-
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<OtherPage>> getAll() {
         List<OtherPage> pages= otherPageService.getAll();
         return new ResponseEntity<>(pages, HttpStatus.OK);
@@ -36,7 +32,7 @@ public class OtherPageController {
         OtherPage page = otherPageService.getById(id);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<OtherPage> create(@RequestBody OtherPage newPage) throws SectionsSequenceException {
         OtherPage location = otherPageService.save(newPage);
         return new ResponseEntity<>(location, HttpStatus.CREATED);

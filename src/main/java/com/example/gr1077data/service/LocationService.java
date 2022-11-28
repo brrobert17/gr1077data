@@ -18,14 +18,11 @@ public class LocationService {
         this.locationRepo = locationRepo;
     }
 
-    //get all locations
-    public List<Location> getAllLocations() {
-        List<Location> locationList = locationRepo.findAll();
-        return locationList;
+    public List<Location> getAll() {
+        return locationRepo.findAll();
     }
 
-    //get location by id
-    public Location getLocationById(Long id) throws LocationNotFoundException {
+    public Location getById(Long id) throws LocationNotFoundException {
         Optional<Location> optionalLocation = locationRepo.findById(id);
         if (optionalLocation.isEmpty()) {
             throw new LocationNotFoundException("location not found by id: " + id);
@@ -33,36 +30,29 @@ public class LocationService {
         return optionalLocation.get();
     }
 
-    public Location getLocationByAddress(String address) throws LocationNotFoundException {
-        Optional<Location> optionalLocation = locationRepo.getLocationByAddress(address);
-        if (optionalLocation.isEmpty()) {
-            throw new LocationNotFoundException("location not found by address: " + address);
-        }
-        return optionalLocation.get();
-    }
-
-    public Location createLocation(Location location) {
+    public Location create(Location location) {
         return locationRepo.save(location);
     }
 
-    public Location updateLocation(Long id, Location newLocation) {
+    public Location update(Long id, Location newLocation) {
         if (locationRepo.findById(id).isEmpty()) {
             return null;
         }
         return locationRepo.save(newLocation);
     }
 
-    public void deleteLocation(Long id) {
+    public void del(Long id) {
         locationRepo.deleteById(id);
     }
 
-    //find location by keyword
-    public List<Location> getLocationBykeyword(String keyword) {
-        if (keyword != null) {
+    public List<Location> getByKeyword(String keyword) {
+        if (keyword != null ) {
             return locationRepo.findByKeyword(keyword);
         }
         return locationRepo.findAll();
     }
 
-
+    public Location getByAddress(String address) throws LocationNotFoundException {
+        return locationRepo.findByAddress(address).orElseThrow(()->
+                new LocationNotFoundException("location not found by address: " + address));    }
 }

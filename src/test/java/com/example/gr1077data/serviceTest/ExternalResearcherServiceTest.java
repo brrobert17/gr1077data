@@ -86,18 +86,18 @@ public class ExternalResearcherServiceTest {
         externalResearcher = ExternalResearcher.builder().
                 firstName("robo").lastName("baro").title("mro").
                 email("emailo").profileImage(image).profileLink("linko").build();
-        Long id = externalResearcherService.createExternalResearch(externalResearcher).getId();
+        Long id = externalResearcherService.create(externalResearcher).getId();
         Assertions.assertThat(externalResearcherRepo.findById(id).get().getEmail()).isEqualTo(externalResearcher.getEmail());
     }
 
     @Test
     public void testListAll() {
-        Assertions.assertThat(externalResearcherService.getAllExternalResearches()).hasSize(2);
+        Assertions.assertThat(externalResearcherService.getAll()).hasSize(2);
     }
 
     @Test
     public void testGet() throws ExternalResearcherNotFoundException {
-        Assertions.assertThat(externalResearcherService.getExternalResearchById(2L)).isNotNull();
+        Assertions.assertThat(externalResearcherService.getById(2L)).isNotNull();
     }
 
     @Test

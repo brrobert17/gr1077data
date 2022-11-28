@@ -63,7 +63,7 @@ public class RoomServiceTest {
         int locationIndex = locations.size() - 1;
         Location location = locations.get(locationIndex);
         Long id = location.getId();
-        Assertions.assertThat(roomService.getRoomByRoomNameAndLocationId(id,"r5")).isNotNull();
+        Assertions.assertThat(roomService.getByRoomNameAndLocationId(id,"r5")).isNotNull();
     }
 
     @Test
@@ -73,12 +73,12 @@ public class RoomServiceTest {
         Location location = locations.get(locationIndex);
         Long id = location.getId();
         Assertions.assertThat(roomService.getRoomByLocationId(id)).hasSize(2);
-        Assertions.assertThat(roomService.getAllRooms()).hasSize(4);
+        Assertions.assertThat(roomService.getAll()).hasSize(4);
     }
 
     @Test
     public void testGet() throws RoomNotFoundException {
-        Assertions.assertThat(roomService.getRoomById(2L)).isNotNull();
+        Assertions.assertThat(roomService.getById(2L)).isNotNull();
     }
 
     @Test
@@ -87,7 +87,7 @@ public class RoomServiceTest {
         int roomIndex = rooms.size() - 1;
         Room room = rooms.get(roomIndex);
         Long id = room.getId();
-        roomService.deleteRoom(id);
+        roomService.del(id);
         Assertions.assertThat(roomRepo.findById(id)).isNotPresent();
     }
 

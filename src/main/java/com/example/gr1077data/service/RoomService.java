@@ -3,7 +3,7 @@ package com.example.gr1077data.service;
 import com.example.gr1077data.model.Room;
 import com.example.gr1077data.repo.RoomRepo;
 import com.example.gr1077data.service.exception.RoomNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -11,53 +11,56 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class RoomService {
+
     private final RoomRepo roomRepo;
-    @Autowired
-    public RoomService(RoomRepo roomRepo) {
-        this.roomRepo = roomRepo;
-    }
-    //get all rooms
-    public List<Room> getAllRooms() {
+
+    public List<Room> getAll() {
         return roomRepo.findAll();
     }
-    //get room by id
-    public Room getRoomById(Long id)  {
-        return roomRepo.findById(id).orElse(null);
 
+    public Room getById(Long id) {
+        return roomRepo.findById(id).orElse(null);
     }
-    public Room createRoom(Room room)throws RoomNotFoundException {
+
+    public Room create(Room room) throws RoomNotFoundException {
         return roomRepo.save(room);
     }
-    public Room updateRoom(Long id, Room newRoom) throws RoomNotFoundException {
-        if(roomRepo.findById(id).isEmpty()){
+
+    public Room update(Long id, Room newRoom) throws RoomNotFoundException {
+        if (roomRepo.findById(id).isEmpty()) {
             return null;
         }
         return roomRepo.save(newRoom);
     }
-    public void deleteRoom(Long id) throws RoomNotFoundException {
+
+    public void del(Long id) throws RoomNotFoundException {
         roomRepo.deleteById(id);
     }
-    //find room by keyword
-    public List <Room> getRoomBykeyword(String keyword) throws RoomNotFoundException {
+
+    public List<Room> getByKeyword(String keyword) {
         if (keyword != null) {
             return roomRepo.findByKeyword(keyword);
         }
         return roomRepo.findAll();
     }
+
     //find the same location room
-    public List <Room> getRoomByLocationId(Long locationId){
+    public List<Room> getRoomByLocationId(Long locationId) {
         if (locationId != null) {
             return roomRepo.findByLocationId(locationId);
         }
         return roomRepo.findAll();
     }
 
-    public List<Room> getRoomByRoomNameAndLocationId(Long id, String name) {
-        return roomRepo.findByRoomNameAndLocationId(id,name);
+    public List<Room> getByRoomNameAndLocationId(Long id, String name) {
+        return roomRepo.findByRoomNameAndLocationId(id, name);
     }
 
-    public List<Room> findRoomByAvailability(LocalDate date, LocalTime start, LocalTime end) {
-        return roomRepo.findRoomByAvailability(date,start,end);
-    };
+    public List<Room> findByAvailability(LocalDate date, LocalTime start, LocalTime end) {
+        return roomRepo.findRoomByAvailability(date, start, end);
+    }
+
+    ;
 }

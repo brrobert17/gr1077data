@@ -31,15 +31,15 @@ public class ImageServiceTest {
     void addImage() throws ImageNotFoundException {
         Image newImage = new Image();
         newImage = Image.builder().url("www2").caption("ccc2").build();
-        imageService.createImage(newImage);
-        Image image1 = imageService.findImageByCaption("caption");
+        imageService.create(newImage);
+        Image image1 = imageService.findByCaption("caption");
         Assertions.assertThat(image1.getUrl()).isEqualTo(newImage.getUrl());
     }
 
 
     @Test
     public void testListAll() {
-        Iterable<Image> images = imageService.findAllImages();
+        Iterable<Image> images = imageService.findAll();
         Assertions.assertThat(images).hasSizeGreaterThan(0);
         for (Image image : images
         ) {
@@ -49,23 +49,23 @@ public class ImageServiceTest {
 
     @Test
     public void testUpdate() throws ImageNotFoundException {
-        List<Image> images = imageService.findAllImages();
+        List<Image> images = imageService.findAll();
         int imageIndex = images.size() - 1;
         Image image1 = images.get(imageIndex);
         image1.setCaption("newCaption");
         imageRepo.save(image1);
-        System.out.println(imageService.findImageByCaption("newCaption"));
-        Assertions.assertThat(imageService.findImageByCaption("newCaption")).isNotNull();
+        System.out.println(imageService.findByCaption("newCaption"));
+        Assertions.assertThat(imageService.findByCaption("newCaption")).isNotNull();
     }
 
     @Test
     public void testGet() throws ImageNotFoundException {
-        Assertions.assertThat(imageService.findImageById(1L)).isNotNull();
+        Assertions.assertThat(imageService.findById(1L)).isNotNull();
     }
 
     @Test
     public void testDelete() {
-        List<Image> images = imageService.findAllImages();
+        List<Image> images = imageService.findAll();
         int imageIndex = images.size() - 1;
         Image image1 = images.get(imageIndex);
         Long id = image1.getId();

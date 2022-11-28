@@ -53,7 +53,7 @@ public class Event extends Page {
     @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Set<LinkSection> linkSectionSet;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Set<ImageSection> imageSectionSet;
 

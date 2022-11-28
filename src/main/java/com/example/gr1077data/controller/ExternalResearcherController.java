@@ -13,29 +13,29 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @AllArgsConstructor
+@RequestMapping("/externalResearchers")
 public class ExternalResearcherController {
     private final ExternalResearcherService externalResearcherService;
 
-    //get all external researches
-    @GetMapping("/externalResearchers")
-    public ResponseEntity<List<ExternalResearcher>> getAllExternalResearches() throws ExternalResearcherNotFoundException {
-        return new ResponseEntity<>(externalResearcherService.getAllExternalResearches(), HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<List<ExternalResearcher>> getAll() {
+        return new ResponseEntity<>(externalResearcherService.getAll(), HttpStatus.OK);
     }
-    @GetMapping("/externalResearchers/{id}")
-    public ResponseEntity<ExternalResearcher> getExternalResearchById(@PathVariable Long id) throws ExternalResearcherNotFoundException {
-        return new ResponseEntity<>(externalResearcherService.getExternalResearchById(id), HttpStatus.OK);
+    @GetMapping("{id}")
+    public ResponseEntity<ExternalResearcher> getById(@PathVariable Long id) throws ExternalResearcherNotFoundException {
+        return new ResponseEntity<>(externalResearcherService.getById(id), HttpStatus.OK);
     }
-    @PostMapping("/externalResearchers")
-    public ResponseEntity<ExternalResearcher> createExternalResearch(@RequestBody ExternalResearcher newExternalResearch) throws ExternalResearcherNotFoundException {
-        return new ResponseEntity<>(externalResearcherService.createExternalResearch(newExternalResearch), HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<ExternalResearcher> create(@RequestBody ExternalResearcher newExternalResearcher) {
+        return new ResponseEntity<>(externalResearcherService.create(newExternalResearcher), HttpStatus.CREATED);
     }
-    @DeleteMapping("/externalResearchers/{id}")
-    public ResponseEntity<ExternalResearcher> deleteExternalResearch(@PathVariable Long id) throws ExternalResearcherNotFoundException {
-        return new ResponseEntity<>(externalResearcherService.deleteExternalResearch(id), HttpStatus.OK);
+    @DeleteMapping("{id}")
+    public ResponseEntity<ExternalResearcher> del(@PathVariable Long id) throws ExternalResearcherNotFoundException {
+        return new ResponseEntity<>(externalResearcherService.del(id), HttpStatus.OK);
     }
-    @PutMapping("/externalResearchers/{id}")
-    public ResponseEntity<ExternalResearcher> updateExternalResearch(@PathVariable Long id, @RequestBody ExternalResearcher externalResearch) throws ExternalResearcherNotFoundException {
-        return new ResponseEntity<>(externalResearcherService.updateExternalResearch(id, externalResearch), HttpStatus.OK);
+    @PutMapping("{id}")
+    public ResponseEntity<ExternalResearcher> update(@PathVariable Long id, @RequestBody ExternalResearcher externalResearcher) throws ExternalResearcherNotFoundException {
+        return new ResponseEntity<>(externalResearcherService.update(id, externalResearcher), HttpStatus.OK);
     }
 
 }

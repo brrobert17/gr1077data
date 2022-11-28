@@ -1,7 +1,6 @@
 package com.example.gr1077data.serviceTest;
 
 import com.example.gr1077data.model.BlogPost;
-import com.example.gr1077data.model.ExternalResearcher;
 import com.example.gr1077data.model.Image;
 import com.example.gr1077data.model.Researcher;
 import com.example.gr1077data.repo.BlogPostRepo;
@@ -95,18 +94,18 @@ public class ResearcherServiceTest {
                 firstName("robo").lastName("baro").title("mro").
                 cv("cvo").email("emailo").profile("profileo").telephone("9770").
                 publications("publicationso").profileImage(image).build();
-        Long id = researcherService.saveResearcher(researcher).getId();
+        Long id = researcherService.save(researcher).getId();
         Assertions.assertThat(researcherRepo.findById(id).get().getProfile()).isEqualTo(researcher.getProfile());
     }
 
     @Test
     public void testListAll() {
-        Assertions.assertThat(researcherService.findAllResearchers()).hasSize(2);
+        Assertions.assertThat(researcherService.findAll()).hasSize(2);
     }
 
     @Test
     public void testGet() throws ResearcherNotFoundException {
-        Assertions.assertThat(researcherService.findResearcherById(2L)).isNotNull();
+        Assertions.assertThat(researcherService.getById(2L)).isNotNull();
     }
 
     @Test
