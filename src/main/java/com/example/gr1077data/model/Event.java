@@ -2,7 +2,6 @@ package com.example.gr1077data.model;
 
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,11 +9,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Event {
 
         @Id
@@ -60,8 +58,7 @@ public class Event {
                 inverseJoinColumns = @JoinColumn(name = "external_researcher_id"))
         private Set<ExternalResearcher> externalResearcherSet = new HashSet<>();
 
-        @OneToMany()
-        @JoinColumn(name = "participant_id", referencedColumnName = "id")
+        @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
         private Set<Participant> participantSet = new HashSet<>();
 
 }

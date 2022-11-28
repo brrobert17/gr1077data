@@ -1,5 +1,6 @@
 package com.example.gr1077data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,6 +33,11 @@ public class Participant {
 
     @Column(nullable = false, length = 255)
     private String affiliation;
+
+    @ManyToOne()
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    @JsonIgnore
+    Event event;
 
 
 }

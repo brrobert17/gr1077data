@@ -21,14 +21,16 @@ public class ImageServiceTest {
 
     @BeforeEach
     void setUp() {
-        Image image = new Image("www", "ccc");
+        Image image = new Image();
+        image = Image.builder().url("www").caption("ccc").build();
         imageRepo.deleteAll();
         imageRepo.save(image);
     }
 
     @Test
     void addImage() throws ImageNotFoundException {
-        Image newImage = new Image( "url", "caption");
+        Image newImage = new Image();
+        newImage = Image.builder().url("www2").caption("ccc2").build();
         imageService.saveImage(newImage);
         Image image1 = imageService.findImageByCaption("caption");
         Assertions.assertThat(image1.getUrl()).isEqualTo(newImage.getUrl());
