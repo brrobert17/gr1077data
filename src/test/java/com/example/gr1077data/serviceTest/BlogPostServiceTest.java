@@ -12,6 +12,7 @@ import com.example.gr1077data.service.BlogPostService;
 import com.example.gr1077data.service.ResearcherService;
 import com.example.gr1077data.service.exception.BlogPostNotFoundException;
 import com.example.gr1077data.service.exception.ResearcherNotFoundException;
+import com.example.gr1077data.service.exception.SectionsSequenceException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,11 +75,11 @@ public class BlogPostServiceTest {
                 firstName("dan2").lastName("sza2").title("mr2").email("email2").
                 profileLink("profileLink2").profileImage(image4).build();
 
-        blogPost = BlogPost.builder().title("mm").
+        /*blogPost = BlogPost.builder().title("mm").
                 description("hhh").build();
         blogPost2 = BlogPost.builder().title("kk").
                 description("jjj").build();
-        blogPost3 = BlogPost.builder().title("ee").description("rrr").build();
+        blogPost3 = BlogPost.builder().title("ee").description("rrr").build();*/
 
         blogPostSet.add(blogPost);
         blogPostSet.add(blogPost2);
@@ -103,9 +104,9 @@ public class BlogPostServiceTest {
     }
 
     @Test
-    void addBlogPost() throws BlogPostNotFoundException {
+    void addBlogPost() throws BlogPostNotFoundException, SectionsSequenceException {
         BlogPost blogPost = BlogPost.builder().title("mmNew").
-                description("hhhNew").build();
+                /*description("hhhNew").*/build();
         blogPostService.saveBlogPost(blogPost);
         BlogPost blogPost1 = blogPostService.findBlogPostByTitle("mmNew");
         Assertions.assertThat(blogPost1.getTitle()).isEqualTo(blogPost.getTitle());

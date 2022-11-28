@@ -1,18 +1,22 @@
 package com.example.gr1077data.service;
 
-import com.example.gr1077data.model.BlogPost;
+import com.example.gr1077data.model.*;
 import com.example.gr1077data.repo.BlogPostRepo;
 import com.example.gr1077data.service.exception.BlogPostNotFoundException;
+import com.example.gr1077data.service.exception.SectionsSequenceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
 public class BlogPostService {
 
     final BlogPostRepo blogPostRepo;
+    final SectionService<BlogPost> sectionService;
 
     public List<BlogPost> findAllBlogPosts() {
         return blogPostRepo.findAll();
@@ -34,9 +38,9 @@ public class BlogPostService {
         return optionalBlogPost.get();
     }
 
-    public BlogPost saveBlogPost(BlogPost blogPost) {
-        blogPostRepo.save(blogPost);
-        return blogPost;
+    public BlogPost saveBlogPost(BlogPost blogPost) throws SectionsSequenceException {
+        if (!(sectionService.isSequenceValid(blogPost))) throw new SectionsSequenceException("Invalid sections sequence");
+        return blogPostRepo.save(blogPost);
     }
 
     public BlogPost deleteBlogPostById(Long id) throws BlogPostNotFoundException{
@@ -48,10 +52,13 @@ public class BlogPostService {
         return optionalBlogPost.get();
     }
 
-    public BlogPost updateBlogPost(Long id, BlogPost blogPost) {
+    public BlogPost updateBlogPost(Long id, BlogPost blogPost) throws SectionsSequenceException {
+        if (!(sectionService.isSequenceValid(blogPost))) throw new SectionsSequenceException("Invalid sections sequence");
         if(blogPostRepo.findById(id).isEmpty()){
             return null;
         }
         return blogPostRepo.save(blogPost);
     }
+
+    // Adam's weird stuff
 }

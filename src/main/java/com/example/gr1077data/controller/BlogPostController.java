@@ -3,6 +3,7 @@ package com.example.gr1077data.controller;
 import com.example.gr1077data.model.BlogPost;
 import com.example.gr1077data.service.BlogPostService;
 import com.example.gr1077data.service.exception.BlogPostNotFoundException;
+import com.example.gr1077data.service.exception.SectionsSequenceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class BlogPostController {
     }
 
     @PostMapping
-    public ResponseEntity<BlogPost> saveBlogPost(@RequestBody BlogPost blogPost) {
+    public ResponseEntity<BlogPost> saveBlogPost(@RequestBody BlogPost blogPost) throws SectionsSequenceException {
         return new ResponseEntity<>(blogPostService.saveBlogPost(blogPost),HttpStatus.CREATED);
     }
 
@@ -50,8 +51,8 @@ public class BlogPostController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<BlogPost> updateBlogPost(@PathVariable Long id, @RequestBody BlogPost blogPost) {
-        if(id==null || id <=0) {
+    public ResponseEntity<BlogPost> updateBlogPost(@PathVariable Long id, @RequestBody BlogPost blogPost) throws SectionsSequenceException {
+        if(id == null || id <= 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(blogPostService.updateBlogPost(id, blogPost), HttpStatus.OK);

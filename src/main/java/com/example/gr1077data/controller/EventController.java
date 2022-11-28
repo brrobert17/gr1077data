@@ -1,9 +1,11 @@
 package com.example.gr1077data.controller;
 
 import com.example.gr1077data.model.Event;
+import com.example.gr1077data.repo.EventRepo;
 import com.example.gr1077data.service.*;
 import com.example.gr1077data.service.exception.EventNotFoundException;
-import com.example.gr1077data.service.exception.RoomNotFoundException;
+import com.example.gr1077data.service.exception.SectionsSequenceException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,18 +15,9 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-
+@AllArgsConstructor
 public class EventController {
     private final EventService eventService;
-    private final RoomService roomService;
-
-    private final ImageService imageService;
-    @Autowired
-    public EventController(EventService eventService, RoomService roomService, ImageService imageService) {
-        this.eventService = eventService;
-        this.roomService = roomService;
-        this.imageService = imageService;
-    }
 
 
 
@@ -43,50 +36,22 @@ public class EventController {
     }
     //creat events
     @PostMapping("/events")
-    public ResponseEntity<Event> createEvent(@RequestBody Event newEvent) throws RoomNotFoundException {
-        //check if booking is possible or not with ActivityIsAvailable
-
-        if (eventService.checkRoomIsAvailablePost(newEvent.getRoom().getId(), newEvent.getDate(), newEvent.getStartTime(), newEvent.getEndTime())
-                && eventService.checkTime(newEvent)){
-            Event event = eventService.createEvent(newEvent, newEvent.getRoom().getId());
-            return new ResponseEntity<> (event,HttpStatus.CREATED);
-        }
-        else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Event> createEvent(@RequestBody Event newEvent) throws EventNotFoundException, SectionsSequenceException {
+        return new ResponseEntity<>(eventService.createEvent(newEvent), HttpStatus.CREATED);
     }
-
     @DeleteMapping("/events/{id}")
     public ResponseEntity<Event> deleteEvent(@PathVariable Long id) throws EventNotFoundException {
         return new ResponseEntity<>(eventService.deleteEvent(id), HttpStatus.OK);
     }
     @PutMapping("/events/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable ("id") Long eventId, @RequestBody Event event) throws EventNotFoundException
-
-    {
-
-        System.out.println("Here comes the  " + event.getRoom().getId());
-        System.out.println("Here comes the  " + event.getDate());
-        System.out.println("Here comes the  " + event.getStartTime());
-        System.out.println("Here comes the  " + event.getEndTime());
-
-        if (eventService.checkRoomIsAvailablePut(event.getRoom().getId(),eventId, event.getDate(), event.getStartTime(), event.getEndTime())&&
-                eventService.checkTime(event)) {
-            Event updatedEvent = eventService.updateEvent(eventId, event);
-            System.out.println(updatedEvent.getRoom().getLocation().getAddress());
-            return new ResponseEntity<>(updatedEvent, HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
+    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event event) throws EventNotFoundException, SectionsSequenceException {
+        return new ResponseEntity<>(eventService.updateEvent(id, event), HttpStatus.OK);
     }
     //search events
-    @GetMapping(value="/events", params = "keyword")
-    public ResponseEntity<List<Event>> searchEvents(@RequestParam ("keyword")String keyword) throws EventNotFoundException {
-        return new ResponseEntity<>(eventService.searchEvents(eventService.getAllEvents(),keyword), HttpStatus.OK);
+    @GetMapping("/events/search")
+    public ResponseEntity<List<Event>> searchEvents(@RequestParam String search) throws EventNotFoundException {
+        return new ResponseEntity<>(eventService.searchEvent(search), HttpStatus.OK);
     }
-    //find by keyword and put it in list of customers
 
 
 

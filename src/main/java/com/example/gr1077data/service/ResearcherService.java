@@ -6,6 +6,7 @@ import com.example.gr1077data.repo.BlogPostRepo;
 import com.example.gr1077data.repo.ImageRepo;
 import com.example.gr1077data.repo.ResearcherRepo;
 import com.example.gr1077data.service.exception.ResearcherNotFoundException;
+import com.example.gr1077data.service.exception.SectionsSequenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +22,14 @@ public class ResearcherService {
 
     private final BlogPostRepo blogPostRepo;
 
+    private final SectionService<Researcher> sectionService;
+
     @Autowired
-    public ResearcherService(ResearcherRepo researcherRepo, ImageRepo imageRepo, BlogPostRepo blogPostRepo) {
+    public ResearcherService(ResearcherRepo researcherRepo, ImageRepo imageRepo, BlogPostRepo blogPostRepo, SectionService<Researcher> sectionService) {
         this.researcherRepo = researcherRepo;
         this.imageRepo = imageRepo;
         this.blogPostRepo = blogPostRepo;
+        this.sectionService = sectionService;
     }
 
     public List<Researcher> findAllResearchers() {
@@ -44,8 +48,9 @@ public class ResearcherService {
         return researcherRepo.findResearcherByName(name);
     }
 
-    public Researcher saveResearcher(Researcher researcher) {
+    public Researcher saveResearcher(Researcher researcher) throws SectionsSequenceException {
         //Researcher checkedResearcher = checkImageAndArticle(researcher);
+        if (!(sectionService.isSequenceValid(researcher))) throw new SectionsSequenceException("Invalid sections sequence");
         return researcherRepo.save(researcher);
     }
 

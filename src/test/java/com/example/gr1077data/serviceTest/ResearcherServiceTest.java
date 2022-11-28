@@ -12,6 +12,7 @@ import com.example.gr1077data.service.BlogPostService;
 import com.example.gr1077data.service.ResearcherService;
 import com.example.gr1077data.service.exception.BlogPostNotFoundException;
 import com.example.gr1077data.service.exception.ResearcherNotFoundException;
+import com.example.gr1077data.service.exception.SectionsSequenceException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,11 +63,11 @@ public class ResearcherServiceTest {
                 cv("cv2").email("email2").profile("profile2").telephone("9772").
                 publications("publications2").profileImage(image2).build();
 
-        blogPost = BlogPost.builder().title("mm").
+        /*blogPost = BlogPost.builder().title("mm").
                 description("hhh").build();
         blogPost2 = BlogPost.builder().title("kk").
                 description("jjj").build();
-        blogPost3 = BlogPost.builder().title("ee").description("rrr").build();
+        blogPost3 = BlogPost.builder().title("ee").description("rrr").build();*/
 
         blogPostSet.add(blogPost);
         blogPostSet.add(blogPost2);
@@ -88,7 +89,7 @@ public class ResearcherServiceTest {
     }
 
     @Test
-    void addResearcher() throws ResearcherNotFoundException {
+    void addResearcher() throws ResearcherNotFoundException, SectionsSequenceException {
         image = Image.builder().url("newww").caption("newwww").build();
         researcher = Researcher.builder().
                 firstName("robo").lastName("baro").title("mro").

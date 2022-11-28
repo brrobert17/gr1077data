@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Researcher {
+public class Researcher extends Page {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +49,18 @@ public class Researcher {
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     //@Column(nullable = false)
     private Image profileImage;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "researcher_id", referencedColumnName = "id")
+    private Set<ParagraphSection> paragraphSectionSet;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "researcher_id", referencedColumnName = "id")
+    private Set<LinkSection> linkSectionSet;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "researcher_id", referencedColumnName = "id")
+    private Set<ImageSection> imageSectionSet;
 
     @ManyToMany(mappedBy = "researcherSet", fetch = FetchType.EAGER)
     @JsonIgnore
