@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SpringBootTest
@@ -74,7 +75,8 @@ public class EventServiceTest {
         image = Image.builder().url("www2").caption("ccc2").build();
         event = Event.builder().image(image).date(LocalDate.of(2022,12,31))
                 .description("eve").startTime(LocalTime.of(10,0,0))
-                .endTime(LocalTime.of(14,0,0)).room(room).name("event").build();
+                .endTime(LocalTime.of(14,0,0)).room(room)
+                .name("event").researcherSet(researcherSet).build();
         eventRepo.save(event);
         participant = Participant.builder().firstName("fName")
                 .lastName("lName").email("email").title("title").affiliation("expert")
@@ -84,7 +86,8 @@ public class EventServiceTest {
         image = Image.builder().url("www23").caption("ccc23").build();
         event = Event.builder().image(image).date(LocalDate.of(2023,12,31))
                 .description("eve2").startTime(LocalTime.of(10,0,0))
-                .endTime(LocalTime.of(14,0,0)).room(room).name("event2").build();
+                .endTime(LocalTime.of(14,0,0))
+                .room(room).externalResearcherSet(externalResearcherSet).name("event2").build();
         eventRepo.save(event);
         participant = Participant.builder().firstName("fName2")
                 .lastName("lName2").email("email2").title("title2").affiliation("expert2")
@@ -96,6 +99,27 @@ public class EventServiceTest {
     @Test
     void all() throws EventNotFoundException {
         Assertions.assertThat(eventService.getAllEvents()).hasSize(2).doesNotContainNull();
+    }
+
+    @Test
+    void create() throws EventNotFoundException {
+
+        image = Image.builder().url("www234").caption("ccc234").build();
+        event = Event.builder().image(image).date(LocalDate.of(2023,11,3))
+                .description("eve24").startTime(LocalTime.of(10,0,0))
+                .endTime(LocalTime.of(14,0,0))
+                .room(room).researcherSet(researcherSet).name("event24").build();
+        eventRepo.save(event);
+        participant = Participant.builder().firstName("fName24")
+                .lastName("lName24").email("email24").title("title24").affiliation("expert24")
+                .event(event).build();
+        participantRepo.save(participant);
+        List<Event> events = eventRepo.findAll();
+        int eventIndex = events.size() - 1;
+        Event event = events.get(eventIndex);
+        Long id = event.getId();
+        Assertions.assertThat(eventService.getEventById(id).getParticipantSet()).isNotNull();
+
     }
 
 }
