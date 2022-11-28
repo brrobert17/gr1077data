@@ -1,14 +1,15 @@
 package com.example.gr1077data.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -18,7 +19,7 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter(AccessLevel.NONE)
+
     private Long id;
 
     @Column(nullable = false, length = 255)
@@ -29,6 +30,11 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name = "location_id", referencedColumnName = "id")
-    @JsonIgnore
+
     private Location location;
+
+    @OneToMany
+    @JoinColumn(name = "room_id",referencedColumnName = "id")
+    @JsonIgnore
+    private Set<Event> events = new HashSet<>();
 }

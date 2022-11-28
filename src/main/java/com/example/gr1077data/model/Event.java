@@ -1,19 +1,20 @@
 package com.example.gr1077data.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
+
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Event extends Page {
@@ -32,7 +33,7 @@ public class Event extends Page {
 
     //does JPA know?
     @Column(nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat( pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     @Column(nullable = false)
@@ -42,6 +43,7 @@ public class Event extends Page {
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "HH:mm:ss")
+
     private LocalTime endTime;
 
     @OneToMany(cascade = CascadeType.PERSIST)
@@ -58,7 +60,7 @@ public class Event extends Page {
 
 
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 

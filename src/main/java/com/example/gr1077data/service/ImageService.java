@@ -35,7 +35,7 @@ public class ImageService {
         return optionalImage.get();
     }
 
-    public Image saveImage(Image image) {
+    public Image createImage(Image image) {
         return imageRepo.save(image);
     }
 
