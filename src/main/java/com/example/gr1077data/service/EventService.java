@@ -75,25 +75,7 @@ public class EventService {
         }
         return true;
     }
-    //search event by date,used in event controller
-    public List<Event> searchEvents(List<Event> bookingList,String date) {
-        List<Event> searchList = new ArrayList<>();
 
-        String[] result = date.split("-");
-        int year = Integer.parseInt(result[0]);
-        int month = Integer.parseInt(result[1]);
-        int day = Integer.parseInt(result[2]);
-
-        LocalDate localDate = LocalDate.of(year, month, day);
-
-        for (Event booking : bookingList
-        ) {
-            if (booking.getDate().isEqual(localDate)) {
-                searchList.add(booking);
-            }
-        }
-        return searchList;
-    }
 
 
     public boolean checkRoomIsAvailablePost(Long roomId, LocalDate date, LocalTime startTime, LocalTime endTime) {

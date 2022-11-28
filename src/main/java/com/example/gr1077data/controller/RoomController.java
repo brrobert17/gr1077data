@@ -5,12 +5,13 @@ import com.example.gr1077data.model.Room;
 import com.example.gr1077data.service.EventService;
 import com.example.gr1077data.service.RoomService;
 import com.example.gr1077data.service.exception.RoomNotFoundException;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -41,25 +42,10 @@ public class RoomController {
     // Endpoint to implement
     // GET /rooms ? availableDate=11-12-2022 & availableStart=11:00 & availableEnd=12:00
     // Get all room that are available on the specified date, start and end time
-    @GetMapping("/rooms")
-    public List<Room> getAvailableRooms(@RequestParam("availableDate") String date,
-                                        @RequestParam("availableStart") String start,
-                                        @RequestParam("availableEnd") String end) {
-        return roomService.getAvailableRooms(availableDate, availableStart, availableEnd);
-    }
-
-    @GetMapping("/rooms/{id}/events")
-    public List<Event> getRoomByEventId(@PathVariable("id") Long id, @RequestParam(name="date") List date) throws RoomNotFoundException {
-        return eventService.searchEvents(
-                roomService.getRoomById(id)
-                        .getEvents()
-                        .stream()
-                        .toList(),
-                date.toString()
-        );
 
 
-    }
+
+
     @PostMapping("/rooms")
     public ResponseEntity<Room> createRoom(@RequestBody Room newRoom) throws RoomNotFoundException {
         Room room = roomService.createRoom(newRoom);

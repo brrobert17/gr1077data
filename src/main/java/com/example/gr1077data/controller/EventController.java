@@ -81,10 +81,8 @@ public class EventController {
 
      }
     //search events
-    @GetMapping(value="/events", params = "keyword")
-    public ResponseEntity<List<Event>> searchEvents(@RequestParam ("keyword")String keyword) throws EventNotFoundException {
-        return new ResponseEntity<>(eventService.searchEvents(eventService.getAllEvents(),keyword), HttpStatus.OK);
-    }
+
+
     //find by keyword and put it in list of customers
 
 
