@@ -35,7 +35,7 @@ public class Participant {
     private String affiliation;
 
     @ManyToOne()
-    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    @JoinColumn(name = "event_id")
     @JsonIgnore
     Event event;
 

@@ -38,17 +38,17 @@ public class LocationServiceTest {
 
         location = Location.builder().address("street1").build();
         locationRepo.save(location);
-        room = Room.builder().name("r1").location(location).build();
+        room = Room.builder().name("r1").capacity("3").location(location).build();
         roomSet.add(room);
-        room = Room.builder().name("r2").location(location).build();
+        room = Room.builder().name("r2").capacity("3").location(location).build();
         roomSet.add(room);
 
 
         location = Location.builder().address("street2").build();
         locationRepo.save(location);
-        room = Room.builder().name("r3").location(location).build();
+        room = Room.builder().name("r3").capacity("3").location(location).build();
         roomSet.add(room);
-        room = Room.builder().name("r4").location(location).build();
+        room = Room.builder().name("r4").capacity("2").location(location).build();
         roomSet.add(room);
         roomRepo.saveAll(roomSet);
 
@@ -57,8 +57,8 @@ public class LocationServiceTest {
     @Test
     void add() throws LocationNotFoundException {
         roomSet = new HashSet<>();
-        roomSet.add(Room.builder().location(location).name("r5").build());
-        roomSet.add(Room.builder().location(location).name("r6").build());
+        roomSet.add(Room.builder().location(location).capacity("2").name("r5").build());
+        roomSet.add(Room.builder().location(location).capacity("2").name("r6").build());
         location = Location.builder().address("street3").roomSet(roomSet).build();
         locationRepo.save(location);
         Assertions.assertThat(locationService.getByAddress("street3")).isNotNull();

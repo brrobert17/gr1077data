@@ -48,7 +48,6 @@ public class Researcher extends Page {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
-    //@Column(nullable = false)
     private Image profileImage;
 
     @OneToMany(cascade = CascadeType.PERSIST)

@@ -4,6 +4,7 @@ import com.example.gr1077data.model.*;
 import com.example.gr1077data.repo.*;
 import com.example.gr1077data.service.*;
 import com.example.gr1077data.service.exception.EventNotFoundException;
+import com.example.gr1077data.service.exception.SectionsSequenceException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,6 @@ public class EventServiceTest {
     @BeforeEach
     void setUp(){
         participantRepo.deleteAll();
-        imageRepo.deleteAll();
         eventRepo.deleteAll();
         roomRepo.deleteAll();
         researcherRepo.deleteAll();
@@ -118,14 +118,14 @@ public class EventServiceTest {
     }
 
     @Test
-    void create() throws EventNotFoundException {
+    void create() throws EventNotFoundException, SectionsSequenceException {
 
-        image = Image.builder().url("www234").caption("ccc234").build();
+        image = Image.builder().url("www2e34").caption("ccc2e34").build();
         event = Event.builder().image(image).date(LocalDate.of(2023,11,3))
                 .startTime(LocalTime.of(10,0,0))
                 .endTime(LocalTime.of(14,0,0))
                 .room(room).researcherSet(researcherSet).name("event24").build();
-        eventRepo.save(event);
+        eventService.create(event);
         participant = Participant.builder().firstName("fName24")
                 .lastName("lName24").email("email24").title("title24").affiliation("expert24")
                 .event(event).build();
@@ -135,6 +135,27 @@ public class EventServiceTest {
         Event event = events.get(eventIndex);
         Long id = event.getId();
         Assertions.assertThat(eventService.getById(id).getParticipantSet()).isNotNull();
+
+    }
+
+    @Test
+    void update() throws EventNotFoundException, SectionsSequenceException {
+        List<Event> events = eventRepo.findAll();
+        int eventIndex = events.size() - 1;
+        Event event = events.get(eventIndex);
+        Long id = event.getId();
+        event.setName("newEventName");
+        Assertions.assertThat(eventService.update(id, event).getName()).isEqualTo("newEventName");
+    }
+
+    @Test
+    void del() throws EventNotFoundException {
+        List<Event> events = eventRepo.findAll();
+        int eventIndex = events.size() - 1;
+        Event event = events.get(eventIndex);
+        Long id = event.getId();
+        eventService.del(id);
+        Assertions.assertThat(eventRepo.findById(id)).isNotPresent();
 
     }
 

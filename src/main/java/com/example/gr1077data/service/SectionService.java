@@ -20,21 +20,27 @@ public class SectionService <T extends Page> {
     public boolean isSequenceValid(T page) {
         List<Integer> sequence = new ArrayList<Integer>();
 
-        sequence.addAll(
-                page.getLinkSectionSet().stream()
-                        .map(LinkSection::getSeq)
-                        .collect(Collectors.toList())
-        );
-        sequence.addAll(
-                page.getImageSectionSet().stream()
-                        .map(ImageSection::getSeq)
-                        .collect(Collectors.toList())
-        );
-        sequence.addAll(
-                page.getParagraphSectionSet().stream()
-                        .map(ParagraphSection::getSeq)
-                        .collect(Collectors.toList())
-        );
+        if (page.getLinkSectionSet()!=null) {
+            sequence.addAll(
+                    page.getLinkSectionSet().stream()
+                            .map(LinkSection::getSeq)
+                            .collect(Collectors.toList())
+            );
+        }
+        if(page.getImageSectionSet()!=null){
+            sequence.addAll(
+                    page.getImageSectionSet().stream()
+                            .map(ImageSection::getSeq)
+                            .collect(Collectors.toList())
+            );
+        }
+        if (page.getParagraphSectionSet()!=null) {
+            sequence.addAll(
+                    page.getParagraphSectionSet().stream()
+                            .map(ParagraphSection::getSeq)
+                            .collect(Collectors.toList())
+            );
+        }
 
         Set<Integer> sequenceSet = new HashSet<>(sequence);
         return sequenceSet.size() == sequence.size();

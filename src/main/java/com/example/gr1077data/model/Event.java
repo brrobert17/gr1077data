@@ -30,30 +30,27 @@ public class Event extends Page {
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private Room room;
 
-    //does JPA know?
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "HH:mm:ss")
-
     private LocalTime startTime;
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "HH:mm:ss")
-
     private LocalTime endTime;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Set<ParagraphSection> paragraphSectionSet;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Set<LinkSection> linkSectionSet;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Set<ImageSection> imageSectionSet;
 
@@ -74,8 +71,8 @@ public class Event extends Page {
             inverseJoinColumns = @JoinColumn(name = "external_researcher_id"))
     private Set<ExternalResearcher> externalResearcherSet = new HashSet<>();
 
-    @OneToMany()
-    @JoinColumn(name = "participant_id", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Set<Participant> participantSet = new HashSet<>();
 
 }

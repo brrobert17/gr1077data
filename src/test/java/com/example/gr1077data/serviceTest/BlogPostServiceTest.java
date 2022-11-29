@@ -1,9 +1,6 @@
 package com.example.gr1077data.serviceTest;
 
-import com.example.gr1077data.model.BlogPost;
-import com.example.gr1077data.model.ExternalResearcher;
-import com.example.gr1077data.model.Image;
-import com.example.gr1077data.model.Researcher;
+import com.example.gr1077data.model.*;
 import com.example.gr1077data.repo.BlogPostRepo;
 import com.example.gr1077data.repo.ExternalResearcherRepo;
 import com.example.gr1077data.repo.ImageRepo;
@@ -37,75 +34,60 @@ public class BlogPostServiceTest {
     @Autowired
     ExternalResearcherRepo externalResearcherRepo;
     Image image;
-    Image image2;
-    Image image3;
-    Image image4;
     Researcher researcher;
-    Researcher researcher2;
     ExternalResearcher externalResearcher;
-    ExternalResearcher externalResearcher2;
     BlogPost blogPost;
-    BlogPost blogPost2;
-    BlogPost blogPost3;
     Set<BlogPost> blogPostSet = new HashSet<>();
-    Set<BlogPost> blogPostSet2 = new HashSet<>();
+    ParagraphSection paragraphSection;
+    ImageSection imageSection;
+    LinkSection linkSection;
+
+    Set<Researcher> researcherSet = new HashSet<>();
+    Set<ExternalResearcher> externalResearcherSet = new HashSet<>();
+    Set<ParagraphSection> paragraphSectionSet = new HashSet<>();
+    Set<ImageSection> imageSectionSet = new HashSet<>();
+    Set<LinkSection> linkSectionSet = new HashSet<>();
 
 
     @BeforeEach
     void setUp() {
-        image = Image.builder().url("www").caption("ccc").build();
-        image2 = Image.builder().url("www2").caption("ccc2").build();
-        image3 = Image.builder().url("www3").caption("ccc3").build();
-        image4 = Image.builder().url("www4").caption("ccc4").build();
-
-        researcher = Researcher.builder().
-                firstName("rob").lastName("bar").title("mr").
-                cv("cv").email("email").profile("profile").telephone("977").
-                publications("publications").profileImage(image).build();
-        researcher2 = Researcher.builder().
-                firstName("rob2").lastName("bar2").title("mr2").
-                cv("cv2").email("email2").profile("profile2").telephone("9772").
-                publications("publications2").profileImage(image2).build();
-
-        externalResearcher = ExternalResearcher.builder().
-                firstName("dan").lastName("sza").title("mr").email("email").
-                profileLink("profileLink").profileImage(image3).build();
-        externalResearcher2 = ExternalResearcher.builder().
-                firstName("dan2").lastName("sza2").title("mr2").email("email2").
-                profileLink("profileLink2").profileImage(image4).build();
-
-        /*blogPost = BlogPost.builder().title("mm").
-                description("hhh").build();
-        blogPost2 = BlogPost.builder().title("kk").
-                description("jjj").build();
-        blogPost3 = BlogPost.builder().title("ee").description("rrr").build();*/
-
-        blogPostSet.add(blogPost);
-        blogPostSet.add(blogPost2);
-        blogPostSet2.add(blogPost2);
-        blogPostSet2.add(blogPost3);
-
-        researcher.setBlogPostSet(blogPostSet);
-        externalResearcher.setBlogPostSet(blogPostSet2);
-
         blogPostRepo.deleteAll();
         researcherRepo.deleteAll();
         externalResearcherRepo.deleteAll();
 
+        paragraphSection = ParagraphSection.builder().heading("hh").build();
+        paragraphSectionSet.add(paragraphSection);
+        image = Image.builder().url("www29").caption("ccc29").build();
+        imageSection = ImageSection.builder().altText("txt").image(image).build();
+        imageSectionSet.add(imageSection);
+        linkSection = LinkSection.builder().link("www.kk").build();
+        linkSectionSet.add(linkSection);
+
+        image = Image.builder().url("www").caption("ccc").build();
+        researcher = Researcher.builder().
+                firstName("rob").lastName("bar").title("mr").
+                cv("cv").email("email").profile("profile").telephone("977").
+                publications("publications").profileImage(image).build();
+        researcherSet.add(researcher);
+
+        image = Image.builder().url("www2").caption("ccc2").build();
+        externalResearcher = ExternalResearcher.builder().
+                firstName("dan").lastName("sza").title("mr").email("email").
+                profileLink("profileLink").profileImage(image).build();
+        externalResearcherSet.add(externalResearcher);
+
+        blogPost = BlogPost.builder().title("mm").researcherSet(researcherSet)
+                .externalResearcherSet(externalResearcherSet).imageSectionSet(imageSectionSet)
+                .linkSectionSet(linkSectionSet).paragraphSectionSet(paragraphSectionSet).build();
+
         researcherRepo.save(researcher);
-        researcherRepo.save(researcher2);
         externalResearcherRepo.save(externalResearcher);
-        externalResearcherRepo.save(externalResearcher2);
         blogPostRepo.save(blogPost);
-        blogPostRepo.save(blogPost2);
-        blogPostRepo.save(blogPost3);
-        System.out.println(blogPostRepo.findAll());
     }
 
     @Test
     void addBlogPost() throws BlogPostNotFoundException, SectionsSequenceException {
-        BlogPost blogPost = BlogPost.builder().title("mmNew").
-                /*description("hhhNew").*/build();
+        BlogPost blogPost = BlogPost.builder().title("mmNew").build();
         blogPostService.create(blogPost);
         BlogPost blogPost1 = blogPostService.findByTitle("mmNew");
         Assertions.assertThat(blogPost1.getTitle()).isEqualTo(blogPost.getTitle());
@@ -113,12 +95,12 @@ public class BlogPostServiceTest {
 
     @Test
     public void testListAll() {
-        Assertions.assertThat(blogPostService.getAll()).hasSize(3);
+        Assertions.assertThat(blogPostService.getAll()).hasSize(1);
     }
 
     @Test
     public void testGet() throws BlogPostNotFoundException {
-        Assertions.assertThat(blogPostService.findById(5L)).isNotNull();
+        Assertions.assertThat(blogPostService.findById(3L)).isNotNull();
     }
 
     @Test

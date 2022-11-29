@@ -32,8 +32,8 @@ public class ImageServiceTest {
         Image newImage = new Image();
         newImage = Image.builder().url("www2").caption("ccc2").build();
         imageService.create(newImage);
-        Image image1 = imageService.findByCaption("caption");
-        Assertions.assertThat(image1.getUrl()).isEqualTo(newImage.getUrl());
+        Image image1 = imageService.findByCaption("ccc2");
+        Assertions.assertThat(image1.getCaption()).isEqualTo(newImage.getCaption());
     }
 
 

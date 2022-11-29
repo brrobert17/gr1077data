@@ -26,27 +26,16 @@ import java.util.Set;
 public class ResearcherServiceTest {
 
     @Autowired
-    BlogPostService blogPostService;
-    @Autowired
-    BlogPostRepo blogPostRepo;
-    @Autowired
     ImageRepo imageRepo;
     @Autowired
     ResearcherRepo researcherRepo;
     @Autowired
     ResearcherService researcherService;
-    @Autowired
-    ExternalResearcherRepo externalResearcherRepo;
+
     Image image;
     Image image2;
     Researcher researcher;
     Researcher researcher2;
-    BlogPost blogPost;
-    BlogPost blogPost2;
-    BlogPost blogPost3;
-    Set<BlogPost> blogPostSet = new HashSet<>();
-    Set<BlogPost> blogPostSet2 = new HashSet<>();
-
 
     @BeforeEach
     void setUp() {
@@ -62,29 +51,11 @@ public class ResearcherServiceTest {
                 cv("cv2").email("email2").profile("profile2").telephone("9772").
                 publications("publications2").profileImage(image2).build();
 
-        /*blogPost = BlogPost.builder().title("mm").
-                description("hhh").build();
-        blogPost2 = BlogPost.builder().title("kk").
-                description("jjj").build();
-        blogPost3 = BlogPost.builder().title("ee").description("rrr").build();*/
-
-        blogPostSet.add(blogPost);
-        blogPostSet.add(blogPost2);
-        blogPostSet2.add(blogPost2);
-        blogPostSet2.add(blogPost3);
-
-        researcher.setBlogPostSet(blogPostSet);
-        researcher2.setBlogPostSet(blogPostSet2);
-
-        blogPostRepo.deleteAll();
         researcherRepo.deleteAll();
 
         researcherRepo.save(researcher);
         researcherRepo.save(researcher2);
-        blogPostRepo.save(blogPost);
-        blogPostRepo.save(blogPost2);
-        blogPostRepo.save(blogPost3);
-        //System.out.println(researcherRepo.findAll());
+
     }
 
     @Test
@@ -95,7 +66,7 @@ public class ResearcherServiceTest {
                 cv("cvo").email("emailo").profile("profileo").telephone("9770").
                 publications("publicationso").profileImage(image).build();
         Long id = researcherService.save(researcher).getId();
-        Assertions.assertThat(researcherRepo.findById(id).get().getProfile()).isEqualTo(researcher.getProfile());
+        Assertions.assertThat(researcherRepo.findById(id)).isNotEmpty();
     }
 
     @Test
