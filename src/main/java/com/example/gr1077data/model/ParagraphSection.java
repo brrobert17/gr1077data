@@ -25,7 +25,7 @@ public class ParagraphSection extends Section {
     @Column
     private String heading;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String text;
 
 }
