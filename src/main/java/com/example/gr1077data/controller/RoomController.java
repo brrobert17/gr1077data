@@ -15,7 +15,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin (origins = "http://localhost:3000")
 
 public class RoomController {
 
