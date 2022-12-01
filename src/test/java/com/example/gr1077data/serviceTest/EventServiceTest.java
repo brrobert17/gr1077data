@@ -80,11 +80,11 @@ public class EventServiceTest {
         researcherRepo.save(researcher);
 
         image = Image.builder().url("www29").caption("ccc29").build();
-        paragraphSection = ParagraphSection.builder().heading("hh").build();
+        paragraphSection = ParagraphSection.builder().heading("hh").seq(1).text("exampleText").build();
         paragraphSectionSet.add(paragraphSection);
-        imageSection = ImageSection.builder().altText("txt").image(image).build();
+        imageSection = ImageSection.builder().altText("txt").seq(2).image(image).build();
         imageSectionSet.add(imageSection);
-        linkSection = LinkSection.builder().link("www.kk").build();
+        linkSection = LinkSection.builder().link("www.kk").seq(3).text("linkText").build();
         linkSectionSet.add(linkSection);
         image = Image.builder().url("www27").caption("ccc27").build();
         event = Event.builder().image(image).date(LocalDate.of(2022,12,31))

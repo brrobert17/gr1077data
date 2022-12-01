@@ -19,13 +19,13 @@ public class ParagraphSection extends Section {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private int seq;
 
     @Column
     private String heading;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String text;
 
 }

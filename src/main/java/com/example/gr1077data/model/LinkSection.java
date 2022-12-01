@@ -19,12 +19,12 @@ public class LinkSection extends Section {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private int seq;
 
-    @Column
+    @Column(nullable = false)
     private String text;
 
-    @Column
+    @Column(nullable = false)
     private String link;
 }

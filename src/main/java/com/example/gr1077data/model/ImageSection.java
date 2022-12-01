@@ -19,13 +19,13 @@ public class ImageSection extends Section {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private int seq;
 
     @Column
     private String altText;
 
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    @JoinColumn(name = "image_id", referencedColumnName = "id", nullable = false)
     private Image image;
 }
