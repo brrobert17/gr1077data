@@ -2,15 +2,14 @@ package com.example.gr1077data.service;
 
 import com.example.gr1077data.model.Event;
 import com.example.gr1077data.repo.EventRepo;
+import com.example.gr1077data.service.enums.EventState;
 import com.example.gr1077data.service.exception.EventNotFoundException;
 import com.example.gr1077data.service.exception.SectionsSequenceException;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -95,6 +94,27 @@ public class EventService {
             }
         }
         return true;
+    }
+
+    public List<Event> getByState(EventState state) throws EventNotFoundException {
+        List<Event> events = eventRepo.findAll();
+        if(state == EventState.PAST) {
+            return events.stream()
+                    .filter(item ->
+                            item.getDate().isBefore(LocalDate.now()))
+                    .collect(Collectors.toList());
+
+        }
+        if(state == EventState.UPCOMING) {
+            return events.stream()
+                    .filter(item ->
+                            (
+                                    item.getDate().isAfter(LocalDate.now()))
+                                    || item.getDate().isEqual(LocalDate.now())
+                            )
+                    .collect(Collectors.toList());
+        }
+        throw new EventNotFoundException("Something went wrong");
     }
 
 }

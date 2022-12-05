@@ -2,6 +2,7 @@ package com.example.gr1077data.controller;
 
 import com.example.gr1077data.model.Event;
 import com.example.gr1077data.service.*;
+import com.example.gr1077data.service.enums.EventState;
 import com.example.gr1077data.service.exception.EventNotFoundException;
 import com.example.gr1077data.service.exception.SectionsSequenceException;
 import lombok.AllArgsConstructor;
@@ -60,6 +61,11 @@ public class EventController {
     @GetMapping(params = "keyword")
     public ResponseEntity<List<Event>> searchEvents(@RequestParam(name = "keyword") String keyword) {
         return new ResponseEntity<>(eventService.search(keyword), HttpStatus.OK);
+    }
+
+    @GetMapping(params = "state")
+    public ResponseEntity<List<Event>> getPast(@RequestParam(name = "state") EventState state ) throws EventNotFoundException {
+        return new ResponseEntity<>(eventService.getByState(state), HttpStatus.OK);
     }
 
 }
