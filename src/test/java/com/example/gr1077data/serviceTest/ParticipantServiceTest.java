@@ -40,7 +40,7 @@ public class ParticipantServiceTest {
         participant = Participant.builder().firstName("fName3")
                 .lastName("lName3").email("email3").title("title3").affiliation("expert3")
                 .build();
-        Long id = participantService.create(participant).getId();
+        Long id = participantService.createNullEvent(participant).getId();
         Assertions.assertThat(participantRepo.findById(id).get().getAffiliation()).isEqualTo(participant.getAffiliation());
     }
 

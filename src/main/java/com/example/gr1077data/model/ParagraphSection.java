@@ -1,6 +1,7 @@
 package com.example.gr1077data.model;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -26,6 +27,7 @@ public class ParagraphSection extends Section {
     private String heading;
 
     @Column(columnDefinition = "TEXT", nullable = false)
+    @Type(type="text")
     private String text;
 
 }
