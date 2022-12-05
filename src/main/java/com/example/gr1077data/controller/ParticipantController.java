@@ -1,15 +1,20 @@
 package com.example.gr1077data.controller;
 
 
+import com.example.gr1077data.model.Event;
 import com.example.gr1077data.model.Participant;
+import com.example.gr1077data.service.EventService;
 import com.example.gr1077data.service.ParticipantService;
+import com.example.gr1077data.service.exception.EventNotFoundException;
 import com.example.gr1077data.service.exception.ParticipantNotFoundException;
+import com.example.gr1077data.service.exception.SectionsSequenceException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @CrossOrigin
@@ -30,9 +35,9 @@ public class ParticipantController {
         return new ResponseEntity<>(participant, HttpStatus.OK);
     }
 
-    @PostMapping
-    public Participant create(@RequestBody Participant newParticipant) throws ParticipantNotFoundException{
-        return participantService.create(newParticipant);
+    @PostMapping(params = "eventId")
+    public Participant create(@RequestBody Participant newParticipant, @RequestParam("eventId" )Long eventId) throws ParticipantNotFoundException, EventNotFoundException, SectionsSequenceException {
+        return participantService.create(newParticipant, eventId);
     }
 
     @PutMapping("{id}")
