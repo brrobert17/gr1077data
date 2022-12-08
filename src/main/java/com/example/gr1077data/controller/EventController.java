@@ -59,13 +59,21 @@ public class EventController {
     }
 
     @GetMapping(params = "keyword")
-    public ResponseEntity<List<Event>> searchEvents(@RequestParam(name = "keyword") String keyword) {
+    public ResponseEntity<List<Event>> searchEvents(@RequestParam(name = "keyword") String keyword) throws EventNotFoundException {
         return new ResponseEntity<>(eventService.search(keyword), HttpStatus.OK);
     }
 
     @GetMapping(params = "state")
     public ResponseEntity<List<Event>> getPast(@RequestParam(name = "state") EventState state ) throws EventNotFoundException {
         return new ResponseEntity<>(eventService.getByState(state), HttpStatus.OK);
+    }
+    @GetMapping(params = {"keyword", "state"})
+    public ResponseEntity<List<Event>> searchKeyword(@RequestParam(name = "keyword") String keyword, @RequestParam(name = "state") EventState state ) throws EventNotFoundException {
+        List<Event> events = eventService.search(keyword)
+                .stream()
+                .filter(event -> eventService.getState(event) == state)
+                .toList();
+        return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
 }

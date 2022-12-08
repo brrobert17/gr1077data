@@ -26,8 +26,9 @@ public class ParagraphSection extends Section {
     @Column
     private String heading;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(name="LONG_DESCRIPTION" , length = 65535, columnDefinition="TEXT")
     @Type(type="text")
+
     private String text;
 
 }

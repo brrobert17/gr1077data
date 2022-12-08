@@ -25,6 +25,7 @@ public class EventService {
     }
 
     public Event getById(Long id) throws EventNotFoundException {
+
         return eventRepo.findById(id).orElseThrow(() -> new EventNotFoundException("Event not found by: " + id));
     }
 
@@ -46,6 +47,7 @@ public class EventService {
 
     public List<Event> search(String keyword) {
         return eventRepo.findByName(keyword);
+
     }
 
     //no event in past date in Danish time and local time
@@ -96,25 +98,25 @@ public class EventService {
         return true;
     }
 
-    public List<Event> getByState(EventState state) throws EventNotFoundException {
-        List<Event> events = eventRepo.findAll();
-        if(state == EventState.PAST) {
-            return events.stream()
-                    .filter(item ->
-                            item.getDate().isBefore(LocalDate.now()))
-                    .collect(Collectors.toList());
-
+    public EventState getState(Event event) {
+        if (event.getDate().isBefore(LocalDate.now())) {
+            return EventState.PAST;
         }
-        if(state == EventState.UPCOMING) {
-            return events.stream()
-                    .filter(item ->
-                            (
-                                    item.getDate().isAfter(LocalDate.now()))
-                                    || item.getDate().isEqual(LocalDate.now())
-                            )
-                    .collect(Collectors.toList());
+        if (event.getDate().isAfter(LocalDate.now())
+                || event.getDate().isEqual(LocalDate.now())) {
+            return EventState.UPCOMING;
         }
-        throw new EventNotFoundException("Something went wrong");
+        return null;
     }
+
+    public List<Event> getByState(EventState state) {
+        List<Event> events = eventRepo.findAll();
+
+        return events.stream()
+                    .filter(item -> getState(item) == state)
+                    .toList();
+    }
+
+
 
 }
