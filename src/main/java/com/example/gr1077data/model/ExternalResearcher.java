@@ -26,9 +26,9 @@ public class ExternalResearcher {
     private String lastName;
     @Column(nullable = false, length = 100)
     private String title;
-    @Column(nullable = false, unique = true, length = 150)
+    @Column(nullable = false, length = 150)
     private String email;
-    @Column(nullable = false, unique = true, length = 200)
+    @Column(nullable = false, length = 200)
     private String profileLink;
 
     @OneToOne(cascade = CascadeType.ALL)

@@ -1,5 +1,6 @@
 package com.example.gr1077data.service;
 
+import com.example.gr1077data.model.Location;
 import com.example.gr1077data.model.Room;
 import com.example.gr1077data.repo.RoomRepo;
 import com.example.gr1077data.service.exception.RoomNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -62,5 +64,11 @@ public class RoomService {
         return roomRepo.findRoomByAvailability(date, start, end);
     }
 
-    ;
+    public Location getLocationByRoomId(Long roomId) throws RoomNotFoundException {
+        Optional<Room> optionalRoom = roomRepo.findById(roomId);
+        if (optionalRoom.isPresent()) {
+            return optionalRoom.get().getLocation();
+        }
+        else throw new RoomNotFoundException("Room/Location not found by RoomId: "+ roomId);
+    }
 }

@@ -34,7 +34,7 @@ public class Researcher extends Page {
     @Column(nullable = false, unique = true, length = 150)
     private String email;
 
-    @Column(nullable = false, unique = true, length = 20)
+    @Column(nullable = false, length = 20)
     private String telephone;
 
     @Column(nullable = false, columnDefinition = "TEXT")
