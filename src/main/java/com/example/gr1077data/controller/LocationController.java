@@ -2,7 +2,9 @@ package com.example.gr1077data.controller;
 
 import com.example.gr1077data.model.Location;
 import com.example.gr1077data.service.LocationService;
+import com.example.gr1077data.service.RoomService;
 import com.example.gr1077data.service.exception.LocationNotFoundException;
+import com.example.gr1077data.service.exception.RoomNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import java.util.List;
 public class LocationController {
 
     private final LocationService locationService;
+    private final RoomService roomService;
 
     @GetMapping
     public ResponseEntity<List<Location>> getAll() {
@@ -28,6 +31,14 @@ public class LocationController {
         Location location = locationService.getById(id);
         return new ResponseEntity<>(location, HttpStatus.OK);
     }
+    @GetMapping(params= "roomId")
+    public ResponseEntity<Location> getByRoomId(@RequestParam Long roomId) throws RoomNotFoundException {
+        if(roomId==null || roomId<=0 ){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(roomService.getLocationByRoomId(roomId), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Location> create(@RequestBody Location newLocation){
         Location location = locationService.create(newLocation);
