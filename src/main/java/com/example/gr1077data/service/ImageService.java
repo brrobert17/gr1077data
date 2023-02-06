@@ -15,11 +15,11 @@ public class ImageService {
 
     final ImageRepo imageRepo;
 
-    public List<Image> findAllImages() {
+    public List<Image> findAll() {
         return imageRepo.findAll();
     }
 
-    public Image findImageById(Long id) throws ImageNotFoundException {
+    public Image findById(Long id) throws ImageNotFoundException {
         Optional<Image> optionalImage = imageRepo.findById(id);
         if (optionalImage.isEmpty()) {
             throw new ImageNotFoundException("Image not found by: " + id);
@@ -27,7 +27,7 @@ public class ImageService {
         return optionalImage.get();
     }
 
-    public Image findImageByCaption(String caption) throws ImageNotFoundException {
+    public Image findByCaption(String caption) throws ImageNotFoundException {
         Optional<Image> optionalImage = imageRepo.findImageByCaption(caption);
         if (optionalImage.isEmpty()) {
             throw new ImageNotFoundException("Image not found by: " + caption);
@@ -35,18 +35,17 @@ public class ImageService {
         return optionalImage.get();
     }
 
-    public Image createImage(Image image) {
+    public Image create(Image image) {
         return imageRepo.save(image);
     }
 
-    public void deleteImageById(Long id) throws ImageNotFoundException {
+    public void del(Long id) throws ImageNotFoundException {
+        imageRepo.findById(id).orElseThrow(()-> new ImageNotFoundException("Image not found by id: " + id));
         imageRepo.deleteById(id);
     }
 
-    public Image updateImage(Long id, Image image) throws ImageNotFoundException {
-        if(imageRepo.findById(id).isEmpty()) {
-            return null;
-        }
+    public Image update(Long id, Image image) throws ImageNotFoundException {
+        imageRepo.findById(id).orElseThrow(()-> new ImageNotFoundException("Image not found by id: " + id));
         return imageRepo.save(image);
     }
 }

@@ -30,7 +30,6 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name = "location_id", referencedColumnName = "id")
-
     private Location location;
 
     @OneToMany

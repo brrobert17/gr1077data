@@ -1,129 +1,122 @@
 package com.example.gr1077data.service;
 
 import com.example.gr1077data.model.Event;
-import com.example.gr1077data.model.Room;
 import com.example.gr1077data.repo.EventRepo;
+import com.example.gr1077data.service.enums.EventState;
 import com.example.gr1077data.service.exception.EventNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.gr1077data.service.exception.SectionsSequenceException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
+@AllArgsConstructor
 public class EventService {
+
     private final EventRepo eventRepo;
-    private final RoomService roomService;
+    private final SectionService<Event> sectionService;
 
-
-    @Autowired
-    public EventService(EventRepo eventRepo, RoomService roomService) {
-        this.eventRepo = eventRepo;
-        this.roomService = roomService;
-
-    }
-
-    //get all events
-    public List<Event> getAllEvents() throws EventNotFoundException {
+    public List<Event> getAll() {
         return eventRepo.findAll();
     }
 
-    public Event getEventById(Long id) throws EventNotFoundException {
-        Event event = eventRepo.findById(id).orElseThrow(() -> new EventNotFoundException("Event not found by: " + id));
-        return event;
-    }
-    //create event
-    public Event createEvent(Event event,Long roomId){
-        //can creat image and room
-        Room room = roomService.getRoomById(roomId);
-        event.setRoom(room);
-        return eventRepo.save(event);
+    public Event getById(Long id) throws EventNotFoundException {
 
+        return eventRepo.findById(id).orElseThrow(() -> new EventNotFoundException("Event not found by: " + id));
     }
-    //delete event
-    public Event deleteEvent(Long id) throws EventNotFoundException {
-        Event event = eventRepo.findById(id).orElseThrow(() -> new EventNotFoundException("Event not found by: " + id));
-        eventRepo.delete(event);
-        return event;
-    }
-    //update event
-    public Event updateEvent(Long id,Event event){
-        if(eventRepo.findById(id).isEmpty()){
-            return null;
-        }
+
+    public Event create(Event event) throws SectionsSequenceException {
+        if (!(sectionService.isSequenceValid(event))) throw new SectionsSequenceException("Invalid sections sequence");
         return eventRepo.save(event);
     }
 
+    public void del(Long id) throws EventNotFoundException {
+        eventRepo.findById(id).orElseThrow(() -> new EventNotFoundException("Event not found by: " + id));
+        eventRepo.deleteById(id);
+    }
 
+    public Event update(Long id, Event event) throws SectionsSequenceException, EventNotFoundException {
+        if (!(sectionService.isSequenceValid(event))) throw new SectionsSequenceException("Invalid sections sequence");
+        eventRepo.findById(id).orElseThrow(() -> new EventNotFoundException("Event not found by: " + id));
+        return eventRepo.save(event);
+    }
 
+    public List<Event> search(String keyword) {
+        return eventRepo.findByName(keyword);
 
-    //no booking in past date in Danish time and local time
-    public boolean checkTime(Event booking) {
+    }
+
+    //no event in past date in Danish time and local time
+    public boolean checkTime(Event event) {
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
-        if (booking.getDate().isBefore(today)) {
-            throw new IllegalStateException("we are in the past ");
+        if (event.getDate().isBefore(today)) {
+            throw new IllegalStateException("Date is in the past");
         }
-        if (booking.getDate().equals(today)) {
-            if (booking.getStartTime().isBefore(now)) {
+        if (event.getDate().equals(today)) {
+            if (event.getStartTime().isBefore(now)) {
                 throw new IllegalStateException("We are in the past");
             }
         }
         return true;
     }
 
-
-
     public boolean checkRoomIsAvailablePost(Long roomId, LocalDate date, LocalTime startTime, LocalTime endTime) {
-        List<Event> events = eventRepo.findAllByRoomId( roomId);
-        List<Event> availableEvents = new ArrayList<>();
+        List<Event> events = eventRepo.findAllByRoomId(roomId);
         for (Event booking : events) {
             if (booking.getDate().equals(date)) {
                 if (booking.getStartTime().equals(startTime) || booking.getEndTime().equals(endTime)) {
-                    availableEvents.add(booking);
                     throw new IllegalStateException("Room is not available");
-
                 } else if (booking.getStartTime().isBefore(startTime) && booking.getEndTime().isAfter(startTime)) {
-                    availableEvents.add(booking);
                     throw new IllegalStateException("Room is not available");
                 } else if (booking.getStartTime().isBefore(endTime) && booking.getEndTime().isAfter(endTime)) {
-                    availableEvents.add(booking);
                     throw new IllegalStateException("Room is not available");
                 }
-
             }
-
         }
         return true;
     }
-
 
     public boolean checkRoomIsAvailablePut(Long roomId, Long eventId, LocalDate date, LocalTime startTime, LocalTime endTime) {
-        List<Event> events = eventRepo.findAllByRoomId(roomId);
-        events = events.stream().filter(event -> !event.getId().equals(eventId)).collect(Collectors.toList());
-        List<Event> availableBookings = new ArrayList<Event>();
+        List<Event> events = eventRepo.findAllByRoomId(roomId)
+                .stream().filter(event -> !event.getId().equals(eventId)).collect(Collectors.toList());
         for (Event booking : events) {
             if (booking.getDate().equals(date)) {
                 if (booking.getStartTime().equals(startTime) || booking.getEndTime().equals(endTime)) {
-                    availableBookings.add(booking);
                     throw new IllegalStateException("Room is not available!");
-
                 } else if (booking.getStartTime().isBefore(startTime) && booking.getEndTime().isAfter(startTime)) {
-                    availableBookings.add(booking);
                     throw new IllegalStateException("Room is not available!");
                 } else if (booking.getStartTime().isBefore(endTime) && booking.getEndTime().isAfter(endTime)) {
-                    availableBookings.add(booking);
                     throw new IllegalStateException("Room is not available!");
                 }
-
             }
-
         }
         return true;
     }
+
+    public EventState getState(Event event) {
+        if (event.getDate().isBefore(LocalDate.now())) {
+            return EventState.PAST;
+        }
+        if (event.getDate().isAfter(LocalDate.now())
+                || event.getDate().isEqual(LocalDate.now())) {
+            return EventState.UPCOMING;
+        }
+        return null;
     }
 
+    public List<Event> getByState(EventState state) {
+        List<Event> events = eventRepo.findAll();
+
+        return events.stream()
+                    .filter(item -> getState(item) == state)
+                    .toList();
+    }
+
+
+
+}

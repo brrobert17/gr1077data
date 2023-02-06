@@ -17,32 +17,32 @@ public class ImageController {
     final ImageService imageService;
 
     @GetMapping
-    public List<Image> findAllImages() {
-        return imageService.findAllImages();
+    public List<Image> findAll() {
+        return imageService.findAll();
     }
 
     @GetMapping("{id}")
-    public Image findImageById(@PathVariable Long id) throws ImageNotFoundException {
-        return imageService.findImageById(id);
+    public Image findById(@PathVariable Long id) throws ImageNotFoundException {
+        return imageService.findById(id);
     }
 
     @GetMapping(params = "caption")
-    public Image findImageByCaption(@RequestParam String caption) throws ImageNotFoundException {
-        return imageService.findImageByCaption(caption);
+    public Image findByCaption(@RequestParam String caption) throws ImageNotFoundException {
+        return imageService.findByCaption(caption);
     }
 
     @PostMapping
-    public Image saveImage(@RequestBody Image image) {
-        return imageService.createImage(image);
+    public Image save(@RequestBody Image image) {
+        return imageService.create(image);
     }
 
     @DeleteMapping("{id}")
-    public void deleteImageById(@PathVariable Long id) throws ImageNotFoundException {
-        imageService.deleteImageById(id);
+    public void del(@PathVariable Long id) throws ImageNotFoundException {
+        imageService.del(id);
     }
 
     @PutMapping("{id}")
-    public Image updateImage(@PathVariable Long id,@RequestBody Image image) throws ImageNotFoundException {
-        return imageService.updateImage(id, image);
+    public Image update(@PathVariable Long id,@RequestBody Image image) throws ImageNotFoundException {
+        return imageService.update(id, image);
     }
 }

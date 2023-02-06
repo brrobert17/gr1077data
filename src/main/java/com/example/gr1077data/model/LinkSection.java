@@ -11,17 +11,20 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Image {
+@Table(name = "link_section")
+public class LinkSection extends Section {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @Column(nullable = false, length = 2048)
-    private String url;
+    @Column(nullable = false)
+    private int seq;
 
-    @Column(nullable = false, length = 500)
-    private String caption;
+    @Column(nullable = false)
+    private String text;
 
+    @Column(nullable = false)
+    private String link;
 }

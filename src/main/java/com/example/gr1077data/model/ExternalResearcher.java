@@ -26,16 +26,16 @@ public class ExternalResearcher {
     private String lastName;
     @Column(nullable = false, length = 100)
     private String title;
-    @Column(nullable = false, unique = true, length = 150)
+    @Column(nullable = false, length = 150)
     private String email;
-    @Column(nullable = false, unique = true, length = 200)
+    @Column(nullable = false, length = 200)
     private String profileLink;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image profileImage;
 
-    @ManyToMany(mappedBy = "externalResearcherSet", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "externalResearcherSet", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<BlogPost> blogPostSet = new HashSet<>();
 }

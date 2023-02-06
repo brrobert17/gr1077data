@@ -1,23 +1,22 @@
 package com.example.gr1077data.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Setter
+@Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Event {
+@Builder
+public class Event extends Page {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,23 +30,29 @@ public class Event {
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private Room room;
 
-    //does JPA know?
     @Column(nullable = false)
-    @DateTimeFormat( pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "HH:mm:ss")
-
     private LocalTime startTime;
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "HH:mm:ss")
-
     private LocalTime endTime;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String description;
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    private Set<ParagraphSection> paragraphSectionSet;
+
+    @OneToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    private Set<LinkSection> linkSectionSet;
+
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    private Set<ImageSection> imageSectionSet;
 
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -58,20 +63,16 @@ public class Event {
     @JoinTable(name = "researcher_event_join",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "researcher_id"))
-    //let's see if the new hashSet makes any difference
     private Set<Researcher> researcherSet = new HashSet<>();
 
     @ManyToMany()
     @JoinTable(name = "external_researcher_event_join",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "external_researcher_id"))
-    //let's see if the new hashSet makes any difference
     private Set<ExternalResearcher> externalResearcherSet = new HashSet<>();
-    
 
-    //do we need referencedColumnName?
-    @OneToMany()
-    @JoinColumn(name = "participant_id", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Set<Participant> participantSet = new HashSet<>();
 
 }

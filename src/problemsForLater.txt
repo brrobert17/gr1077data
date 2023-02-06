@@ -1,4 +1,4 @@
-1. @Data does not include @NoArgsConstructor
+1. Address division
 
 2. unified service classes with inheritance
 
