@@ -49,8 +49,7 @@ public class EventController {
 
     @PutMapping("{id}")
     public ResponseEntity<Event> update(@PathVariable Long id, @RequestBody Event event) throws EventNotFoundException, SectionsSequenceException {
-        if (eventService.checkRoomIsAvailablePut(event.getRoom().getId(), id, event.getDate(), event.getStartTime(), event.getEndTime())
-                && eventService.checkTime(event)) {
+        if (eventService.checkRoomIsAvailablePut(event.getRoom().getId(), id, event.getDate(), event.getStartTime(), event.getEndTime())) {
             return new ResponseEntity<>(eventService.update(id, event), HttpStatus.OK);
         }
         else {
