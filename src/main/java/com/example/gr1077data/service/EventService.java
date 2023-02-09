@@ -1,6 +1,7 @@
 package com.example.gr1077data.service;
 
 import com.example.gr1077data.model.Event;
+import com.example.gr1077data.model.Image;
 import com.example.gr1077data.repo.EventRepo;
 import com.example.gr1077data.service.enums.EventState;
 import com.example.gr1077data.service.exception.EventNotFoundException;
@@ -31,6 +32,12 @@ public class EventService {
 
     public Event create(Event event) throws SectionsSequenceException {
         if (!(sectionService.isSequenceValid(event))) throw new SectionsSequenceException("Invalid sections sequence");
+        Image image = event.getImage();
+        String url = event.getImage().getUrl();
+        if(url.equalsIgnoreCase("")) {
+            image.setUrl("https://i.imgur.com/VBL5PH4.png");
+            event.setImage(image);
+        }
         return eventRepo.save(event);
     }
 

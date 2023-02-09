@@ -1,5 +1,6 @@
 package com.example.gr1077data.service;
 
+import com.example.gr1077data.model.Image;
 import com.example.gr1077data.model.Researcher;
 import com.example.gr1077data.repo.BlogPostRepo;
 import com.example.gr1077data.repo.ImageRepo;
@@ -41,6 +42,12 @@ public class ResearcherService {
 
     public Researcher save(Researcher researcher) throws SectionsSequenceException {
         if (!(sectionService.isSequenceValid(researcher))) throw new SectionsSequenceException("Invalid sections sequence");
+        Image image = researcher.getProfileImage();
+        String url = researcher.getProfileImage().getUrl();
+        if(url.equalsIgnoreCase("")) {
+            image.setUrl("https://i.imgur.com/GYp6dtX.png");
+            researcher.setProfileImage(image);
+        }
         return researcherRepo.save(researcher);
     }
 
