@@ -1,27 +1,47 @@
 package com.example.gr1077data;
 
-import com.example.gr1077data.model.ExternalResearcher;
-import com.example.gr1077data.model.Image;
-import com.example.gr1077data.model.Location;
-import com.example.gr1077data.model.Researcher;
-import com.example.gr1077data.service.ExternalResearcherService;
-import com.example.gr1077data.service.LocationService;
-import com.example.gr1077data.service.ResearcherService;
+import com.example.gr1077data.model.*;
+import com.example.gr1077data.service.*;
+import com.example.gr1077data.service.exception.ExternalResearcherNotFoundException;
+import com.example.gr1077data.service.exception.ResearcherNotFoundException;
+import com.example.gr1077data.service.exception.RoomNotFoundException;
 import com.example.gr1077data.service.exception.SectionsSequenceException;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
+
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Init {
     @Autowired ResearcherService researcherService;
     @Autowired ExternalResearcherService externalResearcherService;
     @Autowired LocationService locationService;
+    @Autowired RoomService roomService;
+    @Autowired EventService eventService;
     Researcher researcher;
     ExternalResearcher externalResearcher;
     Location location;
+    Room room;
+    Event event;
+    ParagraphSection paragraphSection;
+    LinkSection linkSection;
+    ImageSection imageSection;
+    Set<Researcher> researcherSet = new HashSet<>();
+    Set<ExternalResearcher> externalResearcherSet = new HashSet<>();
+    Set<ParagraphSection> paragraphSectionSet = new HashSet<>();
+    Set<ImageSection> imageSectionSet = new HashSet<>();
+    Set<LinkSection> linkSectionSet = new HashSet<>();
 
     @Test
+    @Order(1)
     void iResearcher() throws SectionsSequenceException {
         researcher = Researcher.builder().firstName("Alessandro").lastName("Moretti")
                 .title("Postdoc").telephone("+4535337791").email("almo@anthro.ku.dk")
@@ -169,6 +189,7 @@ public class Init {
         researcherService.save(researcher);
     }
     @Test
+    @Order(2)
     void iExternalResearcher() {
         externalResearcher = ExternalResearcher.builder().firstName("Adrienne").lastName("Mannov")
                 .title("Postdoc, Department of Culture and Learning, Aalborg University")
@@ -183,11 +204,134 @@ public class Init {
                 .profileImage(Image.builder().caption("Susanne").url("https://www.ucviden.dk/files-asset/103050009/Susanne_Bregnb_c3_a6k_20Web.jpg?w=160&f=webp").build())
                 .profileLink("https://www.ucviden.dk/en/persons/susanne-bregnb%C3%A6k").email("").build();
         externalResearcherService.create(externalResearcher);
+        externalResearcher = ExternalResearcher.builder().firstName("Liora").lastName("Sion")
+                .title("Associate Professor")
+                .profileImage(Image.builder().caption("Liora").url("https://www2.adm.ku.dk/selv/pls/prt_www40.hentindhold_cms?p_personid=644193").build())
+                .profileLink("https://ccrs.ku.dk/staff/?pure=en%2Fpersons%2Fliora-sion(d403e802-546b-49b4-822a-246a3a424bc8).html").email("liorasion@hum.ku.dk").build();
+        externalResearcherService.create(externalResearcher);
+        externalResearcher = ExternalResearcher.builder().firstName("Matthew").lastName("Carey")
+                .title("")
+                .profileImage(Image.builder().caption("MatthewCarey").url("").build())
+                .profileLink("").email("").build();
+        externalResearcherService.create(externalResearcher);
     }
     @Test
+    @Order(3)
     void iLocation() {
         location = Location.builder().address("Øster Farimagsgade 5 DK-1353 Copenhagen K").build();
         locationService.create(location);
+    }
+
+    @Test
+    @Order(4)
+    void iRoom() {
+        room = Room.builder().location(location).name("33.1.18 - The Faculty of Social Sciences").capacity("20").build();
+        roomService.create(room);
+        room = Room.builder().location(location).name("CSS 4.1.12 - Ethnographic Exploratory").capacity("20").build();
+        roomService.create(room);
+    }
+
+    @Test
+    @Order(5)
+    void iEvent() throws ResearcherNotFoundException, ExternalResearcherNotFoundException, SectionsSequenceException {
+        paragraphSection = ParagraphSection.builder()
+                .seq(1).heading("")
+                .text("Abstract: Bureaucracy runs the lives of mothers of modest means. It brings up a whole host of medical or epidemiological " +
+                        "problems, because it has a cumulative effect on mothers' bodies in the Global South or when they migrate north. " +
+                        "For a woman to reclaim her rights through bureaucracy, at times she needs to volunteer her body as a sexual tool. " +
+                        "The clerks are often male, and the clients are impoverished, disempowered women. Bureaucracy is a topic that has been " +
+                        "neglected by feminists because it is not as reassuring as agency and resistance studies.").build();
+        paragraphSectionSet.add(paragraphSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(2).heading("")
+                .text("In my presentation I will focus on the phenomenological embodiments of Mizrahi single mothers' untold entanglements in " +
+                        "Israel's welfare bureaucracies. While Jews of non-European origins are the demographic majority of Israel and therefore " +
+                        "are subject to structural and day-to-day racism, Israel's elaborate welfare bureaucracy conceives of itself as " +
+                        "race-neutral. So the mothers' entanglements in the welfare system's webs rarely depart from their pre-discursive state " +
+                        "to become discourse leading to mimetic redemption and agential action.").build();
+        paragraphSectionSet.add(paragraphSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(3).heading("")
+                .text("Postcolonial or decolonial ethnographies stress thinking in hybridities and multiplicities—the intersection of race, gender, " +
+                        "sex, class, and religion into the agency of identity politics. But Israel's bureaucratic regime is based on the " +
+                        "essentialist sanctity of the state, and therefore Mizrahi single mothers cannot enact intersectionality. Contrarily, " +
+                        "they must align with the monothetic logic of an ethno-religious state bureaucracy to survive the welfare system they " +
+                        "and their children depend on. The mothers deny the interplay between the traumas of theirs and their parents' " +
+                        "orchestrated migration-dislocation-de-Arabization and the expulsion of the Palestinians in order to make room for" +
+                        " the Israeli state. Instead, they brandish right-wing ultranationalist politics. Yet the bureaucratic torture they " +
+                        "live through haunts them and is transmitted from one generation the next.").build();
+        paragraphSectionSet.add(paragraphSection);
+
+        linkSection = LinkSection.builder()
+                .seq(4).text("Anja Simonsen, Department of Anthropology").link("anja.simonsen@anthro.ku.dk").build();
+        linkSectionSet.add(linkSection);
+        linkSection = LinkSection.builder()
+                .seq(5).text("Atreyee Sen, Department of Anthropology").link("atreyee.sen@anthro.ku.dk").build();
+        linkSectionSet.add(linkSection);linkSection = LinkSection.builder()
+                .seq(6).text("Liora Sion, Department of CrossCultural and Regional Studies").link("liorasion@hum.ku.dk").build();
+        linkSectionSet.add(linkSection);
+
+        researcherSet.add(researcherService.getById(1L));
+        researcherSet.add(researcherService.getById(3L));
+        externalResearcherSet.add(externalResearcherService.getById(4L));
+
+
+        event = Event.builder()
+                .name("Single Mothers, Bureaucratic Torture, and the Neoliberal Welfare State")
+                .date(LocalDate.of(2023,11,25))
+                .startTime(LocalTime.of(13,0,0))
+                .endTime(LocalTime.of(15,0,0))
+                .image(Image.builder().caption("SingleMothersBureaucraticTorture").url("").build())
+                .researcherSet(researcherSet)
+                .externalResearcherSet(externalResearcherSet)
+                .paragraphSectionSet(paragraphSectionSet)
+                .linkSectionSet(linkSectionSet)
+                .imageSectionSet(imageSectionSet)
+                .room(roomService.getById(1L))
+                .build();
+        eventService.create(event);
+
+        //reset the sets
+        researcherSet = new HashSet<>();
+        externalResearcherSet = new HashSet<>();
+        paragraphSectionSet = new HashSet<>();
+        imageSectionSet = new HashSet<>();
+        linkSectionSet = new HashSet<>();
+
+        paragraphSection = ParagraphSection.builder()
+                .seq(1).heading("")
+                .text("The Centre for Global Criminology is hosting a seminar on \"Spying, surveillance and the ethnographic method\". " +
+                        "A thematically and geographically wide range of papers will be presented and we look forward to lively discussion o\n" +
+                        "n the topic.\n" +
+                        "The seminar is open to a limited audience, but if you're interested, please sign up!").build();
+        paragraphSectionSet.add(paragraphSection);
+
+        linkSection = LinkSection.builder()
+                .seq(4).text("More information - email Asbjørn").link("asbjorngm@anthro.ku.dk").build();
+        linkSectionSet.add(linkSection);
+        linkSection = LinkSection.builder()
+                .seq(5).text("Programme:").link("https://ccc.ku.dk/calendar/upcoming-events/research-seminar---the-hall-of-mirrors-spying-surveillance-and-ethnographic-method/Program__The_Hall_of_Mirrors_seminar-1.png_copy").build();
+        linkSectionSet.add(linkSection);
+
+
+        researcherSet.add(researcherService.getById(14L));
+        researcherSet.add(researcherService.getById(18L));
+
+
+        event = Event.builder()
+                .name("The Hall of Mirrors: Spying, surveillance, and ethnographic method - Research Seminar")
+                .date(LocalDate.of(2023,12,2))
+                .startTime(LocalTime.of(9,30,0))
+                .endTime(LocalTime.of(17,30,0))
+                .image(Image.builder().caption("the_hall_of_mirrors").url("https://i.imgur.com/CH78lV8.png").build())
+                .researcherSet(researcherSet)
+                .externalResearcherSet(externalResearcherSet)
+                .paragraphSectionSet(paragraphSectionSet)
+                .linkSectionSet(linkSectionSet)
+                .imageSectionSet(imageSectionSet)
+                .room(roomService.getById(2L))
+                .build();
+        eventService.create(event);
     }
 
 

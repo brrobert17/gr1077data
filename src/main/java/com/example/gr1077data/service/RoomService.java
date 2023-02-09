@@ -26,7 +26,7 @@ public class RoomService {
         return roomRepo.findById(id).orElse(null);
     }
 
-    public Room create(Room room) throws RoomNotFoundException {
+    public Room create(Room room) {
         return roomRepo.save(room);
     }
 

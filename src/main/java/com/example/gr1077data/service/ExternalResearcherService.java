@@ -1,6 +1,7 @@
 package com.example.gr1077data.service;
 
 import com.example.gr1077data.model.ExternalResearcher;
+import com.example.gr1077data.model.Image;
 import com.example.gr1077data.repo.ExternalResearcherRepo;
 import com.example.gr1077data.service.exception.ExternalResearcherNotFoundException;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,12 @@ public class ExternalResearcherService {
     }
 
     public ExternalResearcher create(ExternalResearcher externalResearcher) {
+        Image image = externalResearcher.getProfileImage();
+        String url = externalResearcher.getProfileImage().getUrl();
+        if(url.equalsIgnoreCase("")) {
+            image.setUrl("https://i.imgur.com/GYp6dtX.png");
+            externalResearcher.setProfileImage(image);
+        }
         return externalResearcherRepo.save(externalResearcher);
     }
 

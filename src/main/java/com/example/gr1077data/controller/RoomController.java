@@ -34,7 +34,7 @@ public class RoomController {
     }
 
     @PostMapping
-    public ResponseEntity<Room> create(@RequestBody Room newRoom) throws RoomNotFoundException {
+    public ResponseEntity<Room> create(@RequestBody Room newRoom) {
         Room room = roomService.create(newRoom);
         return new ResponseEntity<>(room, HttpStatus.CREATED);
     }
