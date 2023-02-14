@@ -21,11 +21,16 @@ import java.util.Set;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Init {
-    @Autowired ResearcherService researcherService;
-    @Autowired ExternalResearcherService externalResearcherService;
-    @Autowired LocationService locationService;
-    @Autowired RoomService roomService;
-    @Autowired EventService eventService;
+    @Autowired
+    ResearcherService researcherService;
+    @Autowired
+    ExternalResearcherService externalResearcherService;
+    @Autowired
+    LocationService locationService;
+    @Autowired
+    RoomService roomService;
+    @Autowired
+    EventService eventService;
     Researcher researcher;
     ExternalResearcher externalResearcher;
     Location location;
@@ -188,6 +193,7 @@ public class Init {
                 .build();
         researcherService.save(researcher);
     }
+
     @Test
     @Order(2)
     void iExternalResearcher() {
@@ -214,7 +220,18 @@ public class Init {
                 .profileImage(Image.builder().caption("MatthewCarey").url("").build())
                 .profileLink("").email("").build();
         externalResearcherService.create(externalResearcher);
+        externalResearcher = ExternalResearcher.builder().firstName("Irene").lastName("Stengs")
+                .title("Prof., Dr.")
+                .profileImage(Image.builder().caption("IreneStengs").url("").build())
+                .profileLink("https://research.vu.nl/en/persons/irene-stengs").email("i.l.stengs@vu.nl").build();
+        externalResearcherService.create(externalResearcher);
+        externalResearcher = ExternalResearcher.builder().firstName("Mikkel").lastName("Bille")
+                .title("Professor")
+                .profileImage(Image.builder().caption("MikkelBille").url("https://www2.adm.ku.dk/selv/pls/prt_www40.hentindhold_cms?p_personid=179827").build())
+                .profileLink("https://saxoinstitute.ku.dk/staff/?pure=en%2Fpersons%2Fmikkel-bille(ba59254a-5bab-46e5-b326-4eb9eb90b68c)%2Fkeywords.html").email("mbille@hum.ku.dk").build();
+        externalResearcherService.create(externalResearcher);
     }
+
     @Test
     @Order(3)
     void iLocation() {
@@ -234,6 +251,96 @@ public class Init {
     @Test
     @Order(5)
     void iEvent() throws ResearcherNotFoundException, ExternalResearcherNotFoundException, SectionsSequenceException {
+
+        //event1
+        paragraphSection = ParagraphSection.builder()
+                .seq(1).heading("")
+                .text("The Centre for Global Criminology is hosting a seminar on \"Spying, surveillance and the ethnographic method\". " +
+                        "A thematically and geographically wide range of papers will be presented and we look forward to lively discussion o\n" +
+                        "n the topic.\n" +
+                        "The seminar is open to a limited audience, but if you're interested, please sign up!").build();
+        paragraphSectionSet.add(paragraphSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(2).heading("")
+                .text("More information - email Asbjørn: asbjorngm@anthro.ku.dk").build();
+        paragraphSectionSet.add(paragraphSection);
+
+        linkSection = LinkSection.builder()
+                .seq(3).text("Programme").link("https://ccc.ku.dk/calendar/upcoming-events/research-seminar---the-hall-of-mirrors-spying-surveillance-and-ethnographic-method/Program__The_Hall_of_Mirrors_seminar-1.png_copy").build();
+        linkSectionSet.add(linkSection);
+
+        researcherSet.add(researcherService.getById(14L));
+        researcherSet.add(researcherService.getById(18L));
+
+        event = Event.builder()
+                .name("The Hall of Mirrors: Spying, surveillance, and ethnographic method - Research Seminar")
+                .date(LocalDate.of(2023, 12, 2))
+                .startTime(LocalTime.of(9, 30, 0))
+                .endTime(LocalTime.of(17, 30, 0))
+                .image(Image.builder().caption("The Hall of Mirrors").url("https://i.imgur.com/CH78lV8.png").build())
+                .researcherSet(researcherSet)
+                .externalResearcherSet(externalResearcherSet)
+                .paragraphSectionSet(paragraphSectionSet)
+                .linkSectionSet(linkSectionSet)
+                .imageSectionSet(imageSectionSet)
+                .room(roomService.getById(2L))
+                .build();
+        eventService.create(event);
+
+        //event2
+        //reset the sets
+        researcherSet = new HashSet<>();
+        externalResearcherSet = new HashSet<>();
+        paragraphSectionSet = new HashSet<>();
+        imageSectionSet = new HashSet<>();
+        linkSectionSet = new HashSet<>();
+
+        paragraphSection = ParagraphSection.builder()
+                .seq(1).heading("")
+                .text("Irene Stengs - Prof., Dr., editor and senior researcher of Meertens Institutt, Vrije Universiteet Amsterdam").build();
+        paragraphSectionSet.add(paragraphSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(2).heading("")
+                .text("Oscar Salemink - Editor, Professor of Anthropology, University of Copenhagen").build();
+        paragraphSectionSet.add(paragraphSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(3).heading("")
+                .text("In conversation with Mikkel Bille - Professor of Saxo Institute, University of Copenhagen").build();
+        paragraphSectionSet.add(paragraphSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(4).heading("")
+                .text("Book launch: Managing Sacralities").build();
+        paragraphSectionSet.add(paragraphSection);
+        imageSection = ImageSection.builder().seq(5).image(Image.builder().url("https://i.imgur.com/DSXZkGt.png").caption("Managing Sacralities").build()).altText("Managing Sacralities").build();
+        imageSectionSet.add(imageSection);
+        researcherSet.add(researcherService.getById(15L));
+        externalResearcherSet.add(externalResearcherService.getById(6L));
+        externalResearcherSet.add(externalResearcherService.getById(7L));
+
+
+        event = Event.builder()
+                .name("Ethnographic Happy Hour, Book Launch: Managing Sacralities")
+                .date(LocalDate.of(2023, 11, 2))
+                .startTime(LocalTime.of(15, 30, 0))
+                .endTime(LocalTime.of(17, 0, 0))
+                .image(Image.builder().caption("Managing Sacralities").url("https://i.imgur.com/GOud8dd.png").build())
+                .researcherSet(researcherSet)
+                .externalResearcherSet(externalResearcherSet)
+                .paragraphSectionSet(paragraphSectionSet)
+                .linkSectionSet(linkSectionSet)
+                .imageSectionSet(imageSectionSet)
+                .room(roomService.getById(2L))
+                .build();
+        eventService.create(event);
+
+        //event3
+        //reset the sets
+        researcherSet = new HashSet<>();
+        externalResearcherSet = new HashSet<>();
+        paragraphSectionSet = new HashSet<>();
+        imageSectionSet = new HashSet<>();
+        linkSectionSet = new HashSet<>();
+
         paragraphSection = ParagraphSection.builder()
                 .seq(1).heading("")
                 .text("Abstract: Bureaucracy runs the lives of mothers of modest means. It brings up a whole host of medical or epidemiological " +
@@ -262,14 +369,18 @@ public class Init {
                         "live through haunts them and is transmitted from one generation the next.").build();
         paragraphSectionSet.add(paragraphSection);
 
-        linkSection = LinkSection.builder()
-                .seq(4).text("Anja Simonsen, Department of Anthropology").link("anja.simonsen@anthro.ku.dk").build();
-        linkSectionSet.add(linkSection);
-        linkSection = LinkSection.builder()
-                .seq(5).text("Atreyee Sen, Department of Anthropology").link("atreyee.sen@anthro.ku.dk").build();
-        linkSectionSet.add(linkSection);linkSection = LinkSection.builder()
-                .seq(6).text("Liora Sion, Department of CrossCultural and Regional Studies").link("liorasion@hum.ku.dk").build();
-        linkSectionSet.add(linkSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(4).heading("")
+                .text("Anja Simonsen, Department of Anthropology: anja.simonsen@anthro.ku.dk").build();
+        paragraphSectionSet.add(paragraphSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(5).heading("")
+                .text("Atreyee Sen, Department of Anthropology: atreyee.sen@anthro.ku.dk").build();
+        paragraphSectionSet.add(paragraphSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(6).heading("")
+                .text("Liora Sion, Department of CrossCultural and Regional Studies: liorasion@hum.ku.dk").build();
+        paragraphSectionSet.add(paragraphSection);
 
         researcherSet.add(researcherService.getById(1L));
         researcherSet.add(researcherService.getById(3L));
@@ -278,10 +389,10 @@ public class Init {
 
         event = Event.builder()
                 .name("Single Mothers, Bureaucratic Torture, and the Neoliberal Welfare State")
-                .date(LocalDate.of(2023,11,25))
-                .startTime(LocalTime.of(13,0,0))
-                .endTime(LocalTime.of(15,0,0))
-                .image(Image.builder().caption("SingleMothersBureaucraticTorture").url("").build())
+                .date(LocalDate.of(2023, 11, 25))
+                .startTime(LocalTime.of(13, 0, 0))
+                .endTime(LocalTime.of(15, 0, 0))
+                .image(Image.builder().caption("Single Mothers, Bureaucratic Torture, and Neoliberal Welfare State").url("").build())
                 .researcherSet(researcherSet)
                 .externalResearcherSet(externalResearcherSet)
                 .paragraphSectionSet(paragraphSectionSet)
@@ -291,48 +402,6 @@ public class Init {
                 .build();
         eventService.create(event);
 
-        //reset the sets
-        researcherSet = new HashSet<>();
-        externalResearcherSet = new HashSet<>();
-        paragraphSectionSet = new HashSet<>();
-        imageSectionSet = new HashSet<>();
-        linkSectionSet = new HashSet<>();
 
-        paragraphSection = ParagraphSection.builder()
-                .seq(1).heading("")
-                .text("The Centre for Global Criminology is hosting a seminar on \"Spying, surveillance and the ethnographic method\". " +
-                        "A thematically and geographically wide range of papers will be presented and we look forward to lively discussion o\n" +
-                        "n the topic.\n" +
-                        "The seminar is open to a limited audience, but if you're interested, please sign up!").build();
-        paragraphSectionSet.add(paragraphSection);
-
-        linkSection = LinkSection.builder()
-                .seq(4).text("More information - email Asbjørn").link("asbjorngm@anthro.ku.dk").build();
-        linkSectionSet.add(linkSection);
-        linkSection = LinkSection.builder()
-                .seq(5).text("Programme:").link("https://ccc.ku.dk/calendar/upcoming-events/research-seminar---the-hall-of-mirrors-spying-surveillance-and-ethnographic-method/Program__The_Hall_of_Mirrors_seminar-1.png_copy").build();
-        linkSectionSet.add(linkSection);
-
-
-        researcherSet.add(researcherService.getById(14L));
-        researcherSet.add(researcherService.getById(18L));
-
-
-        event = Event.builder()
-                .name("The Hall of Mirrors: Spying, surveillance, and ethnographic method - Research Seminar")
-                .date(LocalDate.of(2023,12,2))
-                .startTime(LocalTime.of(9,30,0))
-                .endTime(LocalTime.of(17,30,0))
-                .image(Image.builder().caption("the_hall_of_mirrors").url("https://i.imgur.com/CH78lV8.png").build())
-                .researcherSet(researcherSet)
-                .externalResearcherSet(externalResearcherSet)
-                .paragraphSectionSet(paragraphSectionSet)
-                .linkSectionSet(linkSectionSet)
-                .imageSectionSet(imageSectionSet)
-                .room(roomService.getById(2L))
-                .build();
-        eventService.create(event);
     }
-
-
 }

@@ -22,7 +22,7 @@ public class EventService {
     private final SectionService<Event> sectionService;
 
     public List<Event> getAll() {
-        return eventRepo.findAll();
+        return eventRepo.findAllEventsOrdered();
     }
 
     public Event getById(Long id) throws EventNotFoundException {
