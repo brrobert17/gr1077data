@@ -18,4 +18,8 @@ public interface EventRepo extends JpaRepository<Event, Long> {
     @Query("SELECT b FROM Event AS b WHERE b.room.id=?1")
     List<Event> findAllByRoomId (Long roomId);
 
+    //find all events ordered by date and start time
+    @Query(nativeQuery = true, value = "select * from event order by date, start_time;")
+    List<Event> findAllEventsOrdered();
+
 }

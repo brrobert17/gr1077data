@@ -33,7 +33,7 @@ public class EventController {
     @PostMapping
     public ResponseEntity<Event> create(@RequestBody Event event) throws SectionsSequenceException {
         if (eventService.checkRoomIsAvailablePost(event.getRoom().getId(), event.getDate(), event.getStartTime(), event.getEndTime())
-                && eventService.checkTime(event)){
+                && eventService.checkTime(event) && event.getStartTime().isBefore(event.getEndTime())){
             return new ResponseEntity<> (eventService.create(event),HttpStatus.CREATED);
         }
         else {
