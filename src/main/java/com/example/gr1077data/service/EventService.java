@@ -117,7 +117,7 @@ public class EventService {
     }
 
     public List<Event> getByState(EventState state) {
-        List<Event> events = eventRepo.findAll();
+        List<Event> events = eventRepo.findAllEventsOrdered();
 
         return events.stream()
                     .filter(item -> getState(item) == state)

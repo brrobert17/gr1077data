@@ -11,7 +11,7 @@ import java.util.List;
 public interface EventRepo extends JpaRepository<Event, Long> {
 
     //SEARCH BY KEYWORD
-    @Query("SELECT e FROM Event e WHERE e.name LIKE %?1%")
+    @Query("SELECT e FROM Event e WHERE e.name LIKE %?1% ORDER BY e.date, e.startTime")
     List<Event> findByName(String keyword);
 
     //find all event by room  id

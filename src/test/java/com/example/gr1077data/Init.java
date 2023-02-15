@@ -234,22 +234,22 @@ public class Init {
 
     @Test
     @Order(3)
-    void iLocation() {
+    void iLocationRoom() {
         location = Location.builder().address("Øster Farimagsgade 5 DK-1353 Copenhagen K").build();
         locationService.create(location);
-    }
-
-    @Test
-    @Order(4)
-    void iRoom() {
         room = Room.builder().location(location).name("33.1.18 - The Faculty of Social Sciences").capacity("20").build();
         roomService.create(room);
         room = Room.builder().location(location).name("CSS 4.1.12 - Ethnographic Exploratory").capacity("20").build();
         roomService.create(room);
+
+        location = Location.builder().address("Royal Street 100. 5000 GreatCity").build();
+        locationService.create(location);
+        room = Room.builder().location(location).name("9.9.99 - GreatRoom").capacity("200").build();
+        roomService.create(room);
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     void iEvent() throws ResearcherNotFoundException, ExternalResearcherNotFoundException, SectionsSequenceException {
 
         //event1
@@ -342,8 +342,8 @@ public class Init {
         linkSectionSet = new HashSet<>();
 
         paragraphSection = ParagraphSection.builder()
-                .seq(1).heading("")
-                .text("Abstract: Bureaucracy runs the lives of mothers of modest means. It brings up a whole host of medical or epidemiological " +
+                .seq(1).heading("Abstract")
+                .text("Bureaucracy runs the lives of mothers of modest means. It brings up a whole host of medical or epidemiological " +
                         "problems, because it has a cumulative effect on mothers' bodies in the Global South or when they migrate north. " +
                         "For a woman to reclaim her rights through bureaucracy, at times she needs to volunteer her body as a sexual tool. " +
                         "The clerks are often male, and the clients are impoverished, disempowered women. Bureaucracy is a topic that has been " +
@@ -368,18 +368,17 @@ public class Init {
                         " the Israeli state. Instead, they brandish right-wing ultranationalist politics. Yet the bureaucratic torture they " +
                         "live through haunts them and is transmitted from one generation the next.").build();
         paragraphSectionSet.add(paragraphSection);
-
         paragraphSection = ParagraphSection.builder()
-                .seq(4).heading("")
-                .text("Anja Simonsen, Department of Anthropology: anja.simonsen@anthro.ku.dk").build();
+                .seq(4).heading("Anja Simonsen, Department of Anthropology")
+                .text("anja.simonsen@anthro.ku.dk").build();
         paragraphSectionSet.add(paragraphSection);
         paragraphSection = ParagraphSection.builder()
-                .seq(5).heading("")
-                .text("Atreyee Sen, Department of Anthropology: atreyee.sen@anthro.ku.dk").build();
+                .seq(5).heading("Atreyee Sen, Department of Anthropology")
+                .text("atreyee.sen@anthro.ku.dk").build();
         paragraphSectionSet.add(paragraphSection);
         paragraphSection = ParagraphSection.builder()
-                .seq(6).heading("")
-                .text("Liora Sion, Department of CrossCultural and Regional Studies: liorasion@hum.ku.dk").build();
+                .seq(6).heading("Liora Sion, Department of CrossCultural and Regional Studies")
+                .text("liorasion@hum.ku.dk").build();
         paragraphSectionSet.add(paragraphSection);
 
         researcherSet.add(researcherService.getById(1L));
@@ -399,6 +398,248 @@ public class Init {
                 .linkSectionSet(linkSectionSet)
                 .imageSectionSet(imageSectionSet)
                 .room(roomService.getById(1L))
+                .build();
+        eventService.create(event);
+
+        //event4
+        //reset the sets
+        researcherSet = new HashSet<>();
+        externalResearcherSet = new HashSet<>();
+        paragraphSectionSet = new HashSet<>();
+        imageSectionSet = new HashSet<>();
+        linkSectionSet = new HashSet<>();
+
+        paragraphSection = ParagraphSection.builder()
+                .seq(1).heading("")
+                .text("This conference aims to explore the relationship between anthropology and history, and how the two disciplines can " +
+                        "inform and enrich each other. Sessions will cover topics such as cultural heritage, archaeology, and the use of oral histories.\n").build();
+        paragraphSectionSet.add(paragraphSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(2).heading("")
+                .text("Anthropology and history are two fields that have long been intertwined, each offering unique insights into the past " +
+                        "and present of human societies. The Bridging the Past and Present conference seeks to build upon this interdisciplinary " +
+                        "relationship by bringing together scholars and researchers from both fields to discuss the intersection of anthropology and history.\n" +
+                        "The conference will feature a wide range of topics, from the role of archaeology in understanding ancient civilizations, " +
+                        "to the ways in which oral histories can shed light on marginalized communities. Presenters will also explore the ways in which " +
+                        "history can inform contemporary issues, such as the impact of colonialism on modern-day societies, and the legacy of slavery and racism in Denmark.\n").build();
+        paragraphSectionSet.add(paragraphSection);
+
+        researcherSet.add(researcherService.getById(6L));
+        researcherSet.add(researcherService.getById(10L));
+        externalResearcherSet.add(externalResearcherService.getById(2L));
+        externalResearcherSet.add(externalResearcherService.getById(5L));
+
+
+        event = Event.builder()
+                .name("Bridging the Past and Present: An Interdisciplinary Conference on Anthropology and History")
+                .date(LocalDate.of(2023, 11, 25))
+                .startTime(LocalTime.of(13, 0, 0))
+                .endTime(LocalTime.of(15, 0, 0))
+                .image(Image.builder().caption("Bridging the Past and Present: An Interdisciplinary Conference on Anthropology and History")
+                        .url("https://images.unsplash.com/photo-1597701828474-ed6cb88c7a91?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
+                        .build())
+                .researcherSet(researcherSet)
+                .externalResearcherSet(externalResearcherSet)
+                .paragraphSectionSet(paragraphSectionSet)
+                .linkSectionSet(linkSectionSet)
+                .imageSectionSet(imageSectionSet)
+                .room(roomService.getById(3L))
+                .build();
+        eventService.create(event);
+
+        //event5
+        //reset the sets
+        researcherSet = new HashSet<>();
+        externalResearcherSet = new HashSet<>();
+        paragraphSectionSet = new HashSet<>();
+        imageSectionSet = new HashSet<>();
+        linkSectionSet = new HashSet<>();
+
+        paragraphSection = ParagraphSection.builder()
+                .seq(1).heading("")
+                .text("The conference will take place over several days and will include a mix of keynote addresses, panel discussions," +
+                        " and workshops. Participants will have the opportunity to engage with presenters, ask questions, and share their own insights and perspectives.\n").build();
+        paragraphSectionSet.add(paragraphSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(2).heading("")
+                .text("Overall, the Bridging the Past and Present conference promises to be an exciting and thought-provoking" +
+                        " event for scholars and researchers in the fields of anthropology and history. By exploring the intersections" +
+                        " between these two fields, the conference seeks to deepen our understanding of the past and present of human societies, " +
+                        "and to inspire new approaches to the challenges we face today.\n").build();
+        paragraphSectionSet.add(paragraphSection);
+
+        researcherSet.add(researcherService.getById(6L));
+        researcherSet.add(researcherService.getById(10L));
+        externalResearcherSet.add(externalResearcherService.getById(2L));
+        externalResearcherSet.add(externalResearcherService.getById(5L));
+
+
+        event = Event.builder()
+                .name("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore")
+                .date(LocalDate.of(2023, 3, 25))
+                .startTime(LocalTime.of(13, 0, 0))
+                .endTime(LocalTime.of(15, 0, 0))
+                .image(Image.builder().caption("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore")
+                        .url("https://images.unsplash.com/photo-1597711168028-6ebe67f9aa0a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80")
+                        .build())
+                .researcherSet(researcherSet)
+                .externalResearcherSet(externalResearcherSet)
+                .paragraphSectionSet(paragraphSectionSet)
+                .linkSectionSet(linkSectionSet)
+                .imageSectionSet(imageSectionSet)
+                .room(roomService.getById(3L))
+                .build();
+        eventService.create(event);
+
+        //event6
+        //reset the sets
+        researcherSet = new HashSet<>();
+        externalResearcherSet = new HashSet<>();
+        paragraphSectionSet = new HashSet<>();
+        imageSectionSet = new HashSet<>();
+        linkSectionSet = new HashSet<>();
+
+        paragraphSection = ParagraphSection.builder()
+                .seq(1).heading("")
+                .text("The conference will take place over several days and will include a mix of keynote addresses, panel discussions," +
+                        " and workshops. Participants will have the opportunity to engage with presenters, ask questions, and share their own insights and perspectives.\n").build();
+        paragraphSectionSet.add(paragraphSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(2).heading("")
+                .text("Overall, the Bridging the Past and Present conference promises to be an exciting and thought-provoking" +
+                        " event for scholars and researchers in the fields of anthropology and history. By exploring the intersections" +
+                        " between these two fields, the conference seeks to deepen our understanding of the past and present of human societies, " +
+                        "and to inspire new approaches to the challenges we face today.\n").build();
+        paragraphSectionSet.add(paragraphSection);
+
+        researcherSet.add(researcherService.getById(6L));
+        researcherSet.add(researcherService.getById(10L));
+        externalResearcherSet.add(externalResearcherService.getById(2L));
+        externalResearcherSet.add(externalResearcherService.getById(5L));
+
+
+        event = Event.builder()
+                .name("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore")
+                .date(LocalDate.of(2022, 3, 25))
+                .startTime(LocalTime.of(13, 0, 0))
+                .endTime(LocalTime.of(15, 0, 0))
+                .image(Image.builder().caption("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore")
+                        .url("https://images.unsplash.com/photo-1597711168028-6ebe67f9aa0a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80")
+                        .build())
+                .researcherSet(researcherSet)
+                .externalResearcherSet(externalResearcherSet)
+                .paragraphSectionSet(paragraphSectionSet)
+                .linkSectionSet(linkSectionSet)
+                .imageSectionSet(imageSectionSet)
+                .room(roomService.getById(3L))
+                .build();
+        eventService.create(event);
+
+        //event7
+        //reset the sets
+        researcherSet = new HashSet<>();
+        externalResearcherSet = new HashSet<>();
+        paragraphSectionSet = new HashSet<>();
+        imageSectionSet = new HashSet<>();
+        linkSectionSet = new HashSet<>();
+
+        paragraphSection = ParagraphSection.builder()
+                .seq(1).heading("")
+                .text("This symposium brings together experts from different fields of anthropology to discuss the unique " +
+                        "cultures and ways of life found around the world. Topics will include language, music, religion, art, and more.\n").build();
+        paragraphSectionSet.add(paragraphSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(2).heading("")
+                .text("Culture is a complex and multifaceted concept that is central to anthropology, the study of human societies and cultures. " +
+                        "Cultures are defined by shared beliefs, customs, practices, and values, and vary widely across the world. Anthropology " +
+                        "seeks to understand and appreciate this cultural diversity, and the \"Exploring the Diverse Cultures of the World: An " +
+                        "Anthropological Symposium\" event celebrates this goal.\n").build();
+        paragraphSectionSet.add(paragraphSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(4).heading("")
+                .text("One of the key aims of the symposium is to highlight the value of anthropology in helping us better understand and appreciate " +
+                        "the diversity of cultures across the world. Anthropologists use a range of methods and techniques to study cultures, including" +
+                        " participant observation, interviews, and archival research. Through these methods, they gain insights into the intricacies of " +
+                        "cultural practices and beliefs, and how these relate to broader social, economic, and political factors.\n").build();
+        paragraphSectionSet.add(paragraphSection);
+        imageSection = ImageSection.builder().seq(3).image(Image.builder().url("http://people-project.net/wp-content/uploads/2019/12/cytrynowicz_r-5M1A5055.jpg")
+                .caption("Exploring Diversity").build()).altText("Exploring Diversity").build();
+        imageSectionSet.add(imageSection);
+
+        researcherSet.add(researcherService.getById(6L));
+        researcherSet.add(researcherService.getById(10L));
+        externalResearcherSet.add(externalResearcherService.getById(2L));
+        externalResearcherSet.add(externalResearcherService.getById(5L));
+
+
+        event = Event.builder()
+                .name("Exploring the Diverse Cultures of the World: An Anthropological Symposium")
+                .date(LocalDate.of(2023, 4, 25))
+                .startTime(LocalTime.of(13, 0, 0))
+                .endTime(LocalTime.of(15, 0, 0))
+                .image(Image.builder().caption("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore")
+                        .url("https://images.unsplash.com/photo-1556484687-30636164638b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80")
+                        .build())
+                .researcherSet(researcherSet)
+                .externalResearcherSet(externalResearcherSet)
+                .paragraphSectionSet(paragraphSectionSet)
+                .linkSectionSet(linkSectionSet)
+                .imageSectionSet(imageSectionSet)
+                .room(roomService.getById(3L))
+                .build();
+        eventService.create(event);
+
+        //event8
+        //reset the sets
+        researcherSet = new HashSet<>();
+        externalResearcherSet = new HashSet<>();
+        paragraphSectionSet = new HashSet<>();
+        imageSectionSet = new HashSet<>();
+        linkSectionSet = new HashSet<>();
+
+        paragraphSection = ParagraphSection.builder()
+                .seq(1).heading("")
+                .text("This symposium brings together experts from different fields of anthropology to discuss the unique " +
+                        "cultures and ways of life found around the world. Topics will include language, music, religion, art, and more.\n").build();
+        paragraphSectionSet.add(paragraphSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(2).heading("")
+                .text("Culture is a complex and multifaceted concept that is central to anthropology, the study of human societies and cultures. " +
+                        "Cultures are defined by shared beliefs, customs, practices, and values, and vary widely across the world. Anthropology " +
+                        "seeks to understand and appreciate this cultural diversity, and the \"Exploring the Diverse Cultures of the World: An " +
+                        "Anthropological Symposium\" event celebrates this goal.\n").build();
+        paragraphSectionSet.add(paragraphSection);
+        paragraphSection = ParagraphSection.builder()
+                .seq(4).heading("")
+                .text("One of the key aims of the symposium is to highlight the value of anthropology in helping us better understand and appreciate " +
+                        "the diversity of cultures across the world. Anthropologists use a range of methods and techniques to study cultures, including" +
+                        " participant observation, interviews, and archival research. Through these methods, they gain insights into the intricacies of " +
+                        "cultural practices and beliefs, and how these relate to broader social, economic, and political factors.\n").build();
+        paragraphSectionSet.add(paragraphSection);
+        imageSection = ImageSection.builder().seq(3).image(Image.builder().url("http://people-project.net/wp-content/uploads/2019/12/cytrynowicz_r-5M1A5055.jpg")
+                .caption("Exploring Diversity").build()).altText("Exploring Diversity").build();
+        imageSectionSet.add(imageSection);
+
+        researcherSet.add(researcherService.getById(6L));
+        researcherSet.add(researcherService.getById(10L));
+        externalResearcherSet.add(externalResearcherService.getById(2L));
+        externalResearcherSet.add(externalResearcherService.getById(5L));
+
+
+        event = Event.builder()
+                .name("Exploring the Diverse Cultures of the World: An Anthropological Symposium")
+                .date(LocalDate.of(2022, 4, 25))
+                .startTime(LocalTime.of(13, 0, 0))
+                .endTime(LocalTime.of(15, 0, 0))
+                .image(Image.builder().caption("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore")
+                        .url("https://images.unsplash.com/photo-1556484687-30636164638b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80")
+                        .build())
+                .researcherSet(researcherSet)
+                .externalResearcherSet(externalResearcherSet)
+                .paragraphSectionSet(paragraphSectionSet)
+                .linkSectionSet(linkSectionSet)
+                .imageSectionSet(imageSectionSet)
+                .room(roomService.getById(3L))
                 .build();
         eventService.create(event);
 
