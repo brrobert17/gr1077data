@@ -432,7 +432,7 @@ public class Init {
 
         event = Event.builder()
                 .name("Bridging the Past and Present: An Interdisciplinary Conference on Anthropology and History")
-                .date(LocalDate.of(2023, 11, 25))
+                .date(LocalDate.of(2023, 11, 26))
                 .startTime(LocalTime.of(13, 0, 0))
                 .endTime(LocalTime.of(15, 0, 0))
                 .image(Image.builder().caption("Bridging the Past and Present: An Interdisciplinary Conference on Anthropology and History")
@@ -472,7 +472,6 @@ public class Init {
         researcherSet.add(researcherService.getById(10L));
         externalResearcherSet.add(externalResearcherService.getById(2L));
         externalResearcherSet.add(externalResearcherService.getById(5L));
-
 
         event = Event.builder()
                 .name("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore")
@@ -524,7 +523,7 @@ public class Init {
                 .startTime(LocalTime.of(13, 0, 0))
                 .endTime(LocalTime.of(15, 0, 0))
                 .image(Image.builder().caption("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore")
-                        .url("https://images.unsplash.com/photo-1597711168028-6ebe67f9aa0a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80")
+                        .url("https://images.unsplash.com/photo-1528642474498-1af0c17fd8c3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1769&q=80")
                         .build())
                 .researcherSet(researcherSet)
                 .externalResearcherSet(externalResearcherSet)
@@ -632,7 +631,7 @@ public class Init {
                 .startTime(LocalTime.of(13, 0, 0))
                 .endTime(LocalTime.of(15, 0, 0))
                 .image(Image.builder().caption("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore")
-                        .url("https://images.unsplash.com/photo-1556484687-30636164638b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80")
+                        .url("https://images.unsplash.com/photo-1520880867055-1e30d1cb001c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80")
                         .build())
                 .researcherSet(researcherSet)
                 .externalResearcherSet(externalResearcherSet)
