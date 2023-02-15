@@ -234,26 +234,22 @@ public class Init {
 
     @Test
     @Order(3)
-    void iLocation() {
+    void iLocationRoom() {
         location = Location.builder().address("Øster Farimagsgade 5 DK-1353 Copenhagen K").build();
         locationService.create(location);
-        location = Location.builder().address("Royal Street 100. 5000 GreatCity").build();
-        locationService.create(location);
-    }
-
-    @Test
-    @Order(4)
-    void iRoom() {
         room = Room.builder().location(location).name("33.1.18 - The Faculty of Social Sciences").capacity("20").build();
         roomService.create(room);
         room = Room.builder().location(location).name("CSS 4.1.12 - Ethnographic Exploratory").capacity("20").build();
         roomService.create(room);
+
+        location = Location.builder().address("Royal Street 100. 5000 GreatCity").build();
+        locationService.create(location);
         room = Room.builder().location(location).name("9.9.99 - GreatRoom").capacity("200").build();
         roomService.create(room);
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     void iEvent() throws ResearcherNotFoundException, ExternalResearcherNotFoundException, SectionsSequenceException {
 
         //event1
