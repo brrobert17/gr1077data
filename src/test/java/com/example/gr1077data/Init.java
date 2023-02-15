@@ -436,7 +436,7 @@ public class Init {
                 .startTime(LocalTime.of(13, 0, 0))
                 .endTime(LocalTime.of(15, 0, 0))
                 .image(Image.builder().caption("Bridging the Past and Present: An Interdisciplinary Conference on Anthropology and History")
-                        .url("https://images.unsplash.com/photo-1597701828474-ed6cb88c7a91?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
+                        .url("https://images.unsplash.com/photo-1591622180684-b96c52ef3908?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80")
                         .build())
                 .researcherSet(researcherSet)
                 .externalResearcherSet(externalResearcherSet)
